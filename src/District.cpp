@@ -10,24 +10,35 @@ District::~District()
 
 void District::init(string configFile)
 {
+    fstream stream;
+    string tmp;
+    stream.open(CONFIG_FOLDER + configFile);
+    stream >> tmp >> m_color;
+    stream >> tmp >> m_district.x >> m_district.y >> m_district.w >> m_district.h;
+    stream >> tmp >> m_price;
+    stream >> tmp >> m_electricity;
+    stream >> tmp >> m_profit;
+    stream >> tmp >> m_pollution;
+    stream.close();
+
 }
 
 int District::getPrice()
 {
-    return 0;
+    return m_price;
 }
 
 int District::getElectricity()
 {
-    return 0;
+    return m_electricity;
 }
 
 int District::getProfit()
 {
-    return 0;
+    return m_profit;
 }
 
 int District::getPollution()
 {
-    return 0;
+    return m_pollution;
 }
