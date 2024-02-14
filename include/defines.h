@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <SDL.h>
+#include <vector>
 
 using namespace std;
 
