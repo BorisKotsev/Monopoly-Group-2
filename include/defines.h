@@ -12,6 +12,7 @@ static string CONFIG_FOLDER = "config\\";
 static string SOUND_FOLDER = "sound\\";
 static string DISTRICT_FOLDER = "Districts\\";
 static string STATION_FOLDER = "Stations\\";
+static string PLAYER_FOLDER = "Players\\";
 
 struct int2
 {

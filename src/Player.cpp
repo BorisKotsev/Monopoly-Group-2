@@ -1,4 +1,6 @@
+#include <random>
 #include "Player.h"
+#include "Presenter.h"
 
 
 Player::Player()
@@ -11,28 +13,34 @@ Player::~Player()
 
 void Player::init(string configFile)
 {
-    string tmp;
+    string tmp, textureImgPath;
 
     fstream stream;
 
-    stream.open(CONFIG_FOLDER + configFile);
+    stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);
     stream >> tmp >> textureImgPath;
 
     stream.close();
 
+    m_money = 1500;
+    m_player.texture = loadTexture(textureImgPath);
+    m_player.rect.x = 1298;
+    m_player.rect.y = 878;
 }
 
 void Player::update()
 {
+
 }
 
 void Player::draw()
 {
-   
+    drawObject(m_player);
 }
 
 void Player::destroy()
 {
+    SDL_DestroyTexture(m_player.texture);
 }
 
 int Player::calculateElectricityTax()
@@ -73,7 +81,15 @@ int Player::calculateProfitTax()
 
 int Player::caluclateParadiseTax()
 {
-    return 0;
+    int currentParadiseTax;
+
+    random_device rand;
+    mt19937 gen(rand());
+    uniform_int_distribution<>dis(100, 150);
+
+    currentParadiseTax = dis(gen);
+
+    return currentParadiseTax;
 }
 
 int Player::caluclatePollutionTax()

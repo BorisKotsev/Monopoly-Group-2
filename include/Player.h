@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Engine.h"
-#include "Presenter.h"
 #include "District.h"
 #include "Station.h"
 
@@ -32,8 +31,6 @@ public:
 private:
 	Drawable m_player;
 
-	string textureImgPath;
-	
 	int m_money;
 
 	vector <District> m_districts;
