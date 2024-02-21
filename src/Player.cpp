@@ -24,8 +24,8 @@ void Player::init(string configFile)
 
     m_money = 1500;
     m_player.texture = loadTexture(textureImgPath);
-    m_player.rect.x = 1298;
-    m_player.rect.y = 878;
+    m_player.rect.x = 1320;
+    m_player.rect.y = 900;
 }
 
 void Player::update()
