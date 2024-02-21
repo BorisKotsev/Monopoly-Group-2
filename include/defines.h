@@ -5,11 +5,14 @@
 #include <SDL.h>
 #include <vector>
 
+#define PI 3.14159265
+
 using namespace std;
 
 static string IMG_FOLDER = "img\\";
 static string CONFIG_FOLDER = "config\\";
 static string SOUND_FOLDER = "sound\\";
+static string QUESTION_FOLDER = "questions\\";
 
 struct int2
 {
