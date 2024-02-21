@@ -14,6 +14,7 @@ public:
 	int getElectricity();
 	int getProfit();
 	int getPollution();
+	string getName();
 
 	bool m_canBeBought = true;
 
@@ -21,6 +22,7 @@ private:
 	SDL_Rect m_district;
 
 	string m_color;
+	string m_name;
 
 	int m_price;
 	int m_electricity;

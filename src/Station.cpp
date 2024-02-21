@@ -12,7 +12,7 @@ void Station::init(string configFile)
 {
     fstream stream;
     string tmp;
-    stream.open(CONFIG_FOLDER + configFile);
+    stream.open(CONFIG_FOLDER+ STATION_FOLDER + configFile);
     stream >> tmp >> m_name;
     stream >> tmp >> m_station.x >> m_station.y >> m_station.w >> m_station.h;
     stream >> tmp >> m_price;

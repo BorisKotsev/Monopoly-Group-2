@@ -12,7 +12,8 @@ void District::init(string configFile)
 {
     fstream stream;
     string tmp;
-    stream.open(CONFIG_FOLDER + configFile);
+    stream.open(CONFIG_FOLDER + DISTRICT_FOLDER +configFile);
+    stream >> tmp >> m_name;
     stream >> tmp >> m_color;
     stream >> tmp >> m_district.x >> m_district.y >> m_district.w >> m_district.h;
     stream >> tmp >> m_price;
@@ -41,4 +42,9 @@ int District::getProfit()
 int District::getPollution()
 {
     return m_pollution;
+}
+
+string District::getName()
+{
+    return m_name;
 }
