@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <vector>
 
+#define PI 3.14159265
+
 using namespace std;
 
 static string IMG_FOLDER = "img\\";
@@ -13,6 +15,7 @@ static string SOUND_FOLDER = "sound\\";
 static string DISTRICT_FOLDER = "Districts\\";
 static string STATION_FOLDER = "Stations\\";
 static string PLAYER_FOLDER = "Players\\";
+static string QUESTION_FOLDER = "questions\\";
 
 struct int2
 {

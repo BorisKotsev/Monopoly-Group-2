@@ -6,6 +6,8 @@ World world;
 
 int main(int argc, char* argv[])
 {
+	srand(time(NULL));
+
 	world.init();
 
 	while(world.isRunning())
