@@ -132,3 +132,40 @@ void Player::addStation(Station station)
     m_stations.insert(m_stations.begin(), station);
 }
 
+void Player::movePlayer(int2 argRolledDice)
+{
+    static int currentmove = 0;
+    static int sideOfBoard = 0;
+    int diceResults = argRolledDice.x + argRolledDice.y;
+
+    currentmove += diceResults;
+
+    if (currentmove > 10 && sideOfBoard != 4) {
+        sideOfBoard += 1;
+        currentmove = currentmove - 10;
+    }
+    else if (currentmove > 10 && sideOfBoard == 3) {
+        sideOfBoard = 0;
+        currentmove = currentmove - 10;
+    }
+
+    switch (sideOfBoard) {
+        case 0: //Down
+            m_player.rect.x -= 80 * diceResults;
+            break;
+
+        case 1: //Left
+            m_player.rect.y += 80 * diceResults;
+            break;
+
+        case 2: //Up
+            m_player.rect.x += 80 * diceResults;
+            break;
+
+        case 3: //Right
+            m_player.rect.y -= 80 * diceResults;
+            break;
+
+    }
+}
+
