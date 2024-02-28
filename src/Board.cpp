@@ -88,6 +88,7 @@ void Board::drawDice(int2 diceValue)
 	    m_Dice1.texture = m_dice[diceValue.x-1];
 		m_Dice2.texture = m_dice[diceValue.y-1];
 	
+
 }
 
 void Board::loadDices()
