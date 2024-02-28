@@ -21,8 +21,11 @@ public:
 
 	void drawDice(int2 diceValue);
 	void loadDices();
+	void loadTurnUI();//player x on turn
+
 	int2 roll();
 	int2 diceValue;
+	int playersAmount = 4;
 private:
 	SDL_Texture* m_background;
 
@@ -35,4 +38,7 @@ private:
 	Drawable m_Dice1;
 	Drawable m_Dice2;
 	SDL_Texture* m_dice[6];
+	Drawable m_TurnUi;
+	SDL_Texture* m_turnUi[4];
+	int playerTurn = 1;
 };

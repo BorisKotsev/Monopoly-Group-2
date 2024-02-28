@@ -32,6 +32,7 @@ void Board::init()
 	m_background = loadTexture(backgorundImg);
 	m_Roll.texture = loadTexture(rollButton);
 	loadDices();
+	loadTurnUI();
 }
 
 void Board::update()
@@ -42,6 +43,10 @@ void Board::update()
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
 	    drawDice(diceValue);
+		if (playerTurn >= playersAmount)
+			playerTurn = 0;
+		m_TurnUi.texture = m_turnUi[playerTurn];
+		playerTurn++;
 	}
 		
 }
@@ -52,6 +57,7 @@ void Board::draw()
 	drawObject(m_Roll);
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
+	drawObject(m_TurnUi);
 
 }
 
@@ -101,6 +107,22 @@ void Board::loadDices()
 	}
 	m_Dice1.texture = m_dice[0];
 	m_Dice2.texture = m_dice[0];
+}
+
+void Board::loadTurnUI()
+{
+	fstream stream;
+	string tmp;
+
+	stream.open(CONFIG_FOLDER + "Turn.txt");
+	stream >> tmp >> m_TurnUi.rect.x >> m_TurnUi.rect.y >> m_TurnUi.rect.w >> m_TurnUi.rect.h;
+	stream.close();
+
+	for (int i = 0; i < playersAmount; i++)
+	{
+		m_turnUi[i] = loadTexture(TURN_FOLDER + to_string(i+1) + ".bmp");
+	}
+	m_TurnUi.texture = m_turnUi[0];
 }
 
 int2 Board::roll()
