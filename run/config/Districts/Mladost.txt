@@ -1,0 +1,7 @@
+Name: Mladost
+Color: orange
+District_Rect: 440 580 160 80
+Price: 160
+Electicity: 0
+Profit: 0
+Pollution: 0

@@ -1,0 +1,7 @@
+Name: Nadejda
+Color: orange
+District_Rect: 440 660 160 80
+Price: 140
+Electicity: 0
+Profit: 0
+Pollution: 0

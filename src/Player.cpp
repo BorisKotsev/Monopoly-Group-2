@@ -155,7 +155,7 @@ void Player::movePlayer(int2 argRolledDice)
             break;
 
         case 1: //Left
-            m_player.rect.y += 80 * diceResults;
+            m_player.rect.y -= 80 * diceResults;
             break;
 
         case 2: //Up
@@ -163,8 +163,9 @@ void Player::movePlayer(int2 argRolledDice)
             break;
 
         case 3: //Right
-            m_player.rect.y -= 80 * diceResults;
+            m_player.rect.y += 80 * diceResults;
             break;
+        default: break;
 
     }
 }
