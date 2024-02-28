@@ -26,6 +26,4 @@ private:
 	void loadDistricts();
 	void loadStations();
 	void loadQuestions();
-
-	Question drawQuestion();
 };

@@ -1,0 +1,7 @@
+Name: Lozenets
+Color: BLue
+District_Rect: 1240 900 80 160
+Price: 60
+Electicity: 0
+Profit: 0
+Pollution: 0

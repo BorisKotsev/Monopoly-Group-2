@@ -31,16 +31,29 @@ void Board::init()
 
 	//loadDistricts();
 	//loadStations();
+	loadQuestions();
 }
 
 void Board::update()
 {
-
 }
 
 void Board::draw()
 {
 	drawObject(m_background);
+	
+	/*m_questions[0].run();
+
+	if (m_questions[0].m_answer == 1)
+	{
+		cout << m_questions[0].getMoney() << endl;
+		m_questions[0].m_answer = -1;
+	}
+	else if (m_questions[0].m_answer == 0)
+	{
+		cout << m_questions[0].getMoney() * m_questions[0].getPercent() / 100 << endl;
+		m_questions[0].m_answer = -1;
+	}*/
 }
 
 void Board::destroy()
@@ -88,14 +101,11 @@ void Board::loadStations()
 
 void Board::loadQuestions()
 {
-	fstream stream;
-	string tmp;
+	int numQuestions = 1;
 
-	stream.open(CONFIG_FOLDER + "questions.txt");
-
-	while (!stream.eof())
+	for (int i = 1; i <= numQuestions; i++)
 	{
-		stream >> tmp;
+		string tmp = "Question" + to_string(i) + ".txt";
 
 		Question _question;
 
@@ -103,11 +113,4 @@ void Board::loadQuestions()
 
 		m_questions.push_back(_question);
 	}
-}
-
-Question Board::drawQuestion()
-{
-	int random = rand() % m_questions.size();	
-
-	return m_questions[random];
 }

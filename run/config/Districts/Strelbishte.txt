@@ -1,0 +1,7 @@
+Name: Strelbishte
+Color: Blue
+District_Rect: 1000 900 80 160
+Price: 80 
+Electicity: 0
+Profit: 0
+Pollution: 0
