@@ -1,0 +1,7 @@
+Name: Studentski_Grad
+Color: Light_Green
+District_Rect: 1000 20 80 160
+Price: 260
+Electicity: 0
+Profit: 0
+Pollution: 0

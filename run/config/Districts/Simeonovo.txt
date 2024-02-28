@@ -1,0 +1,7 @@
+Name: Simeonovo
+Color: Light_Green
+District_Rect: 1240 20 80 160
+Price: 280
+Electicity: 0
+Profit: 0
+Pollution: 0

@@ -1,0 +1,7 @@
+Name: Hristo_Botev
+Color: Purple
+District_Rect: 1320 740 160 80
+Price: 340
+Electicity: 0
+Profit: 0
+Pollution: 0

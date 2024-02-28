@@ -1,0 +1,7 @@
+Name: Levski
+Color: Dark_Cyan
+District_Rect: 1320 420 160 80
+Price: 320
+Electicity: 0
+Profit: 0
+Pollution: 0
