@@ -1,4 +1,6 @@
+#include <random>
 #include "Player.h"
+#include "Presenter.h"
 
 
 Player::Player()
@@ -11,28 +13,34 @@ Player::~Player()
 
 void Player::init(string configFile)
 {
-    string tmp;
+    string tmp, textureImgPath;
 
     fstream stream;
 
-    stream.open(CONFIG_FOLDER + configFile);
+    stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);
     stream >> tmp >> textureImgPath;
 
     stream.close();
 
+    m_money = 1500;
+    m_player.texture = loadTexture(textureImgPath);
+    m_player.rect.x = 1320;
+    m_player.rect.y = 900;
 }
 
 void Player::update()
 {
+
 }
 
 void Player::draw()
 {
-   
+    drawObject(m_player);
 }
 
 void Player::destroy()
 {
+    SDL_DestroyTexture(m_player.texture);
 }
 
 int Player::calculateElectricityTax()
@@ -73,7 +81,15 @@ int Player::calculateProfitTax()
 
 int Player::caluclateParadiseTax()
 {
-    return 0;
+    int currentParadiseTax;
+
+    random_device rand;
+    mt19937 gen(rand());
+    uniform_int_distribution<>dis(100, 150);
+
+    currentParadiseTax = dis(gen);
+
+    return currentParadiseTax;
 }
 
 int Player::caluclatePollutionTax()
@@ -114,5 +130,43 @@ void Player::addDistrict(District district)
 void Player::addStation(Station station)
 {
     m_stations.insert(m_stations.begin(), station);
+}
+
+void Player::movePlayer(int2 argRolledDice)
+{
+    static int currentmove = 0;
+    static int sideOfBoard = 0;
+    int diceResults = argRolledDice.x + argRolledDice.y;
+
+    currentmove += diceResults;
+
+    if (currentmove > 10 && sideOfBoard != 4) {
+        sideOfBoard += 1;
+        currentmove = currentmove - 10;
+    }
+    else if (currentmove > 10 && sideOfBoard == 3) {
+        sideOfBoard = 0;
+        currentmove = currentmove - 10;
+    }
+
+    switch (sideOfBoard) {
+        case 0: //Down
+            m_player.rect.x -= 80 * diceResults;
+            break;
+
+        case 1: //Left
+            m_player.rect.y -= 80 * diceResults;
+            break;
+
+        case 2: //Up
+            m_player.rect.x += 80 * diceResults;
+            break;
+
+        case 3: //Right
+            m_player.rect.y += 80 * diceResults;
+            break;
+        default: break;
+
+    }
 }
 

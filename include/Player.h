@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Engine.h"
-#include "Presenter.h"
 #include "District.h"
 #include "Station.h"
 
@@ -27,13 +26,11 @@ public:
 	void addDistrict(District district);
 	void addStation(Station station);
 
-	//void movePlayer();
+	void movePlayer(int2);
 
 private:
 	Drawable m_player;
 
-	string textureImgPath;
-	
 	int m_money;
 
 	vector <District> m_districts;

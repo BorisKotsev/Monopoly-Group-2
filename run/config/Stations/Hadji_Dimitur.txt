@@ -1,0 +1,6 @@
+Name: Hadji_Dimitur
+Station_Rect: 440 500 160 80
+Price: 200
+Electricity: 0
+Profit: 0
+Pollution: 0

@@ -2,7 +2,7 @@
 #include "Presenter.h"
 #include "InputManager.h"
 #include "SoundManager.h"
-#include <string>
+
 Board::Board()
 {
 
@@ -109,4 +109,69 @@ int2 Board::roll()
 	dice.x = rand() % 6 + 1;
 	dice.y = rand() % 6 + 1;
 	return dice;
+}
+}
+
+void Board::loadDistricts()
+{
+	fstream stream;
+	string tmp;
+
+	stream.open(CONFIG_FOLDER + "districts.txt");
+
+	while(!stream.eof())
+	{
+		stream >> tmp;
+
+		District _district;
+
+		_district.init(tmp);
+
+		m_districts.push_back(_district);
+	}
+}
+
+void Board::loadStations()
+{
+	fstream stream;
+	string tmp;
+
+	stream.open(CONFIG_FOLDER + "stations.txt");
+
+	while(!stream.eof())
+	{
+		stream >> tmp;
+
+		Station _station;
+
+		_station.init(tmp);
+
+		m_stations.push_back(_station);
+	}
+}
+
+void Board::loadQuestions()
+{
+	fstream stream;
+	string tmp;
+
+	stream.open(CONFIG_FOLDER + "questions.txt");
+
+	while (!stream.eof())
+	{
+		stream >> tmp;
+
+		Question _question;
+
+		_question.init(tmp);
+
+		m_questions.push_back(_question);
+	}
+}
+
+Question Board::drawQuestion()
+{
+	int random = rand() % m_questions.size();	
+
+	return m_questions[random];
 }
