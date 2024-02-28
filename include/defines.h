@@ -4,7 +4,7 @@
 #include <fstream>
 #include <SDL.h>
 #include <vector>
-
+#include <string>
 #define PI 3.14159265
 
 using namespace std;

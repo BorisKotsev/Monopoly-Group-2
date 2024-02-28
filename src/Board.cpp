@@ -110,7 +110,7 @@ int2 Board::roll()
 	dice.y = rand() % 6 + 1;
 	return dice;
 }
-}
+
 
 void Board::loadDistricts()
 {
