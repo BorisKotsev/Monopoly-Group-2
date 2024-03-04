@@ -42,7 +42,7 @@ void Board::draw()
 {
 	drawObject(m_background);
 	
-	/*m_questions[0].run();
+	m_questions[0].run();
 
 	if (m_questions[0].m_answer == 1)
 	{
@@ -53,7 +53,7 @@ void Board::draw()
 	{
 		cout << m_questions[0].getMoney() * m_questions[0].getPercent() / 100 << endl;
 		m_questions[0].m_answer = -1;
-	}*/
+	}
 }
 
 void Board::destroy()
