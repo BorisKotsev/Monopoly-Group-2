@@ -1,0 +1,7 @@
+Name: Ivan_Vazov
+Color: Red
+District_Rect: 680 900 80 160
+Price: 100
+Electicity: 0
+Profit: 0
+Pollution: 0

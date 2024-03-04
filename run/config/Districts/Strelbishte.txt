@@ -1,7 +1,7 @@
 Name: Strelbishte
-Color: Dark_Cyan
-District_Rect: 1320 180 160 80
-Price: 300
+Color: Blue
+District_Rect: 1000 900 80 160
+Price: 80 
 Electicity: 0
 Profit: 0
 Pollution: 0

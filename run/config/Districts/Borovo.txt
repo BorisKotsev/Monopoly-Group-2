@@ -1,0 +1,7 @@
+Name: Borovo
+Color: Red
+District_Rect: 840 900 80 160
+Price: 100
+Electicity: 0
+Profit: 0
+Pollution: 0

@@ -33,6 +33,7 @@ private:
 	void loadStations();
 	void loadQuestions();
 
+
 	Question drawQuestion();
 	Drawable m_Roll;
 	Drawable m_Dice1;
@@ -41,4 +42,5 @@ private:
 	Drawable m_TurnUi;
 	SDL_Texture* m_turnUi[4];
 	int playerTurn = 1;
+
 };
