@@ -26,7 +26,7 @@ public:
 	void addDistrict(District district);
 	void addStation(Station station);
 
-	//void movePlayer();
+	void movePlayer(int2);
 
 private:
 	Drawable m_player;

@@ -1,0 +1,7 @@
+Name: Zapaden_Park
+Color: Dark_Cyan
+District_Rect: 1320 340 160 80
+Price: 300
+Electicity: 0
+Profit: 0
+Pollution: 0

@@ -5,7 +5,7 @@
 #include <string>
 #include <SDL.h>
 #include <vector>
-
+#include <string>
 #define PI 3.14159265
 
 using namespace std;
@@ -17,6 +17,8 @@ static string DISTRICT_FOLDER = "Districts\\";
 static string STATION_FOLDER = "Stations\\";
 static string PLAYER_FOLDER = "Players\\";
 static string QUESTION_FOLDER = "questions\\";
+static string DICE_FOLDER = "dice\\";
+static string TURN_FOLDER = "Turn\\";
 
 struct int2
 {

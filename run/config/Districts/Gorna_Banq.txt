@@ -1,0 +1,7 @@
+Name: Gorna_Banq
+Color: yellow
+District_Rect: 840 20 80 160
+Price: 240
+Electicity: 0
+Profit: 0
+Pollution: 0

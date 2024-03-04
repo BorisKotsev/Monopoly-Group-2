@@ -20,6 +20,6 @@ void Game::destroy()
 
 void Game::run()
 {
-	m_board.update();
 	m_board.draw();
+	m_board.update();
 }

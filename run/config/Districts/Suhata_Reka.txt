@@ -1,0 +1,7 @@
+Name: Suhata_Reka
+Color: Light_Green
+District_Rect: 1160 20 80 160
+Price: 260
+Electicity: 0
+Profit: 0
+Pollution: 0

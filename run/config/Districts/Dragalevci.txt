@@ -1,0 +1,7 @@
+Name: Dragalevci
+Color: yellow
+District_Rect: 760 20 80 160
+Price: 220
+Electicity: 0
+Profit: 0
+Pollution: 0
