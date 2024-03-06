@@ -2,6 +2,7 @@
 
 #include "Board.h"
 #include "TitleScreen.h"
+#include "WinScreen.h"
 #include "Game.h"
 #include "WinScreen.h"
 

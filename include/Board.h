@@ -19,7 +19,10 @@ public:
 	vector <District> m_districts;
 	vector <Station> m_stations;
 	vector <Question> m_questions;
+
 	vector <Player> m_players;
+
+	int m_winner = 1;
 
 	void drawDice(int2 diceValue);
 	void loadDices();
