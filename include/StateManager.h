@@ -4,6 +4,7 @@
 #include "TitleScreen.h"
 #include "WinScreen.h"
 #include "Game.h"
+#include "WinScreen.h"
 
 enum class GAME_STATE
 {
@@ -24,6 +25,7 @@ public:
 	Game* m_game;
 	TitleScreen* m_titleScreen;
 	WinScreen* m_winScreen;
+
 	State* m_currState;
 
 	void init(GAME_STATE _state);

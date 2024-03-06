@@ -1,0 +1,7 @@
+Name: Bukston
+Color: Red
+District_Rect: 600 90 80 160
+Price: 120
+Electicity: 0
+Profit: 0
+Pollution: 0

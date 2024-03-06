@@ -1,0 +1,7 @@
+Name: Mladost_3
+Station_Rect: 920 900 80 160
+Price: 200
+Electricity: 0
+Profit: 0
+Pollution: 0
+

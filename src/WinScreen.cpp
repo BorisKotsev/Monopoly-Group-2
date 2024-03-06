@@ -1,11 +1,14 @@
 #include "WinScreen.h"
 #include "World.h"
+
 WinScreen::WinScreen()
 {
+	//ctor
 }
 
 WinScreen::~WinScreen()
 {
+	//dtor
 }
 
 void WinScreen::init()
@@ -23,6 +26,7 @@ void WinScreen::init()
 	m_exit.texture = loadTexture(exit);
 	m_playAgain.texture = loadTexture(PA);
 
+	m_background.rect = { 0, 0, 1920, 1080 };
 }
 
 void WinScreen::run()

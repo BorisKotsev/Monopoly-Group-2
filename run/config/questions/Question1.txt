@@ -1,0 +1,3 @@
+Questions_Img: Question1.bmp Answers1.bmp
+Money: 200
+Percent: 20
