@@ -54,7 +54,6 @@ void StateManager::init(GAME_STATE _state)
 	m_gameState = _state;
 
 	m_game = new Game();
-		m_winScreen = new WinScreen();
 
 	initNewState();
 }

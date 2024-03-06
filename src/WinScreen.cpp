@@ -1,5 +1,6 @@
 #include "WinScreen.h"
-#include "World.h"
+	#include "World.h"
+	extern World world;
 
 WinScreen::WinScreen()
 {
@@ -13,8 +14,11 @@ WinScreen::~WinScreen()
 
 void WinScreen::init()
 {
+	int winner = world.m_stateManager.m_game->m_board.m_winner;
+	winner = 2; //test
 	m_background.rect = {0,0,1920,1080};
-	m_background.texture = loadTexture(WINSCREEN_FOLDER+"WinScreen.bmp");
+	string file = "background" + to_string(winner) + ".bmp";
+	m_background.texture = loadTexture(WINSCREEN_FOLDER+file);
 	fstream stream;
 	string tmp,exit,PA;//PA-play again
 	stream.open(CONFIG_FOLDER+"WinScreen.txt");
@@ -23,10 +27,8 @@ void WinScreen::init()
 	stream >> tmp >> PA;
 	stream >> tmp >> m_playAgain.rect.x >> m_playAgain.rect.y >> m_playAgain.rect.w >> m_playAgain.rect.h;
 	stream.close();
-	m_exit.texture = loadTexture(exit);
-	m_playAgain.texture = loadTexture(PA);
-
-	m_background.rect = { 0, 0, 1920, 1080 };
+	m_exit.texture = loadTexture(WINSCREEN_FOLDER+exit);
+	m_playAgain.texture = loadTexture(WINSCREEN_FOLDER+PA); 
 }
 
 void WinScreen::run()
@@ -36,13 +38,14 @@ void WinScreen::run()
 	drawObject(m_playAgain);
 	if (isMouseInRect(InputManager::m_mouseCoor, m_playAgain.rect)&& InputManager::isMousePressed())
 	{
-			world.m_stateManager.changeState(GAME_STATES::GAME);
+			world.m_stateManager.changeGameState(GAME_STATE::GAME);
 			return;
 	}
 
 	if (isMouseInRect(InputManager::m_mouseCoor, m_exit.rect) && InputManager::isMousePressed())
 	{
-		destroy();
+		world.m_stateManager.changeGameState(GAME_STATE::NONE);
+		return;
 	}
 
 }
@@ -51,5 +54,5 @@ void WinScreen::destroy()
 {
 	SDL_DestroyTexture(m_background.texture);
 	SDL_DestroyTexture(m_exit.texture);
-	SDL_DestroyTexture(m_PA.texture);
+	SDL_DestroyTexture(m_playAgain.texture);
 }
