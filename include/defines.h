@@ -19,6 +19,7 @@ static string PLAYER_FOLDER = "Players\\";
 static string QUESTION_FOLDER = "questions\\";
 static string DICE_FOLDER = "dice\\";
 static string TURN_FOLDER = "Turn\\";
+static string WINSCREEN_FOLDER = "WinScreen\\";
 
 struct int2
 {

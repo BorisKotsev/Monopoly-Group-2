@@ -47,13 +47,19 @@ void Board::update()
 	{
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
+
 	    drawDice(diceValue);
+
 		if (playerTurn >= playersAmount)
 			playerTurn = 0;
+
 		m_TurnUi.texture = m_turnUi[playerTurn];
-		playerTurn++;
+
+		if(diceValue.x != diceValue.y)
+		{
+			playerTurn++;
+		}
 	}
-		
 }
 
 void Board::draw()

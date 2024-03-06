@@ -33,6 +33,7 @@
     <ClInclude Include="..\include\StateManager.h" />
     <ClInclude Include="..\include\Station.h" />
     <ClInclude Include="..\include\TitleScreen.h" />
+    <ClInclude Include="..\include\WinScreen.h" />
     <ClInclude Include="..\include\World.h" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +51,7 @@
     <ClCompile Include="..\src\StateManager.cpp" />
     <ClCompile Include="..\src\Station.cpp" />
     <ClCompile Include="..\src\TitleScreen.cpp" />
+    <ClCompile Include="..\src\WinScreen.cpp" />
     <ClCompile Include="..\src\World.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
