@@ -15,6 +15,8 @@ public:
 	int getProfit();
 	int getPollution();
 
+	string getName();
+
 	bool m_canBeBought = true;
 
 private:

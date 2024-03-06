@@ -31,9 +31,10 @@ void Board::init()
 
 	m_background = loadTexture(backgorundImg);
 
-	//loadDistricts();
-	//loadStations();
+	loadDistricts();
+	loadStations();
 	loadQuestions();
+	//loadPlayers();
 
 	m_Roll.texture = loadTexture(rollButton);
 	loadDices();
@@ -153,18 +154,19 @@ void Board::loadTurnUI()
 int2 Board::roll()
 {
 	int2 dice;
+
 	dice.x = rand() % 6 + 1;
 	dice.y = rand() % 6 + 1;
+
 	return dice;
 }
-
 
 void Board::loadDistricts()
 {
 	fstream stream;
 	string tmp;
 
-	stream.open(CONFIG_FOLDER + "districts.txt");
+	stream.open(CONFIG_FOLDER + "Districts.txt");
 
 	while(!stream.eof())
 	{
@@ -176,6 +178,8 @@ void Board::loadDistricts()
 
 		m_districts.push_back(_district);
 	}
+
+	stream.close();
 }
 
 void Board::loadStations()
@@ -195,6 +199,8 @@ void Board::loadStations()
 
 		m_stations.push_back(_station);
 	}
+
+	stream.close();
 }
 
 void Board::loadQuestions()
@@ -210,5 +216,17 @@ void Board::loadQuestions()
 		_question.init(tmp);
 
 		m_questions.push_back(_question);
+	}
+}
+
+void Board::loadPlayers()
+{
+	for(int i = 1; i <= playersAmount; i++)
+	{
+		Player _player;
+
+		_player.init("Player" + to_string(i) + ".txt");
+
+		m_players.push_back(_player);
 	}
 }
