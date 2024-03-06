@@ -35,6 +35,8 @@ void Board::init()
 	//loadStations();
 	loadQuestions();
 
+	player_a.init("test");
+
 	m_Roll.texture = loadTexture(rollButton);
 	loadDices();
 	loadTurnUI();
@@ -59,7 +61,11 @@ void Board::update()
 		{
 			playerTurn++;
 		}
+
+		player_a.movePlayer(diceValue);
 	}
+
+
 }
 
 void Board::draw()
@@ -83,6 +89,7 @@ void Board::draw()
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
 	drawObject(m_TurnUi);
+	player_a.draw();
 
 }
 

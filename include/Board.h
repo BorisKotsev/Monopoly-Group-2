@@ -3,6 +3,7 @@
 #include "District.h"
 #include "Station.h"
 #include "Question.h"
+#include "Player.h"
 
 class Board
 {
@@ -18,6 +19,8 @@ public:
 	vector <District> m_districts;
 	vector <Station> m_stations;
 	vector <Question> m_questions;
+
+	Player player_a;
 
 	void drawDice(int2 diceValue);
 	void loadDices();
