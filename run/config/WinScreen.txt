@@ -1,0 +1,4 @@
+Exit: exit.bmp
+ExitRect: 1803 39 81 85
+PlayAgain: PlayAgain.bmp
+PARect: 749 884 433 99

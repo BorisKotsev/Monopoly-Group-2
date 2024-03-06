@@ -38,6 +38,9 @@ void StateManager::initNewState()
 		m_titleScreen = new TitleScreen();
 		m_currState = m_titleScreen;
 		break;
+	case GAME_STATE::WIN_SCREEN:
+		m_currState = m_winScreen;
+		break;
 	default:
 		break;
 	}
@@ -50,6 +53,7 @@ void StateManager::init(GAME_STATE _state)
 	m_gameState = _state;
 
 	m_game = new Game();
+		m_winScreen = new WinScreen();
 
 	initNewState();
 }

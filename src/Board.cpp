@@ -46,7 +46,9 @@ void Board::update()
 		if (playerTurn >= playersAmount)
 			playerTurn = 0;
 		m_TurnUi.texture = m_turnUi[playerTurn];
+		if(diceValue.x != diceValue.y)
 		playerTurn++;
+	
 	}
 		
 }
@@ -87,7 +89,7 @@ void Board::drawDice(int2 diceValue)
 	}*/
 	    m_Dice1.texture = m_dice[diceValue.x-1];
 		m_Dice2.texture = m_dice[diceValue.y-1];
-	
+
 
 }
 
