@@ -50,4 +50,6 @@ private:
 	SDL_Texture* m_turnUi[4];
 
 	int playerTurn = 1;
+
+	int questionIndexTEST = 0;
 };

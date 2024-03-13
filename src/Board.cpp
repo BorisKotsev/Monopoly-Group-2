@@ -19,13 +19,13 @@ void Board::init()
 
 	fstream stream;
 
-	string backgorundImg,rollButton, tmp;
+	string backgorundImg, rollButton, tmp;
 
 	stream.open(CONFIG_FOLDER + configFile);
 
-    stream >> tmp >> backgorundImg;
-    stream >> tmp >> rollButton;
-    stream >> tmp >> m_Roll.rect.x >> m_Roll.rect.y >> m_Roll.rect.w >> m_Roll.rect.h;
+	stream >> tmp >> backgorundImg;
+	stream >> tmp >> rollButton;
+	stream >> tmp >> m_Roll.rect.x >> m_Roll.rect.y >> m_Roll.rect.w >> m_Roll.rect.h;
 
 	stream.close();
 
@@ -49,34 +49,41 @@ void Board::update()
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
 
-	    drawDice(diceValue);
+		drawDice(diceValue);
 
 		if (playerTurn >= playersAmount)
 			playerTurn = 0;
 
 		m_TurnUi.texture = m_turnUi[playerTurn];
-		if(diceValue.x != diceValue.y)
-		playerTurn++;
-	
+		if (diceValue.x != diceValue.y)
+			playerTurn++;
+
 	}
-		
+
 }
 
 void Board::draw()
 {
 	drawObject(m_background);
-	
-	m_questions[0].run();
 
-	if (m_questions[0].m_answer == 1)
+	if (questionIndexTEST >= m_questions.size())
 	{
-		cout << m_questions[0].getMoney() << endl;
-		m_questions[0].m_answer = -1;
+		questionIndexTEST = 0;
 	}
-	else if (m_questions[0].m_answer == 0)
+
+	m_questions[questionIndexTEST].run();
+
+	if (m_questions[questionIndexTEST].m_answer == 1)
 	{
-		cout << m_questions[0].getMoney() * m_questions[0].getPercent() / 100 << endl;
-		m_questions[0].m_answer = -1;
+		cout << m_questions[questionIndexTEST].getMoney() << endl;
+		m_questions[questionIndexTEST].m_answer = -1;
+		questionIndexTEST++;
+	}
+	else if (m_questions[questionIndexTEST].m_answer == 0)
+	{
+		cout << m_questions[questionIndexTEST].loseMoney() << endl;
+		m_questions[questionIndexTEST].m_answer = -1;
+		questionIndexTEST++;
 	}
   
 	drawObject(m_Roll);
@@ -205,7 +212,7 @@ void Board::loadStations()
 
 void Board::loadQuestions()
 {
-	int numQuestions = 1;
+	int numQuestions = 26;
 
 	for (int i = 1; i <= numQuestions; i++)
 	{
