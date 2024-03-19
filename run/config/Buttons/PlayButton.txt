@@ -1,0 +1,2 @@
+PlayButton: Play.bmp
+RollRect: 670 650 525 327

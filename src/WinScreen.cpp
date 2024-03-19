@@ -19,30 +19,27 @@ void WinScreen::init()
 	m_background.rect = {0,0,1920,1080};
 	string file = "background" + to_string(winner) + ".bmp";
 	m_background.texture = loadTexture(WINSCREEN_FOLDER+file);
-	fstream stream;
-	string tmp,exit,PA;//PA-play again
-	stream.open(CONFIG_FOLDER+"WinScreen.txt");
-	stream >> tmp >> exit;
-	stream >> tmp >> m_exit.rect.x >> m_exit.rect.y >> m_exit.rect.w >> m_exit.rect.h;
-	stream >> tmp >> PA;
-	stream >> tmp >> m_playAgain.rect.x >> m_playAgain.rect.y >> m_playAgain.rect.w >> m_playAgain.rect.h;
-	stream.close();
-	m_exit.texture = loadTexture(WINSCREEN_FOLDER+exit);
-	m_playAgain.texture = loadTexture(WINSCREEN_FOLDER+PA); 
+
+
+	m_exit.init("ExitButton.txt","");
+	m_playAgain.init("PlayAgainButton.txt", WINSCREEN_FOLDER);
 }
 
 void WinScreen::run()
 {
 	drawObject(m_background);
-	drawObject(m_exit);
-	drawObject(m_playAgain);
-	if (isMouseInRect(InputManager::m_mouseCoor, m_playAgain.rect)&& InputManager::isMousePressed())
+	m_exit.draw();
+	m_playAgain.draw();
+
+	m_exit.update();
+	m_playAgain.update();
+	if (m_playAgain.isPressed())
 	{
-			world.m_stateManager.changeGameState(GAME_STATE::GAME);
+			world.m_stateManager.changeGameState(GAME_STATE::MENU);
 			return;
 	}
 
-	if (isMouseInRect(InputManager::m_mouseCoor, m_exit.rect) && InputManager::isMousePressed())
+	if (m_exit.isPressed())
 	{
 		world.m_stateManager.changeGameState(GAME_STATE::NONE);
 		return;
@@ -53,6 +50,6 @@ void WinScreen::run()
 void WinScreen::destroy()
 {
 	SDL_DestroyTexture(m_background.texture);
-	SDL_DestroyTexture(m_exit.texture);
-	SDL_DestroyTexture(m_playAgain.texture);
+	m_exit.destroy();
+	m_playAgain.destroy();
 }

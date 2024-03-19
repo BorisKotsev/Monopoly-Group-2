@@ -3,6 +3,7 @@
 #include "District.h"
 #include "Station.h"
 #include "Question.h"
+#include "Button.h"
 
 class Board
 {
@@ -26,7 +27,7 @@ public:
 
 	int2 roll();
 	int2 diceValue;
-	int playersAmount = 4;
+	int playersAmount;
 private:
 	SDL_Texture* m_background;
 
@@ -36,7 +37,7 @@ private:
 
 
 	Question drawQuestion();
-	Drawable m_Roll;
+	Button m_Roll;
 	Drawable m_Dice1;
 	Drawable m_Dice2;
 	SDL_Texture* m_dice[6];
