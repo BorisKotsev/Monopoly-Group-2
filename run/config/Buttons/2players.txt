@@ -1,2 +1,4 @@
 Img: 2.bmp
 Rect: 670 650 525 109
+MaxIncrease: 5
+IncreasePerFrame: 1

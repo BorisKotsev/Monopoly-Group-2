@@ -73,7 +73,7 @@ void Menu::run()
 	{
 	if (playButton.isPressed())
 	{
-		SDL_DestroyTexture(playButton.m_button.texture);
+		playButton.destroy();
 		playPressed = true;
 		SDL_Delay(100);
 	}

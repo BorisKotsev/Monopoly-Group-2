@@ -1,2 +1,4 @@
 PlayButton: Play.bmp
 RollRect: 670 650 525 327
+MaxIncrease: 15
+IncreasePerFrame: 5

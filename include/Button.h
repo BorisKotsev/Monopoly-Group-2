@@ -11,13 +11,12 @@ public:
 	void draw();
 	void update();
 	void destroy();
-	void Increase();
 	bool isPressed();
-	int counter = 0; //related to increase() - counts until equal to maxIncrease
-	bool m_isClicked = false;
-	int maxIncrease = 15;
-	int increasePerFrame = 5;
 
-	Drawable m_button;
 private:
+	int counter; //related to increase() - counts until equal to maxIncrease
+	bool m_isClicked;
+	int maxIncrease;
+	int increasePerFrame;
+	Drawable m_button;
 };

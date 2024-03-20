@@ -1,2 +1,4 @@
 Exit: exit.bmp
 ExitRect: 1803 39 81 81
+MaxIncrease: 5
+IncreasePerFrame: 1
