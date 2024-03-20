@@ -57,7 +57,7 @@ void Board::update()
 			playerTurn = 0;
 
 		m_TurnUi.texture = m_turnUi[playerTurn];
-		if (diceValue.x != diceValue.y)
+		if (diceValue.x != diceValue.y){
 			playerTurn++;
 		}
 
