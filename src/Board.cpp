@@ -20,7 +20,6 @@ void Board::init()
 	loadQuestions();
 	loadPlayers();
 
-	player_a.init("test");
 	m_background = loadTexture("background.bmp");
 	m_Roll.init("RollButton.txt","");
 	loadDices();
@@ -34,16 +33,20 @@ void Board::update()
 	{
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
-		if (playerTurn >= playersAmount)
-			playerTurn = 0;
-		m_TurnUi.texture = m_turnUi[playerTurn];
-		if (diceValue.x != diceValue.y)
-		{
 
-		playerTurn++;
-		}
+		drawDice(diceValue);
 
 		m_players[playerTurn].movePlayer(diceValue);
+
+		if (diceValue.x != diceValue.y)
+		{
+			playerTurn++;
+		}
+
+		if (playerTurn > playersAmount - 1)
+			playerTurn = 0;
+		m_TurnUi.texture = m_turnUi[playerTurn];
+
 	}
 
 

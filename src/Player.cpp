@@ -26,7 +26,7 @@ void Player::init(string configFile)
     stream.close();
 
     m_money = 1500;
-    m_player.texture = loadTexture(IMG_FOLDER + textureImgPath);
+    m_player.texture = loadTexture(textureImgPath);
     m_player.rect.x = STARTX;
     m_player.rect.y = STARTY;
     m_player.rect.w = 50;
@@ -139,8 +139,7 @@ void Player::addStation(Station station)
 
 void Player::movePlayer(int2 argRolledDice)
 {
-    static int currentmove = 0;
-    static int sideOfBoard = 0;
+
     int diceResults = argRolledDice.x + argRolledDice.y;
 
     currentmove += diceResults;
@@ -180,6 +179,6 @@ void Player::movePlayer(int2 argRolledDice)
 
     }
 
-    cout << "side of board: " << sideOfBoard << " Current move: " << currentmove << " Dice results: " << diceResults << endl;
+  //cout << "side of board: " << sideOfBoard << " Current move: " << currentmove << " Dice results: " << diceResults << endl;
 }
 

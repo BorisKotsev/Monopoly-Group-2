@@ -1,1 +1,1 @@
-Img_path: Null.bmp
+Img_path: dice\\2.bmp

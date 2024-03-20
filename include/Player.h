@@ -36,4 +36,7 @@ private:
 	vector <District> m_districts;
 	vector <Station> m_stations;
 
+	int currentmove = 0;
+	int sideOfBoard = 0;
+
 };
