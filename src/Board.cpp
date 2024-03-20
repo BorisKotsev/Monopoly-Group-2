@@ -15,48 +15,32 @@ Board::~Board()
 
 void Board::init()
 {
-	string configFile = "boardInit.txt";
-
-	fstream stream;
-
-	string backgorundImg, rollButton, tmp;
-
-	stream.open(CONFIG_FOLDER + configFile);
-
-	stream >> tmp >> backgorundImg;
-	stream >> tmp >> rollButton;
-	stream >> tmp >> m_Roll.rect.x >> m_Roll.rect.y >> m_Roll.rect.w >> m_Roll.rect.h;
-
-	stream.close();
-
-	m_background = loadTexture(backgorundImg);
-
-	loadDistricts();
+     loadDistricts();
 	loadStations();
 	loadQuestions();
 	loadPlayers();
 
-	m_Roll.texture = loadTexture(rollButton);
+	player_a.init("test");
+	m_background = loadTexture("background.bmp");
+	m_Roll.init("RollButton.txt","");
 	loadDices();
 	loadTurnUI();
 }
 
 void Board::update()
 {
-
-	if (isMouseInRect(InputManager::m_mouseCoor, m_Roll.rect) && InputManager::isMousePressed())
+	m_Roll.update();
+	if (m_Roll.isPressed())
 	{
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
-
-		drawDice(diceValue);
-
 		if (playerTurn >= playersAmount)
 			playerTurn = 0;
-
 		m_TurnUi.texture = m_turnUi[playerTurn];
-		if (diceValue.x != diceValue.y){
-			playerTurn++;
+		if (diceValue.x != diceValue.y)
+		{
+
+		playerTurn++;
 		}
 
 		m_players[playerTurn].movePlayer(diceValue);
@@ -89,7 +73,7 @@ void Board::draw()
 		questionIndexTEST++;
 	}
   
-	drawObject(m_Roll);
+	m_Roll.draw();
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
 	drawObject(m_TurnUi);
@@ -103,6 +87,11 @@ void Board::draw()
 void Board::destroy()
 {
 	SDL_DestroyTexture(m_background);
+	SDL_DestroyTexture(m_Dice1.texture);
+	SDL_DestroyTexture(m_Dice2.texture);
+	SDL_DestroyTexture(m_TurnUi.texture);
+	m_Roll.destroy();
+
 }
 
 

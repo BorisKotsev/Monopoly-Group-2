@@ -5,13 +5,15 @@
 #include "WinScreen.h"
 #include "Game.h"
 #include "WinScreen.h"
+#include "Menu.h"
 
 enum class GAME_STATE
 {
 	NONE = 0,
 	GAME = 1,
 	TITLE_SCREEN = 2,
-	WIN_SCREEN = 3
+	WIN_SCREEN = 3,
+	MENU = 4
 };
 
 class StateManager
@@ -25,6 +27,7 @@ public:
 	Game* m_game;
 	TitleScreen* m_titleScreen;
 	WinScreen* m_winScreen;
+	Menu* m_menu;
 
 	State* m_currState;
 

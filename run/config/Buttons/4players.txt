@@ -1,0 +1,4 @@
+Img: 4.bmp
+Rect: 670 898 525 109
+MaxIncrease: 5
+IncreasePerFrame: 1

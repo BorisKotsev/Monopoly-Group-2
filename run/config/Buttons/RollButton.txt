@@ -1,0 +1,4 @@
+RollButton: ROLL.bmp
+RollRect: 111 341 200 100
+MaxIncrease: 5
+IncreasePerFrame: 1

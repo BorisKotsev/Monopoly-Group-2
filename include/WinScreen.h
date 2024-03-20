@@ -2,6 +2,7 @@
 
 #include "defines.h"
 #include "State.h"
+#include "Button.h"
 
 class WinScreen : public State
 {
@@ -15,6 +16,6 @@ public:
 
 private:
 	Drawable m_background;
-	Drawable m_exit;
-	Drawable m_playAgain;
+	Button  m_exit;
+	Button m_playAgain;
 };

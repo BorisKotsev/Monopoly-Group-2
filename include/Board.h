@@ -3,6 +3,7 @@
 #include "District.h"
 #include "Station.h"
 #include "Question.h"
+#include "Button.h"
 #include "Player.h"
 
 class Board
@@ -31,7 +32,6 @@ public:
 	void loadTurnUI();//player x on turn
 
 	int2 roll();
-
 	int playersAmount;
 private:
 	SDL_Texture* m_background;
@@ -43,7 +43,8 @@ private:
 
 	int2 diceValue;
 
-	Drawable m_Roll;
+	Question drawQuestion();
+	Button m_Roll;
 	Drawable m_Dice1;
 	Drawable m_Dice2;
 	Drawable m_TurnUi;

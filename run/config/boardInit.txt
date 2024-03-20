@@ -1,3 +1,1 @@
 BackgoundImg: background.bmp
-RollButton: ROLL.bmp
-RollRect: 111 341 200 100
