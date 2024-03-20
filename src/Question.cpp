@@ -20,7 +20,6 @@ void Question::init(string configFile)
 
 	stream >> tmp >> questionImg >> postQuestionImg;
 	stream >> tmp >> m_money;
-	stream >> tmp >> m_percent;
 
 	stream.close();
 
@@ -35,6 +34,19 @@ void Question::init(string configFile)
 	m_noBtn = { 1000, 560, 100, 60 };
 
 	m_answer = -1;
+
+	if (m_money == 50)
+	{
+		m_percent = 30;
+	}
+	else if (m_money == 100)
+	{
+		m_percent = 20;
+	}
+	else if (m_money == 250)
+	{
+		m_percent = 10;
+	}
 }
 
 void Question::run()
@@ -78,7 +90,7 @@ int Question::getMoney()
 	return m_money;
 }
 
-int Question::getPercent()
+int Question::loseMoney()
 {
-	return m_percent;
+	return m_money * m_percent / 100;
 }

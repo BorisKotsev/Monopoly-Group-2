@@ -13,7 +13,7 @@ public:
 	void destroy();
 
 	int getMoney();
-	int getPercent();
+	int loseMoney();
 
 	int m_answer; //1 for yes, 0 for no
 

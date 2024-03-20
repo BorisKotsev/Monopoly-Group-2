@@ -2,6 +2,9 @@
 #include "Player.h"
 #include "Presenter.h"
 
+#define STARTX 1320
+#define STARTY 900
+
 
 Player::Player()
 {
@@ -15,17 +18,19 @@ void Player::init(string configFile)
 {
     string tmp, textureImgPath;
 
-    fstream stream;
+    //fstream stream;
 
-    stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);
-    stream >> tmp >> textureImgPath;
+    //stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);
+    //stream >> tmp >> textureImgPath;
 
-    stream.close();
+    //stream.close();
 
     m_money = 1500;
-    m_player.texture = loadTexture(textureImgPath);
-    m_player.rect.x = 1320;
-    m_player.rect.y = 900;
+    m_player.texture = loadTexture("Null.bmp");
+    m_player.rect.x = STARTX;
+    m_player.rect.y = STARTY;
+    m_player.rect.w = 50;
+    m_player.rect.h = 50;
 }
 
 void Player::update()
@@ -140,33 +145,41 @@ void Player::movePlayer(int2 argRolledDice)
 
     currentmove += diceResults;
 
-    if (currentmove > 10 && sideOfBoard != 4) {
+    if (currentmove / 10 >= 1 && sideOfBoard != 3) {
         sideOfBoard += 1;
-        currentmove = currentmove - 10;
+        currentmove = currentmove - (10 * (currentmove / 10));
+        diceResults = diceResults - (10 * (currentmove / 10));
     }
-    else if (currentmove > 10 && sideOfBoard == 3) {
+    else if (currentmove / 10 >= 1 && sideOfBoard == 3) {
         sideOfBoard = 0;
-        currentmove = currentmove - 10;
+        currentmove = currentmove - (10 * (currentmove / 10));
+        diceResults = diceResults - (10 * (currentmove / 10));
     }
 
     switch (sideOfBoard) {
         case 0: //Down
-            m_player.rect.x -= 80 * diceResults;
+            m_player.rect.y = 900;
+            m_player.rect.x = STARTX - currentmove * 80;
             break;
 
         case 1: //Left
-            m_player.rect.y -= 80 * diceResults;
+            m_player.rect.x = 440;
+            m_player.rect.y = STARTY - currentmove * 80;
             break;
 
         case 2: //Up
-            m_player.rect.x += 80 * diceResults;
+            m_player.rect.y = 20;
+            m_player.rect.x = 440 + currentmove * 80;
             break;
 
         case 3: //Right
-            m_player.rect.y += 80 * diceResults;
+            m_player.rect.x = 1320;
+            m_player.rect.y = 20 + currentmove * 80;
             break;
         default: break;
 
     }
+
+    cout << "side of board: " << sideOfBoard << " Current move: " << currentmove << " Dice results: " << diceResults << endl;
 }
 
