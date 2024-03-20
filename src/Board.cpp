@@ -19,21 +19,22 @@ void Board::init()
 
 	fstream stream;
 
-	string backgorundImg,rollButton, tmp;
+	string backgorundImg, rollButton, tmp;
 
 	stream.open(CONFIG_FOLDER + configFile);
 
-    stream >> tmp >> backgorundImg;
-    stream >> tmp >> rollButton;
-    stream >> tmp >> m_Roll.rect.x >> m_Roll.rect.y >> m_Roll.rect.w >> m_Roll.rect.h;
+	stream >> tmp >> backgorundImg;
+	stream >> tmp >> rollButton;
+	stream >> tmp >> m_Roll.rect.x >> m_Roll.rect.y >> m_Roll.rect.w >> m_Roll.rect.h;
 
 	stream.close();
 
 	m_background = loadTexture(backgorundImg);
 
-	//loadDistricts();
-	//loadStations();
+	loadDistricts();
+	loadStations();
 	loadQuestions();
+	//loadPlayers();
 
 	player_a.init("test");
 
@@ -50,15 +51,13 @@ void Board::update()
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
 
-	    drawDice(diceValue);
+		drawDice(diceValue);
 
 		if (playerTurn >= playersAmount)
 			playerTurn = 0;
 
 		m_TurnUi.texture = m_turnUi[playerTurn];
-
-		if(diceValue.x != diceValue.y)
-		{
+		if (diceValue.x != diceValue.y)
 			playerTurn++;
 		}
 
@@ -71,18 +70,25 @@ void Board::update()
 void Board::draw()
 {
 	drawObject(m_background);
-	
-	m_questions[0].run();
 
-	if (m_questions[0].m_answer == 1)
+	if (questionIndexTEST >= m_questions.size())
 	{
-		cout << m_questions[0].getMoney() << endl;
-		m_questions[0].m_answer = -1;
+		questionIndexTEST = 0;
 	}
-	else if (m_questions[0].m_answer == 0)
+
+	m_questions[questionIndexTEST].run();
+
+	if (m_questions[questionIndexTEST].m_answer == 1)
 	{
-		cout << m_questions[0].getMoney() * m_questions[0].getPercent() / 100 << endl;
-		m_questions[0].m_answer = -1;
+		cout << m_questions[questionIndexTEST].getMoney() << endl;
+		m_questions[questionIndexTEST].m_answer = -1;
+		questionIndexTEST++;
+	}
+	else if (m_questions[questionIndexTEST].m_answer == 0)
+	{
+		cout << m_questions[questionIndexTEST].loseMoney() << endl;
+		m_questions[questionIndexTEST].m_answer = -1;
+		questionIndexTEST++;
 	}
   
 	drawObject(m_Roll);
@@ -119,7 +125,7 @@ void Board::drawDice(int2 diceValue)
 	}*/
 	    m_Dice1.texture = m_dice[diceValue.x-1];
 		m_Dice2.texture = m_dice[diceValue.y-1];
-	
+
 
 }
 
@@ -161,18 +167,19 @@ void Board::loadTurnUI()
 int2 Board::roll()
 {
 	int2 dice;
+
 	dice.x = rand() % 6 + 1;
 	dice.y = rand() % 6 + 1;
+
 	return dice;
 }
-
 
 void Board::loadDistricts()
 {
 	fstream stream;
 	string tmp;
 
-	stream.open(CONFIG_FOLDER + "districts.txt");
+	stream.open(CONFIG_FOLDER + "Districts.txt");
 
 	while(!stream.eof())
 	{
@@ -184,6 +191,8 @@ void Board::loadDistricts()
 
 		m_districts.push_back(_district);
 	}
+
+	stream.close();
 }
 
 void Board::loadStations()
@@ -203,11 +212,13 @@ void Board::loadStations()
 
 		m_stations.push_back(_station);
 	}
+
+	stream.close();
 }
 
 void Board::loadQuestions()
 {
-	int numQuestions = 1;
+	int numQuestions = 26;
 
 	for (int i = 1; i <= numQuestions; i++)
 	{
@@ -218,5 +229,17 @@ void Board::loadQuestions()
 		_question.init(tmp);
 
 		m_questions.push_back(_question);
+	}
+}
+
+void Board::loadPlayers()
+{
+	for(int i = 1; i <= playersAmount; i++)
+	{
+		Player _player;
+
+		_player.init("Player" + to_string(i) + ".txt");
+
+		m_players.push_back(_player);
 	}
 }

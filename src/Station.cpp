@@ -42,3 +42,8 @@ int Station::getPollution()
 {
     return m_pollution;
 }
+
+string Station::getName()
+{
+    return m_name;
+}

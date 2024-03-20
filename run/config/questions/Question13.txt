@@ -1,0 +1,2 @@
+Questions_Img: Question13.bmp AnswersV.bmp
+Money: 50
