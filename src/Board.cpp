@@ -34,9 +34,7 @@ void Board::init()
 	loadDistricts();
 	loadStations();
 	loadQuestions();
-	//loadPlayers();
-
-	player_a.init("test");
+	loadPlayers();
 
 	m_Roll.texture = loadTexture(rollButton);
 	loadDices();
@@ -61,7 +59,7 @@ void Board::update()
 			playerTurn++;
 		}
 
-		player_a.movePlayer(diceValue);
+		m_players[playerTurn].movePlayer(diceValue);
 	}
 
 
@@ -95,7 +93,10 @@ void Board::draw()
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
 	drawObject(m_TurnUi);
-	player_a.draw();
+
+	for (int i = 0; i < m_players.size(); i++) {
+		m_players[i].draw();
+	}
 
 }
 

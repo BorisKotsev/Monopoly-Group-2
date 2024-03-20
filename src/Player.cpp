@@ -18,15 +18,15 @@ void Player::init(string configFile)
 {
     string tmp, textureImgPath;
 
-    //fstream stream;
+    fstream stream;
 
-    //stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);
-    //stream >> tmp >> textureImgPath;
+    stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);    
+   stream >> tmp >> textureImgPath;
 
-    //stream.close();
+    stream.close();
 
     m_money = 1500;
-    m_player.texture = loadTexture("Null.bmp");
+    m_player.texture = loadTexture(IMG_FOLDER + textureImgPath);
     m_player.rect.x = STARTX;
     m_player.rect.y = STARTY;
     m_player.rect.w = 50;

@@ -32,7 +32,7 @@ public:
 
 	int2 roll();
 
-	int playersAmount = 4;
+	int playersAmount;
 private:
 	SDL_Texture* m_background;
 
