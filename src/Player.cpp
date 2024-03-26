@@ -14,7 +14,7 @@ Player::~Player()
 {
 }
 
-void Player::init(string configFile)
+void Player::init(string configFile, int arg_player_number)
 {
     string tmp, textureImgPath;
 
@@ -27,8 +27,28 @@ void Player::init(string configFile)
 
     m_money = 1500;
     m_player.texture = loadTexture(textureImgPath);
-    m_player.rect.x = STARTX;
-    m_player.rect.y = STARTY;
+    player_number = arg_player_number;
+    
+    switch (player_number)
+    {
+    case 1: m_player.rect.x = STARTX;
+            m_player.rect.y = STARTY;
+            break;
+
+    case 2: m_player.rect.x = STARTX + 80;
+            m_player.rect.y = STARTY;
+            break;
+
+    case 3: m_player.rect.x = STARTX;
+            m_player.rect.y = STARTY + 80;
+            break;
+
+    case 4: m_player.rect.x = STARTX + 80;
+            m_player.rect.y = STARTY + 80;
+            
+        default:
+            break;
+    }
     m_player.rect.w = 50;
     m_player.rect.h = 50;
 }

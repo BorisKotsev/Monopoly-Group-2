@@ -10,7 +10,7 @@ public:
 	Player();
 	~Player();
 
-	void init(string configFile);
+	void init(string configFile, int arg_player_number);
 	void update();
 	void draw();
 	void destroy();
@@ -38,5 +38,6 @@ private:
 
 	int currentmove = 0;
 	int sideOfBoard = 0;
+	int player_number;
 
 };

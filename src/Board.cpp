@@ -231,7 +231,7 @@ void Board::loadPlayers()
 	{
 		Player _player;
 
-		_player.init("Player" + to_string(i) + ".txt");
+		_player.init("Player" + to_string(i) + ".txt", i);
 
 		m_players.push_back(_player);
 	}
