@@ -15,7 +15,7 @@ Board::~Board()
 
 void Board::init()
 {
-     loadDistricts();
+    loadDistricts();
 	loadStations();
 	loadQuestions();
 	loadPlayers();
@@ -24,10 +24,13 @@ void Board::init()
 	m_Roll.init("RollButton.txt","");
 	loadDices();
 	loadTurnUI();
+
+	m_test.init("enterProduct.txt");
 }
 
 void Board::update()
 {
+	m_test.update();
 	m_Roll.update();
 	if (m_Roll.isPressed())
 	{
@@ -47,6 +50,7 @@ void Board::update()
 			playerTurn = 0;
 		m_TurnUi.texture = m_turnUi[playerTurn];
 
+		m_test.setText(to_string(diceValue.x + diceValue.y));
 	}
 
 
@@ -55,6 +59,8 @@ void Board::update()
 void Board::draw()
 {
 	drawObject(m_background);
+
+	m_test.draw();
 
 	if (questionIndexTEST >= m_questions.size())
 	{
@@ -94,7 +100,7 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
 	m_Roll.destroy();
-
+	m_test.destroy();
 }
 
 
