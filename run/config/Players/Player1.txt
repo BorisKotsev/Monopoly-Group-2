@@ -1,0 +1,1 @@
+Img_path: dice\\1.bmp

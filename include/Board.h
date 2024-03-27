@@ -5,6 +5,7 @@
 #include "Question.h"
 #include "Button.h"
 #include "Player.h"
+#include "TextField.h"
 
 class Board
 {
@@ -43,7 +44,6 @@ private:
 
 	int2 diceValue;
 
-	Question drawQuestion();
 	Button m_Roll;
 	Drawable m_Dice1;
 	Drawable m_Dice2;
@@ -51,8 +51,10 @@ private:
 
 	SDL_Texture* m_dice[6];
 	SDL_Texture* m_turnUi[4];
-
-	int playerTurn = 1;
+	
+	int playerTurn =0;
 
 	int questionIndexTEST = 0;
+
+	TextField m_test;
 };

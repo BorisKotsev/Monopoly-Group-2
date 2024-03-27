@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Engine.h"
+#include "Writer.h"
 
 class Presenter
 {
 public:
 	static SDL_Window* m_mainWindow;
 	static SDL_Renderer* m_mainRenderer;
+	static Writer* m_writer;
 
 	static int m_SCREEN_WIDTH;
 	static int m_SCREEN_HEIGHT;

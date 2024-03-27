@@ -1,0 +1,10 @@
+textRect: 962 900 125
+fontSize: 50
+rect: 962 900 520 125
+color: 1
+backImage: inputField.bmp
+
+
+
+
+

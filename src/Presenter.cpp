@@ -5,15 +5,14 @@ extern World world;
 
 SDL_Window* Presenter::m_mainWindow = nullptr;
 SDL_Renderer* Presenter::m_mainRenderer = nullptr;
-int Presenter::m_SCREEN_WIDTH = 0;
-int Presenter::m_SCREEN_HEIGHT = 0;
+Writer* Presenter::m_writer = new Writer();
+int Presenter::m_SCREEN_WIDTH = 1920;
+int Presenter::m_SCREEN_HEIGHT = 1080;
 
 void Presenter::init()
 {
-	m_SCREEN_WIDTH = 1920;
-	m_SCREEN_HEIGHT = 1080;
-
 	SDL_Init(SDL_INIT_EVERYTHING);
+	TTF_Init();
 	
 	m_mainWindow = SDL_CreateWindow("SDL_Template",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_SCREEN_WIDTH, m_SCREEN_HEIGHT, 0);
@@ -21,6 +20,8 @@ void Presenter::init()
 	m_mainRenderer = SDL_CreateRenderer(m_mainWindow, -1, SDL_RENDERER_PRESENTVSYNC);
 
 	improveRenderer();
+
+	m_writer->init();
 }
 
 void Presenter::update()

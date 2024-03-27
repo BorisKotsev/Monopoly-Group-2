@@ -14,21 +14,41 @@ Player::~Player()
 {
 }
 
-void Player::init(string configFile)
+void Player::init(string configFile, int arg_player_number)
 {
     string tmp, textureImgPath;
 
-    //fstream stream;
+    fstream stream;
 
-    //stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);
-    //stream >> tmp >> textureImgPath;
+    stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);    
+   stream >> tmp >> textureImgPath;
 
-    //stream.close();
+    stream.close();
 
     m_money = 1500;
-    m_player.texture = loadTexture("Null.bmp");
-    m_player.rect.x = STARTX;
-    m_player.rect.y = STARTY;
+    m_player.texture = loadTexture(textureImgPath);
+    player_number = arg_player_number;
+    
+    switch (player_number)
+    {
+    case 1: m_player.rect.x = STARTX;
+            m_player.rect.y = STARTY;
+            break;
+
+    case 2: m_player.rect.x = STARTX + 80;
+            m_player.rect.y = STARTY;
+            break;
+
+    case 3: m_player.rect.x = STARTX;
+            m_player.rect.y = STARTY + 80;
+            break;
+
+    case 4: m_player.rect.x = STARTX + 80;
+            m_player.rect.y = STARTY + 80;
+            
+        default:
+            break;
+    }
     m_player.rect.w = 50;
     m_player.rect.h = 50;
 }
@@ -139,8 +159,7 @@ void Player::addStation(Station station)
 
 void Player::movePlayer(int2 argRolledDice)
 {
-    static int currentmove = 0;
-    static int sideOfBoard = 0;
+
     int diceResults = argRolledDice.x + argRolledDice.y;
 
     currentmove += diceResults;
@@ -180,6 +199,6 @@ void Player::movePlayer(int2 argRolledDice)
 
     }
 
-    cout << "side of board: " << sideOfBoard << " Current move: " << currentmove << " Dice results: " << diceResults << endl;
+  //cout << "side of board: " << sideOfBoard << " Current move: " << currentmove << " Dice results: " << diceResults << endl;
 }
 

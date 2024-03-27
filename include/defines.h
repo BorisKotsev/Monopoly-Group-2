@@ -1,13 +1,14 @@
 #pragma once
 
+#include <SDL.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <SDL.h>
 #include <vector>
 #include <string>
-#include <SDL_ttf.h>
 #include <map>
+
 #define PI 3.14159265
 
 using namespace std;
@@ -24,6 +25,8 @@ static string TURN_FOLDER = "Turn\\";
 static string WINSCREEN_FOLDER = "WinScreen\\";
 static string MENU_FOLDER = "Menu\\";
 static string BUTTON_FOLDER = "Buttons\\";
+static string FONT_FOLDER = "font\\";
+static string FIELD_FOLDER = "fields\\";
 static string TITLESCREEN_FOLDER = "TitleScreen\\";
 
 struct int2
@@ -186,4 +189,12 @@ struct DrawableWithOpacity : Drawable
 enum SOUND 
 {
 	BACKGORUND_MUSIC
+};
+
+enum COLOR
+{
+	NONE = 0,
+	DARK = 1,
+	LIGHT = 2,
+	RED = 3
 };

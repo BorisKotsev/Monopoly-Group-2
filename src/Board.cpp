@@ -15,38 +15,42 @@ Board::~Board()
 
 void Board::init()
 {
-     loadDistricts();
+    loadDistricts();
 	loadStations();
 	loadQuestions();
-	//loadPlayers();
+	loadPlayers();
 
-	player_a.init("test");
 	m_background = loadTexture("background.bmp");
 	m_Roll.init("RollButton.txt","");
 	loadDices();
 	loadTurnUI();
+
+	m_test.init("enterProduct.txt");
 }
 
 void Board::update()
 {
+	m_test.update();
 	m_Roll.update();
 	if (m_Roll.isPressed())
 	{
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
-		if (playerTurn >= playersAmount)
-			playerTurn = 0;
-		m_TurnUi.texture = m_turnUi[playerTurn];
+
+		drawDice(diceValue);
+
+		m_players[playerTurn].movePlayer(diceValue);
+
 		if (diceValue.x != diceValue.y)
 		{
-
-		playerTurn++;
+			playerTurn++;
 		}
 
+		if (playerTurn > playersAmount - 1)
+			playerTurn = 0;
+		m_TurnUi.texture = m_turnUi[playerTurn];
 
-	    drawDice(diceValue);
-
-		player_a.movePlayer(diceValue);
+		m_test.setText(to_string(diceValue.x + diceValue.y));
 	}
 
 
@@ -55,6 +59,8 @@ void Board::update()
 void Board::draw()
 {
 	drawObject(m_background);
+
+	m_test.draw();
 
 	if (questionIndexTEST >= m_questions.size())
 	{
@@ -80,7 +86,10 @@ void Board::draw()
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
 	drawObject(m_TurnUi);
-	player_a.draw();
+
+	for (int i = 0; i < m_players.size(); i++) {
+		m_players[i].draw();
+	}
 
 }
 
@@ -91,7 +100,7 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
 	m_Roll.destroy();
-
+	m_test.destroy();
 }
 
 
@@ -228,7 +237,7 @@ void Board::loadPlayers()
 	{
 		Player _player;
 
-		_player.init("Player" + to_string(i) + ".txt");
+		_player.init("Player" + to_string(i) + ".txt", i);
 
 		m_players.push_back(_player);
 	}
