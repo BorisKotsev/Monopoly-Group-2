@@ -50,6 +50,12 @@ void Presenter::drawObject(DrawableSrcRect& drawableSrcRect)
 	SDL_RenderCopy(m_mainRenderer, drawableSrcRect.texture, &drawableSrcRect.rect, &drawableSrcRect.srcRect);
 }
 
+void Presenter::drawObject(DrawableWithOpacity& drawableWithOpacity)
+{
+	SDL_SetTextureAlphaMod(drawableWithOpacity.texture, drawableWithOpacity.opacity);
+	SDL_RenderCopy(m_mainRenderer, drawableWithOpacity.texture, NULL, &drawableWithOpacity.rect);
+}
+
 void Presenter::improveRenderer()
 {
 	SDL_DisplayMode DM;

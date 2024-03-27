@@ -14,5 +14,7 @@ public:
 	void destroy();
 
 private:
-	Drawable m_titleScreenLogo;
+	void changeOpacity();
+	SDL_Texture* m_titleScreenLogo;
+	DrawableWithOpacity m_pressToContinue;
 };

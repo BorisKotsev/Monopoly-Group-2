@@ -1,0 +1,5 @@
+Img: TitleScreen.bmp
+ContinueButton: continue.bmp
+Rect: 567 722 820 145
+Opacity: 30
+ChangePerFrame: 1 

@@ -6,6 +6,8 @@
 #include <SDL.h>
 #include <vector>
 #include <string>
+#include <SDL_ttf.h>
+#include <map>
 #define PI 3.14159265
 
 using namespace std;
@@ -22,6 +24,7 @@ static string TURN_FOLDER = "Turn\\";
 static string WINSCREEN_FOLDER = "WinScreen\\";
 static string MENU_FOLDER = "Menu\\";
 static string BUTTON_FOLDER = "Buttons\\";
+static string TITLESCREEN_FOLDER = "TitleScreen\\";
 
 struct int2
 {
@@ -173,6 +176,11 @@ struct Drawable
 struct DrawableSrcRect : Drawable
 {
 	SDL_Rect srcRect;
+};
+struct DrawableWithOpacity : Drawable
+{
+	int opacity = 0;
+	int changePerFrame = 0;
 };
 
 enum SOUND 

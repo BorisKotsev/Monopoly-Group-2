@@ -18,6 +18,7 @@ public:
 	static void drawObject(SDL_Texture* texture);
 	static void drawObject(Drawable& drawable);
 	static void drawObject(DrawableSrcRect& drawableSrcRect);
+	static void drawObject(DrawableWithOpacity& drawableWithOpacity);
 
 private:
 	void improveRenderer();
