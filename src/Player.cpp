@@ -4,6 +4,10 @@
 
 #define STARTX 1320
 #define STARTY 900
+#define CENTERYB 945
+#define CENTERYT 55
+#define CENTERXL 490
+#define CENTERXR 1395
 
 
 Player::Player()
@@ -19,6 +23,7 @@ void Player::init(string configFile, int arg_player_number)
     string tmp, textureImgPath;
 
     fstream stream;
+
 
     stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);    
    stream >> tmp >> textureImgPath;
@@ -177,22 +182,22 @@ void Player::movePlayer(int2 argRolledDice)
 
     switch (sideOfBoard) {
         case 0: //Down
-            m_player.rect.y = 900;
+            m_player.rect.y = CENTERYB;
             m_player.rect.x = STARTX - currentmove * 80;
             break;
 
         case 1: //Left
-            m_player.rect.x = 440;
+            m_player.rect.x = CENTERXL;
             m_player.rect.y = STARTY - currentmove * 80;
             break;
 
         case 2: //Up
-            m_player.rect.y = 20;
+            m_player.rect.y = CENTERYT;
             m_player.rect.x = 440 + currentmove * 80;
             break;
 
         case 3: //Right
-            m_player.rect.x = 1320;
+            m_player.rect.x = CENTERXR;
             m_player.rect.y = 20 + currentmove * 80;
             break;
         default: break;
