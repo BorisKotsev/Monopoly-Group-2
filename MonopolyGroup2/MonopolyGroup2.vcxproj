@@ -39,6 +39,7 @@
     <ClInclude Include="..\include\WinScreen.h" />
     <ClInclude Include="..\include\World.h" />
     <ClInclude Include="..\include\Writer.h" />
+    <ClInclude Include="PopUpTax.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Board.cpp" />
@@ -61,6 +62,7 @@
     <ClCompile Include="..\src\WinScreen.cpp" />
     <ClCompile Include="..\src\World.cpp" />
     <ClCompile Include="..\src\Writer.cpp" />
+    <ClCompile Include="PopUpTax.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

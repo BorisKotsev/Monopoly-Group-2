@@ -28,6 +28,7 @@ static string BUTTON_FOLDER = "Buttons\\";
 static string FONT_FOLDER = "font\\";
 static string FIELD_FOLDER = "fields\\";
 static string TITLESCREEN_FOLDER = "TitleScreen\\";
+static string TAXES_FOLDER = "Taxes\\";
 
 struct int2
 {

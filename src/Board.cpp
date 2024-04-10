@@ -192,6 +192,7 @@ void Board::playerPosition(Player playerOnTurn)
 			break;
 
 		case 't': //tax
+
 			break;
 
 		case 'q': //question
@@ -204,7 +205,7 @@ void Board::playerPosition(Player playerOnTurn)
 			break;
 	}
 
-	//cout << "Player location: " << playerOnTurn.m_player_location << endl;
+	cout << "Player location: " << playerOnTurn.m_player_location << endl;
 }
 
 int2 Board::roll()
