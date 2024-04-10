@@ -26,7 +26,7 @@ void Board::init()
 
 	loadDices();
 	loadTurnUI();
-	m_BuyPopUp.init("Borovo",100);
+	//m_BuyPopUp.init("Borovo",100);
 	//m_test.init("enterProduct.txt");
 }
 
@@ -55,7 +55,6 @@ void Board::update()
 
 		//m_test.setText(to_string(diceValue.x + diceValue.y));
 	}
-	cout<<m_BuyPopUp.Buy();
 }
 
 void Board::draw()
