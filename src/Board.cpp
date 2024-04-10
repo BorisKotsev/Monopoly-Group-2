@@ -25,12 +25,10 @@ void Board::init()
 	loadDices();
 	loadTurnUI();
 
-	m_test.init("enterProduct.txt");
 }
 
 void Board::update()
 {
-	m_test.update();
 	m_Roll.update();
 	if (m_Roll.isPressed())
 	{
@@ -50,38 +48,12 @@ void Board::update()
 		if (playerTurn > playersAmount - 1)
 			playerTurn = 0;
 		m_TurnUi.texture = m_turnUi[playerTurn];
-
-		m_test.setText(to_string(diceValue.x + diceValue.y));
 	}
-
-
 }
 
 void Board::draw()
 {
 	drawObject(m_background);
-
-	m_test.draw();
-
-	if (questionIndexTEST >= m_questions.size())
-	{
-		questionIndexTEST = 0;
-	}
-
-	m_questions[questionIndexTEST].run();
-
-	if (m_questions[questionIndexTEST].m_answer == 1)
-	{
-		cout << m_questions[questionIndexTEST].getMoney() << endl;
-		m_questions[questionIndexTEST].m_answer = -1;
-		questionIndexTEST++;
-	}
-	else if (m_questions[questionIndexTEST].m_answer == 0)
-	{
-		cout << m_questions[questionIndexTEST].loseMoney() << endl;
-		m_questions[questionIndexTEST].m_answer = -1;
-		questionIndexTEST++;
-	}
   
 	m_Roll.draw();
 	drawObject(m_Dice1);
@@ -101,7 +73,6 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
 	m_Roll.destroy();
-	m_test.destroy();
 }
 
 
@@ -195,6 +166,7 @@ void Board::playerPosition(Player playerOnTurn)
 			break;
 
 		case 'q': //question
+			drawQuestion(playerOnTurn);
 			break;
 
 		case 'e': //edge
@@ -204,7 +176,7 @@ void Board::playerPosition(Player playerOnTurn)
 			break;
 	}
 
-	//cout << "Player location: " << playerOnTurn.m_player_location << endl;
+	cout << "Player location: " << playerOnTurn.m_player_location << endl;
 }
 
 int2 Board::roll()
@@ -263,7 +235,9 @@ void Board::loadQuestions()
 {
 	int numQuestions = 26;
 
-	for (int i = 1; i <= numQuestions; i++)
+	vector<Question> questionVector;
+
+	for (int i = 1; i <= numQuestions; i++) 
 	{
 		string tmp = "Question" + to_string(i) + ".txt";
 
@@ -271,7 +245,15 @@ void Board::loadQuestions()
 
 		_question.init(tmp);
 
-		m_questions.push_back(_question);
+		questionVector.push_back(_question);
+	}
+
+	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+	shuffle(questionVector.begin(), questionVector.end(), default_random_engine(seed));
+
+	for (const auto& question : questionVector) 
+	{
+		m_questions.push(question);
 	}
 }
 
@@ -284,5 +266,34 @@ void Board::loadPlayers()
 		_player.init("Player" + to_string(i) + ".txt", i);
 
 		m_players.push_back(_player);
+	}
+}
+
+void Board::drawQuestion(Player playerOnTurn)
+{
+	if (!m_questions.empty())
+	{
+		m_questions.front().run();
+
+		if (m_questions.front().m_answer == 1)
+		{
+			playerOnTurn.addMoney(m_questions.front().getMoney());
+
+			Question tmp = m_questions.front();
+			m_questions.pop();
+			m_questions.push(tmp);
+		}
+		else if (m_questions.front().m_answer == 0)
+		{
+			playerOnTurn.removeMoney(m_questions.front().loseMoney());
+
+			Question tmp = m_questions.front();
+			m_questions.pop();
+			m_questions.push(tmp);
+		}
+	}
+	else
+	{
+		cout << "No questions left" << endl;
 	}
 }

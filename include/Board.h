@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Engine.h"
 #include "District.h"
 #include "Station.h"
@@ -20,7 +21,7 @@ public:
 
 	vector <District> m_districts;
 	vector <Station> m_stations;
-	vector <Question> m_questions;
+	queue <Question> m_questions;
 
 	vector <Player> m_players;
 
@@ -46,6 +47,8 @@ private:
 	void loadQuestions();
 	void loadPlayers();
 
+	void drawQuestion(Player playerOnTurn);
+
 	int2 diceValue;
 
 	Button m_Roll;
@@ -56,9 +59,5 @@ private:
 	SDL_Texture* m_dice[6];
 	SDL_Texture* m_turnUi[4];
 	
-	int playerTurn =0;
-
-	int questionIndexTEST = 0;
-
-	TextField m_test;
+	int playerTurn = 0;
 };
