@@ -11,7 +11,8 @@ Writer::~Writer()
 
 void Writer::init()
 {
-    m_fontLocation = FONT_FOLDER + "Oswald-Regular.ttf";
+   // m_fontLocation = FONT_FOLDER + "Oswald-Regular.ttf";
+    m_fontLocation = FONT_FOLDER + "Young.ttf";
 
     TTF_Font* font;
 

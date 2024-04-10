@@ -1,0 +1,4 @@
+Img: buy.bmp
+Rect: 810 450 300 180
+YesButton: 828 563 73 53
+NoB: 1018 563 73 53

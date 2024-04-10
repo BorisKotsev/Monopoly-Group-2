@@ -6,7 +6,9 @@
 #include "Button.h"
 #include "Player.h"
 #include "TextField.h"
+#include "BuyPopUp.h"
 
+//bool buy = false;
 class Board
 {
 public:
@@ -32,6 +34,7 @@ public:
 	void loadDices();
 	void loadTurnUI();//player x on turn
 
+	//bool buy;
 	int2 roll();
 	int playersAmount;
 private:
@@ -48,13 +51,13 @@ private:
 	Drawable m_Dice1;
 	Drawable m_Dice2;
 	Drawable m_TurnUi;
+	BuyPopUp m_BuyPopUp;
 
 	SDL_Texture* m_dice[6];
-	SDL_Texture* m_turnUi[4];
 	
 	int playerTurn =0;
-
 	int questionIndexTEST = 0;
 
-	TextField m_test;
+	//TextField m_test;
+	TextField m_playerTurn;
 };

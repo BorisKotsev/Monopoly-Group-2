@@ -20,18 +20,22 @@ void Board::init()
 	loadQuestions();
 	loadPlayers();
 
+	
 	m_background = loadTexture("background.bmp");
 	m_Roll.init("RollButton.txt","");
+
 	loadDices();
 	loadTurnUI();
-
-	m_test.init("enterProduct.txt");
+	m_BuyPopUp.init("Borovo",100);
+	//m_test.init("enterProduct.txt");
 }
 
 void Board::update()
 {
-	m_test.update();
+//	m_test.update();
+	m_playerTurn.update();
 	m_Roll.update();
+	m_playerTurn.setText(to_string(playerTurn+1));
 	if (m_Roll.isPressed())
 	{
 		diceValue.x = roll().x;
@@ -48,19 +52,17 @@ void Board::update()
 
 		if (playerTurn > playersAmount - 1)
 			playerTurn = 0;
-		m_TurnUi.texture = m_turnUi[playerTurn];
 
-		m_test.setText(to_string(diceValue.x + diceValue.y));
+		//m_test.setText(to_string(diceValue.x + diceValue.y));
 	}
-
-
+	cout<<m_BuyPopUp.Buy();
 }
 
 void Board::draw()
 {
 	drawObject(m_background);
 
-	m_test.draw();
+	//m_test.draw();
 
 	if (questionIndexTEST >= m_questions.size())
 	{
@@ -86,11 +88,12 @@ void Board::draw()
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
 	drawObject(m_TurnUi);
+	m_playerTurn.draw();
 
 	for (int i = 0; i < m_players.size(); i++) {
 		m_players[i].draw();
 	}
-
+	m_BuyPopUp.draw();
 }
 
 void Board::destroy()
@@ -99,8 +102,10 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice1.texture);
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
+	m_BuyPopUp.destroy();
 	m_Roll.destroy();
-	m_test.destroy();
+	//m_test.destroy();
+	m_playerTurn.destroy();
 }
 
 
@@ -150,17 +155,15 @@ void Board::loadDices()
 void Board::loadTurnUI()
 {
 	fstream stream;
-	string tmp;
-
+	string tmp,Turn;
+	
 	stream.open(CONFIG_FOLDER + "Turn.txt");
+	stream >> tmp >> Turn;
 	stream >> tmp >> m_TurnUi.rect.x >> m_TurnUi.rect.y >> m_TurnUi.rect.w >> m_TurnUi.rect.h;
 	stream.close();
 
-	for (int i = 0; i < playersAmount; i++)
-	{
-		m_turnUi[i] = loadTexture(TURN_FOLDER + to_string(i+1) + ".bmp");
-	}
-	m_TurnUi.texture = m_turnUi[0];
+	m_TurnUi.texture = loadTexture(Turn);
+	m_playerTurn.init("Turn.txt");
 }
 
 int2 Board::roll()
@@ -242,3 +245,7 @@ void Board::loadPlayers()
 		m_players.push_back(_player);
 	}
 }
+
+
+
+
