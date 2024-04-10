@@ -28,6 +28,11 @@ public:
 
 	void movePlayer(int2);
 
+	int currentmove = 0;
+	int sideOfBoard = 0;
+
+	char m_player_location;
+
 private:
 	Drawable m_player;
 
@@ -36,8 +41,6 @@ private:
 	vector <District> m_districts;
 	vector <Station> m_stations;
 
-	int currentmove = 0;
-	int sideOfBoard = 0;
 	int player_number;
 
 };

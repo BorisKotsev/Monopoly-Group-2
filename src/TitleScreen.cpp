@@ -39,7 +39,7 @@ void TitleScreen::run()
 		return;
 	}
 	changeOpacity();
-	cout << m_pressToContinue.opacity << endl;
+	//cout << m_pressToContinue.opacity << endl;
 }
 
 void TitleScreen::destroy()

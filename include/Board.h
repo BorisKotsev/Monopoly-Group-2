@@ -34,6 +34,10 @@ public:
 
 	int2 roll();
 	int playersAmount;
+
+	void playerPosition(Player playerOnTurn);
+	char boardLayout[10] = { 'e', 'd', 't', 'd', 'd', 's', 'd', 'q', 'd', 'd' };
+
 private:
 	SDL_Texture* m_background;
 

@@ -40,6 +40,7 @@ void Board::update()
 		drawDice(diceValue);
 
 		m_players[playerTurn].movePlayer(diceValue);
+		playerPosition(m_players[playerTurn]);
 
 		if (diceValue.x != diceValue.y)
 		{
@@ -161,6 +162,49 @@ void Board::loadTurnUI()
 		m_turnUi[i] = loadTexture(TURN_FOLDER + to_string(i+1) + ".bmp");
 	}
 	m_TurnUi.texture = m_turnUi[0];
+}
+
+void Board::playerPosition(Player playerOnTurn)
+{
+	playerOnTurn.m_player_location = boardLayout[playerOnTurn.currentmove];
+
+	District tmp;
+	Station tmp1;
+
+	int not_district = 0;
+
+	for (int i = 0; i < playerOnTurn.currentmove; i++) { //tape
+		if (boardLayout[i] != 'd') {
+			not_district++;
+		}
+	}
+
+
+	switch (playerOnTurn.m_player_location)
+	{
+
+		case 'd': //district
+			tmp = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
+			break;
+
+		case 's': //station
+			tmp1 = m_stations[playerOnTurn.sideOfBoard]; //station stepped on
+			break;
+
+		case 't': //tax
+			break;
+
+		case 'q': //question
+			break;
+
+		case 'e': //edge
+			break;
+
+		default:
+			break;
+	}
+
+	//cout << "Player location: " << playerOnTurn.m_player_location << endl;
 }
 
 int2 Board::roll()

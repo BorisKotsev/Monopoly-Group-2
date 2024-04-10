@@ -204,6 +204,6 @@ void Player::movePlayer(int2 argRolledDice)
 
     }
 
-  //cout << "side of board: " << sideOfBoard << " Current move: " << currentmove << " Dice results: " << diceResults << endl;
+   //cout << "side of board: " << sideOfBoard << " Current move: " << currentmove << " Dice results: " << diceResults << endl;
 }
 
