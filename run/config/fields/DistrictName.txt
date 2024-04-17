@@ -1,6 +1,6 @@
-textRect: 855 491 38
+textRect: 855 490 38
 fontSize: 30
-rect: 855 491 216 38
+rect: 855 490 216 38
 color: 1
 backImage:
 

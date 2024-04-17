@@ -55,6 +55,7 @@ void Board::update()
 
 		//m_test.setText(to_string(diceValue.x + diceValue.y));
 	}
+		playerPosition(m_players[playerTurn]);
 }
 
 void Board::draw()
@@ -62,7 +63,7 @@ void Board::draw()
 	drawObject(m_background);
 
 	//m_test.draw();
-
+	/*
 	if (questionIndexTEST >= m_questions.size())
 	{
 		questionIndexTEST = 0;
@@ -82,7 +83,7 @@ void Board::draw()
 		m_questions[questionIndexTEST].m_answer = -1;
 		questionIndexTEST++;
 	}
-  
+  */
 	m_Roll.draw();
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
@@ -92,7 +93,6 @@ void Board::draw()
 	for (int i = 0; i < m_players.size(); i++) {
 		m_players[i].draw();
 	}
-	m_BuyPopUp.draw();
 }
 
 void Board::destroy()
@@ -163,6 +163,86 @@ void Board::loadTurnUI()
 
 	m_TurnUi.texture = loadTexture(Turn);
 	m_playerTurn.init("Turn.txt");
+}
+
+void Board::playerPosition(Player playerOnTurn)
+{
+	playerOnTurn.m_player_location = boardLayout[playerOnTurn.currentmove];
+
+	District tmp;
+	Station tmp1;
+
+	int not_district = 0;
+
+	for (int i = 0; i < playerOnTurn.currentmove; i++) { //tape
+		if (boardLayout[i] != 'd') {
+			not_district++;
+		}
+	}
+
+
+	switch (playerOnTurn.m_player_location)
+	{
+
+		case 'd': //district
+			tmp = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
+			if (playerOnTurn.checkMoney() >= tmp.getPrice())
+			{
+				//if(m_BuyPopUp.inIt)
+					m_BuyPopUp.init(tmp.getName(), tmp.getPrice());
+
+
+				if (m_BuyPopUp.isPressed)
+					m_BuyPopUp.destroy();
+				else
+				{
+					m_BuyPopUp.draw();
+				    if (m_BuyPopUp.Buy())
+				    {
+					playerOnTurn.addDistrict(tmp);
+					playerOnTurn.removeMoney(tmp.getPrice());
+					}
+
+				}
+
+			}
+			break;
+
+		case 's': //station
+			tmp1 = m_stations[playerOnTurn.sideOfBoard]; //station stepped on
+			if (playerOnTurn.checkMoney() >= tmp1.getPrice())
+			{
+				m_BuyPopUp.init(tmp1.getName(), tmp1.getPrice());
+
+				if (m_BuyPopUp.isPressed)
+					m_BuyPopUp.destroy();
+				else
+					m_BuyPopUp.draw();
+
+				if (m_BuyPopUp.Buy())
+				{
+					playerOnTurn.addStation(tmp1);
+					playerOnTurn.removeMoney(tmp1.getPrice());
+				}
+
+			}
+
+			break;
+
+		case 't': //tax
+			break;
+
+		case 'q': //question
+			break;
+
+		case 'e': //edge
+			break;
+
+		default:
+			break;
+	}
+
+	//cout << "Player location: " << playerOnTurn.m_player_location << endl;
 }
 
 int2 Board::roll()

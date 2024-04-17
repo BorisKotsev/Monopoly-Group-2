@@ -12,6 +12,8 @@ public:
 	void draw();
 	bool Buy();
 	void destroy();
+	bool isPressed;
+	bool inIt=true;
 private:
 	Drawable m_popUp;
 	TextField m_name;
