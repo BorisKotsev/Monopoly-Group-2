@@ -169,7 +169,6 @@ void Player::addStation(Station station)
 
 void Player::movePlayer(int2 argRolledDice)
 {
-
     int diceResults = argRolledDice.x + argRolledDice.y;
 
     currentmove += diceResults;

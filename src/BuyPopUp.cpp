@@ -28,8 +28,8 @@ void BuyPopUp::init(string name, int price)
 	
 	
 
-	isPressed = false;
-	inIt = false;
+	m_pressedYes = false;
+	m_pressedNo = false;
 }
 
 void BuyPopUp::draw()
@@ -41,28 +41,23 @@ void BuyPopUp::draw()
 	m_price.update();
 }
 
-bool BuyPopUp::Buy()
+void BuyPopUp::Buy()
 {
 
 	if (InputManager::isMousePressed() && isMouseInRect(InputManager::m_mouseCoor, buttons[0]))
 	{
-		isPressed = true;
-		return true;
+		m_pressedYes = true;
 	}
 	else if (InputManager::isMousePressed() && isMouseInRect(InputManager::m_mouseCoor, buttons[1]))
 	{
-		isPressed = true;
-		return false;
+	    m_pressedNo = true;
 	}
 }
 
 
 void BuyPopUp::destroy()
 {
-	cout << "Why" << endl;
 	SDL_DestroyTexture(m_popUp.texture);
-	m_name.setText("");
-	m_price.setText("");
 	m_name.destroy();
 	m_price.destroy();
 }

@@ -58,14 +58,10 @@ void Question::run()
 		if (isMouseInRect(InputManager::m_mouseCoor, m_yesBtn) && InputManager::isMousePressed())
 		{
 			m_answer = 1;
-
-			this->destroy();
 		}
 		else if (isMouseInRect(InputManager::m_mouseCoor, m_noBtn) && InputManager::isMousePressed())
 		{
 			m_answer = 0;
-
-			this->destroy();
 		}
 	}
 

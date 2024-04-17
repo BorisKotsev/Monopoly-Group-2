@@ -26,64 +26,100 @@ void Board::init()
 
 	loadDices();
 	loadTurnUI();
-	//m_BuyPopUp.init("Borovo",100);
-	//m_test.init("enterProduct.txt");
+
 }
 
 void Board::update()
 {
-//	m_test.update();
 	m_playerTurn.update();
 	m_Roll.update();
 	m_playerTurn.setText(to_string(playerTurn+1));
 	if (m_Roll.isPressed())
 	{
+		if (m_BuyDistrict != nullptr)
+		{
+			m_BuyDistrict->destroy();
+			delete m_BuyDistrict;
+			m_BuyDistrict = nullptr;
+
+		}
+		if (m_BuyStation != nullptr)
+		{
+			m_BuyStation->destroy();
+			delete m_BuyStation;
+			m_BuyStation = nullptr;
+
+		}
+
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
 
 		drawDice(diceValue);
 
+		playerPrev = playerTurn;
 		m_players[playerTurn].movePlayer(diceValue);
-
+		playerPosition(m_players[playerTurn]);
 		if (diceValue.x != diceValue.y)
 		{
 			playerTurn++;
 		}
-
+		
 		if (playerTurn > playersAmount - 1)
 			playerTurn = 0;
 
-		//m_test.setText(to_string(diceValue.x + diceValue.y));
 	}
-		playerPosition(m_players[playerTurn]);
+	if (m_BuyDistrict != nullptr)
+	{
+		m_BuyDistrict->draw();
+		m_BuyDistrict->Buy();
+		if (m_BuyDistrict->m_pressedYes)
+		{
+			m_players[playerPrev].addDistrict(m_tmpDistrict);
+			m_players[playerPrev].removeMoney(m_tmpDistrict.getPrice());
+
+			m_BuyDistrict->destroy();
+			delete m_BuyDistrict;
+			m_BuyDistrict = nullptr;
+			cout <<playerPrev << ": " << m_players[playerPrev].m_districts[m_players[playerPrev].m_districts.size() - 1].getName() << endl;
+		}
+		if (m_BuyDistrict !=nullptr && m_BuyDistrict->m_pressedNo)
+		{
+			m_BuyDistrict->destroy();
+			delete m_BuyDistrict;
+			m_BuyDistrict = nullptr;
+		}
+
+
+	}
+	if (m_BuyStation != nullptr)
+	{
+		m_BuyStation->draw();
+		m_BuyStation->Buy();
+		if (m_BuyStation->m_pressedYes)
+		{
+			m_players[playerPrev].addStation(m_tmpStation);
+			m_players[playerPrev].removeMoney(m_tmpStation.getPrice());
+
+			m_BuyStation->destroy();
+			delete m_BuyStation;
+			m_BuyStation = nullptr;
+
+		}
+		if (m_BuyStation!=nullptr && m_BuyStation->m_pressedNo)
+		{
+			m_BuyStation->destroy();
+			delete m_BuyStation;
+			m_BuyStation = nullptr;
+		}
+
+	}
+
 }
 
 void Board::draw()
 {
 	drawObject(m_background);
-
-	//m_test.draw();
-	/*
-	if (questionIndexTEST >= m_questions.size())
-	{
-		questionIndexTEST = 0;
-	}
-
-	m_questions[questionIndexTEST].run();
-
-	if (m_questions[questionIndexTEST].m_answer == 1)
-	{
-		cout << m_questions[questionIndexTEST].getMoney() << endl;
-		m_questions[questionIndexTEST].m_answer = -1;
-		questionIndexTEST++;
-	}
-	else if (m_questions[questionIndexTEST].m_answer == 0)
-	{
-		cout << m_questions[questionIndexTEST].loseMoney() << endl;
-		m_questions[questionIndexTEST].m_answer = -1;
-		questionIndexTEST++;
-	}
-  */
+  
 	m_Roll.draw();
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
@@ -101,9 +137,7 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice1.texture);
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
-	m_BuyPopUp.destroy();
 	m_Roll.destroy();
-	//m_test.destroy();
 	m_playerTurn.destroy();
 }
 
@@ -169,8 +203,6 @@ void Board::playerPosition(Player playerOnTurn)
 {
 	playerOnTurn.m_player_location = boardLayout[playerOnTurn.currentmove];
 
-	District tmp;
-	Station tmp1;
 
 	int not_district = 0;
 
@@ -185,45 +217,24 @@ void Board::playerPosition(Player playerOnTurn)
 	{
 
 		case 'd': //district
-			tmp = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
-			if (playerOnTurn.checkMoney() >= tmp.getPrice())
+			m_tmpDistrict = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
+			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice())
 			{
-				//if(m_BuyPopUp.inIt)
-					m_BuyPopUp.init(tmp.getName(), tmp.getPrice());
-
-
-				if (m_BuyPopUp.isPressed)
-					m_BuyPopUp.destroy();
-				else
-				{
-					m_BuyPopUp.draw();
-				    if (m_BuyPopUp.Buy())
-				    {
-					playerOnTurn.addDistrict(tmp);
-					playerOnTurn.removeMoney(tmp.getPrice());
-					}
-
-				}
+				m_BuyDistrict = new BuyPopUp();
+				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice());
+					
 
 			}
 			break;
 
 		case 's': //station
-			tmp1 = m_stations[playerOnTurn.sideOfBoard]; //station stepped on
-			if (playerOnTurn.checkMoney() >= tmp1.getPrice())
+			m_tmpStation = m_stations[playerOnTurn.sideOfBoard]; //station stepped on
+			if (playerOnTurn.checkMoney() >= m_tmpStation.getPrice())
 			{
-				m_BuyPopUp.init(tmp1.getName(), tmp1.getPrice());
+				m_BuyStation = new BuyPopUp();
+				m_BuyStation->init(m_tmpStation.getName(), m_tmpStation.getPrice());
 
-				if (m_BuyPopUp.isPressed)
-					m_BuyPopUp.destroy();
-				else
-					m_BuyPopUp.draw();
 
-				if (m_BuyPopUp.Buy())
-				{
-					playerOnTurn.addStation(tmp1);
-					playerOnTurn.removeMoney(tmp1.getPrice());
-				}
 
 			}
 
@@ -233,6 +244,7 @@ void Board::playerPosition(Player playerOnTurn)
 			break;
 
 		case 'q': //question
+			drawQuestion(playerOnTurn);
 			break;
 
 		case 'e': //edge
@@ -242,7 +254,7 @@ void Board::playerPosition(Player playerOnTurn)
 			break;
 	}
 
-	//cout << "Player location: " << playerOnTurn.m_player_location << endl;
+	cout << "Player location: " << playerOnTurn.m_player_location << endl;
 }
 
 int2 Board::roll()
@@ -301,7 +313,9 @@ void Board::loadQuestions()
 {
 	int numQuestions = 26;
 
-	for (int i = 1; i <= numQuestions; i++)
+	vector<Question> questionVector;
+
+	for (int i = 1; i <= numQuestions; i++) 
 	{
 		string tmp = "Question" + to_string(i) + ".txt";
 
@@ -309,7 +323,15 @@ void Board::loadQuestions()
 
 		_question.init(tmp);
 
-		m_questions.push_back(_question);
+		questionVector.push_back(_question);
+	}
+
+	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+	shuffle(questionVector.begin(), questionVector.end(), default_random_engine(seed));
+
+	for (const auto& question : questionVector) 
+	{
+		m_questions.push(question);
 	}
 }
 
@@ -325,6 +347,31 @@ void Board::loadPlayers()
 	}
 }
 
+void Board::drawQuestion(Player playerOnTurn)
+{
+	if (!m_questions.empty())
+	{
+		m_questions.front().run();
 
+		if (m_questions.front().m_answer == 1)
+		{
+			playerOnTurn.addMoney(m_questions.front().getMoney());
 
+			Question tmp = m_questions.front();
+			m_questions.pop();
+			m_questions.push(tmp);
+		}
+		else if (m_questions.front().m_answer == 0)
+		{
+			playerOnTurn.removeMoney(m_questions.front().loseMoney());
 
+			Question tmp = m_questions.front();
+			m_questions.pop();
+			m_questions.push(tmp);
+		}
+	}
+	else
+	{
+		cout << "No questions left" << endl;
+	}
+}

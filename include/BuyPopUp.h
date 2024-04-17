@@ -10,10 +10,10 @@ public:
 
 	void init(string name, int price);
 	void draw();
-	bool Buy();
+	void Buy();
 	void destroy();
-	bool isPressed;
-	bool inIt=true;
+	bool m_pressedYes;
+	bool m_pressedNo;
 private:
 	Drawable m_popUp;
 	TextField m_name;

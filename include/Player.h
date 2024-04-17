@@ -34,12 +34,12 @@ public:
 
 	char m_player_location;
 
+	vector <District> m_districts;
 private:
 	Drawable m_player;
 
 	int m_money;
 
-	vector <District> m_districts;
 	vector <Station> m_stations;
 
 	int player_number;
