@@ -32,6 +32,7 @@ public:
 	int sideOfBoard = 0;
 
 	char m_player_location;
+	int player_number;
 
 private:
 	Drawable m_player;
@@ -40,7 +41,5 @@ private:
 
 	vector <District> m_districts;
 	vector <Station> m_stations;
-
-	int player_number;
 
 };

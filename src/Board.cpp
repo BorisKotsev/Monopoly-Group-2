@@ -38,7 +38,7 @@ void Board::update()
 		drawDice(diceValue);
 
 		m_players[playerTurn].movePlayer(diceValue);
-		playerPosition(m_players[playerTurn]);
+		previousTurn = playerTurn;
 
 		if (diceValue.x != diceValue.y)
 		{
@@ -49,6 +49,8 @@ void Board::update()
 			playerTurn = 0;
 		m_TurnUi.texture = m_turnUi[playerTurn];
 	}
+
+	playerPosition(m_players[previousTurn]);
 }
 
 void Board::draw()
@@ -177,7 +179,7 @@ void Board::playerPosition(Player playerOnTurn)
 			break;
 	}
 
-	cout << "Player location: " << playerOnTurn.m_player_location << endl;
+	cout << "Player location: " << playerOnTurn.m_player_location << "Player on turn:" << playerOnTurn.player_number << endl;
 }
 
 int2 Board::roll()
