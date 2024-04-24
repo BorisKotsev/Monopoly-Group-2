@@ -1,0 +1,10 @@
+textRect: 855 490 38
+fontSize: 30
+rect: 855 490 216 38
+color: 1
+backImage:
+
+
+
+
+

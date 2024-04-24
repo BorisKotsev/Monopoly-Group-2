@@ -20,8 +20,10 @@ void Board::init()
 	loadQuestions();
 	loadPlayers();
 
+	
 	m_background = loadTexture("background.bmp");
 	m_Roll.init("RollButton.txt","");
+
 	loadDices();
 	loadTurnUI();
 
@@ -29,28 +31,89 @@ void Board::init()
 
 void Board::update()
 {
+	m_playerTurn.update();
 	m_Roll.update();
+	m_playerTurn.setText(to_string(playerTurn+1));
 	if (m_Roll.isPressed())
 	{
+		if (m_BuyDistrict != nullptr)
+		{
+			m_BuyDistrict->destroy();
+			delete m_BuyDistrict;
+			m_BuyDistrict = nullptr;
+
+		}
+		if (m_BuyStation != nullptr)
+		{
+			m_BuyStation->destroy();
+			delete m_BuyStation;
+			m_BuyStation = nullptr;
+
+		}
+
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
 
 		drawDice(diceValue);
 
+		playerPrev = playerTurn;
 		m_players[playerTurn].movePlayer(diceValue);
-		previousTurn = playerTurn;
-
+		playerPosition(m_players[playerTurn]);
 		if (diceValue.x != diceValue.y)
 		{
 			playerTurn++;
 		}
-
+		
 		if (playerTurn > playersAmount - 1)
 			playerTurn = 0;
-		m_TurnUi.texture = m_turnUi[playerTurn];
+
+	}
+	if (m_BuyDistrict != nullptr)
+	{
+		m_BuyDistrict->draw();
+		m_BuyDistrict->Buy();
+		if (m_BuyDistrict->m_pressedYes)
+		{
+			m_players[playerPrev].addDistrict(m_tmpDistrict);
+			m_players[playerPrev].removeMoney(m_tmpDistrict.getPrice());
+
+			m_BuyDistrict->destroy();
+			delete m_BuyDistrict;
+			m_BuyDistrict = nullptr;
+			cout <<playerPrev << ": " << m_players[playerPrev].m_districts[m_players[playerPrev].m_districts.size() - 1].getName() << endl;
+		}
+		if (m_BuyDistrict !=nullptr && m_BuyDistrict->m_pressedNo)
+		{
+			m_BuyDistrict->destroy();
+			delete m_BuyDistrict;
+			m_BuyDistrict = nullptr;
+		}
+
+
+	}
+	if (m_BuyStation != nullptr)
+	{
+		m_BuyStation->draw();
+		m_BuyStation->Buy();
+		if (m_BuyStation->m_pressedYes)
+		{
+			m_players[playerPrev].addStation(m_tmpStation);
+			m_players[playerPrev].removeMoney(m_tmpStation.getPrice());
+
+			m_BuyStation->destroy();
+			delete m_BuyStation;
+			m_BuyStation = nullptr;
+
+		}
+		if (m_BuyStation!=nullptr && m_BuyStation->m_pressedNo)
+		{
+			m_BuyStation->destroy();
+			delete m_BuyStation;
+			m_BuyStation = nullptr;
+		}
+
 	}
 
-	playerPosition(m_players[previousTurn]);
 }
 
 void Board::draw()
@@ -61,11 +124,11 @@ void Board::draw()
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
 	drawObject(m_TurnUi);
+	m_playerTurn.draw();
 
 	for (int i = 0; i < m_players.size(); i++) {
 		m_players[i].draw();
 	}
-
 }
 
 void Board::destroy()
@@ -75,6 +138,7 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
 	m_Roll.destroy();
+	m_playerTurn.destroy();
 }
 
 
@@ -124,25 +188,21 @@ void Board::loadDices()
 void Board::loadTurnUI()
 {
 	fstream stream;
-	string tmp;
-
+	string tmp,Turn;
+	
 	stream.open(CONFIG_FOLDER + "Turn.txt");
+	stream >> tmp >> Turn;
 	stream >> tmp >> m_TurnUi.rect.x >> m_TurnUi.rect.y >> m_TurnUi.rect.w >> m_TurnUi.rect.h;
 	stream.close();
 
-	for (int i = 0; i < playersAmount; i++)
-	{
-		m_turnUi[i] = loadTexture(TURN_FOLDER + to_string(i+1) + ".bmp");
-	}
-	m_TurnUi.texture = m_turnUi[0];
+	m_TurnUi.texture = loadTexture(Turn);
+	m_playerTurn.init("Turn.txt");
 }
 
 void Board::playerPosition(Player playerOnTurn)
 {
 	playerOnTurn.m_player_location = boardLayout[playerOnTurn.currentmove];
 
-	District tmp;
-	Station tmp1;
 
 	int not_district = 0;
 
@@ -157,11 +217,27 @@ void Board::playerPosition(Player playerOnTurn)
 	{
 
 		case 'd': //district
-			tmp = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
+			m_tmpDistrict = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
+			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice())
+			{
+				m_BuyDistrict = new BuyPopUp();
+				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice());
+					
+
+			}
 			break;
 
 		case 's': //station
-			tmp1 = m_stations[playerOnTurn.sideOfBoard]; //station stepped on
+			m_tmpStation = m_stations[playerOnTurn.sideOfBoard]; //station stepped on
+			if (playerOnTurn.checkMoney() >= m_tmpStation.getPrice())
+			{
+				m_BuyStation = new BuyPopUp();
+				m_BuyStation->init(m_tmpStation.getName(), m_tmpStation.getPrice());
+
+
+
+			}
+
 			break;
 
 		case 't': //tax

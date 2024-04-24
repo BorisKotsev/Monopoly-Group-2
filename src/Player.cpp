@@ -152,6 +152,11 @@ void Player::removeMoney(int money)
     m_money -= money;
 }
 
+int Player::checkMoney()
+{
+    return m_money;
+}
+
 void Player::addDistrict(District district)
 {
     m_districts.insert(m_districts.begin(), district);
@@ -164,7 +169,6 @@ void Player::addStation(Station station)
 
 void Player::movePlayer(int2 argRolledDice)
 {
-
     int diceResults = argRolledDice.x + argRolledDice.y;
 
     currentmove += diceResults;

@@ -22,6 +22,7 @@ public:
 
 	void addMoney(int money);
 	void removeMoney(int money);
+	int checkMoney();
 
 	void addDistrict(District district);
 	void addStation(Station station);
@@ -34,12 +35,12 @@ public:
 	char m_player_location;
 	int player_number;
 
+	vector <District> m_districts;
 private:
 	Drawable m_player;
 
 	int m_money;
 
-	vector <District> m_districts;
 	vector <Station> m_stations;
 
 };

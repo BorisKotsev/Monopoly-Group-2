@@ -1,1 +1,2 @@
+Img: Turn.bmp
 Turn_Rect: 55 39 315 231
