@@ -28,12 +28,14 @@ public:
 	void addStation(Station station);
 
 	void movePlayer(int2);
+	void goToJail();
 
 	int currentmove = 0;
 	int sideOfBoard = 0;
 
 	char m_player_location;
-
+	bool jail;
+	int jailTime;
 	vector <District> m_districts;
 private:
 	Drawable m_player;

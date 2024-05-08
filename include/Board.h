@@ -39,7 +39,7 @@ public:
 	int2 roll();
 	int playersAmount;
 
-	void playerPosition(Player playerOnTurn);
+	void playerPosition(Player& playerOnTurn);
 	char boardLayout[10] = { 'e', 'd', 't', 'd', 'd', 's', 'd', 'q', 'd', 'd' };
 
 private:
@@ -62,6 +62,7 @@ private:
 	BuyPopUp* m_BuyStation;
 
 	SDL_Texture* m_dice[6];
+	int diceDoubles;
 	int playerPrev;
 	int playerTurn = 0;
 	District m_tmpDistrict;
