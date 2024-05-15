@@ -28,11 +28,14 @@ public:
 	void addStation(Station station);
 
 	void movePlayer(int2);
+	void goToJail();
 
 	int currentmove = 0;
 	int sideOfBoard = 0;
 
 	char m_player_location;
+	bool jail;
+	int jailTime;
 	int player_number;
 
 	vector <District> m_districts;

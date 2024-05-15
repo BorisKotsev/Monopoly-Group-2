@@ -26,7 +26,7 @@ void Board::init()
 
 	loadDices();
 	loadTurnUI();
-
+	diceDoubles = 0;
 }
 
 void Board::update()
@@ -53,22 +53,59 @@ void Board::update()
 
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
-
 		drawDice(diceValue);
+		if (m_players[playerTurn].jail == true && m_players[playerTurn].jailTime<3)
+		{
+			m_players[playerTurn].jailTime++;
+		//	playerTurn++;
+		}
+		else if (m_players[playerTurn].jailTime >= 3)
+		{
+			m_players[playerTurn].jailTime = 0;
+			m_players[playerTurn].jail = false;
+		}
+		bool tmp = false;
+		if (m_players[playerTurn].jail == false)
+		{
 
 		playerPrev = playerTurn;
 		m_players[playerTurn].movePlayer(diceValue);
 		playerPosition(m_players[playerTurn]);
+		tmp = true;
+		//cout << m_players[playerTurn].jail<<endl;
+		}
+
 		if (diceValue.x != diceValue.y)
 		{
+			diceDoubles = 0;
 			playerTurn++;
 		}
+		else
+		{
+			m_players[playerTurn].jail = false;
+			diceDoubles++;
+			if (!tmp)
+			{
+				m_players[playerTurn].movePlayer(diceValue);
+				playerPosition(m_players[playerTurn]);
+			}
+			
+			if (diceDoubles >= 3)
+			{
+				m_players[playerTurn].goToJail();
+				playerTurn++;
+				diceDoubles = 0;
+			}
+			
+		}
 		
+
 		if (playerTurn > playersAmount - 1)
 			playerTurn = 0;
 
+	//cout << m_players[0].currentmove<<" " << m_players[0].sideOfBoard << endl;
 	}
-	if (m_BuyDistrict != nullptr)
+	if (m_BuyDistrict != nullptr && !m_players[playerPrev].jail)
 	{
 		m_BuyDistrict->draw();
 		m_BuyDistrict->Buy();
@@ -80,7 +117,7 @@ void Board::update()
 			m_BuyDistrict->destroy();
 			delete m_BuyDistrict;
 			m_BuyDistrict = nullptr;
-			cout <<playerPrev << ": " << m_players[playerPrev].m_districts[m_players[playerPrev].m_districts.size() - 1].getName() << endl;
+
 		}
 		if (m_BuyDistrict !=nullptr && m_BuyDistrict->m_pressedNo)
 		{
@@ -199,7 +236,7 @@ void Board::loadTurnUI()
 	m_playerTurn.init("Turn.txt");
 }
 
-void Board::playerPosition(Player playerOnTurn)
+void Board::playerPosition(Player& playerOnTurn)
 {
 	playerOnTurn.m_player_location = boardLayout[playerOnTurn.currentmove];
 
@@ -249,6 +286,10 @@ void Board::playerPosition(Player playerOnTurn)
 			break;
 
 		case 'e': //edge
+			if (playerOnTurn.currentmove == 0 && playerOnTurn.sideOfBoard == 3)
+			{
+				playerOnTurn.goToJail();
+			}
 			break;
 
 		default:
@@ -264,7 +305,6 @@ int2 Board::roll()
 
 	dice.x = rand() % 6 + 1;
 	dice.y = rand() % 6 + 1;
-
 	return dice;
 }
 

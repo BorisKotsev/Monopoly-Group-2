@@ -24,7 +24,8 @@ void Player::init(string configFile, int arg_player_number)
 
     fstream stream;
 
-
+    jailTime = 0;
+    jail = false;
     stream.open(CONFIG_FOLDER + PLAYER_FOLDER + configFile);    
    stream >> tmp >> textureImgPath;
 
@@ -209,5 +210,14 @@ void Player::movePlayer(int2 argRolledDice)
     }
 
    //cout << "side of board: " << sideOfBoard << " Current move: " << currentmove << " Dice results: " << diceResults << endl;
+}
+
+void Player::goToJail()
+{
+    jail = true;
+    currentmove = 0;
+    sideOfBoard = 1;
+    m_player.rect.x = 510;
+    m_player.rect.y = 940;
 }
 
