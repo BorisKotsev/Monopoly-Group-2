@@ -30,6 +30,8 @@ void TextField::init(string configFile)
 	m_background.texture = loadTexture(FIELD_FOLDER + background);
 
 	m_needToDraw = false;
+
+	cout << "COnfig: " << configFile << " " << m_background.rect.w << endl;
 }
 
 void TextField::update()
@@ -47,6 +49,8 @@ void TextField::update()
 		m_text.rect.w = value.first.x;
 		m_text.rect.h = value.first.y;
 	}
+
+	cout << m_value << endl;
 }
 
 void TextField::draw()

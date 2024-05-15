@@ -16,11 +16,11 @@ public:
 
 	void setText(string text);
 
+
 	bool m_needToDraw;
 
 private:
 	string m_value;
-
 	Drawable m_text;
 	Drawable m_background;
 

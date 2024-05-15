@@ -7,7 +7,7 @@ public:
 	PopUpTax();
 	~PopUpTax();
 
-	void init(string, int);
+	void init(int);
 	void draw();
 	void Ok();
 	void destroy();
@@ -19,10 +19,9 @@ public:
 private:
 
 	string taxType;
-	Drawable m_popUp;
 	int taxPrice;
 	string name;
-	TextField m_TaxName;
+	Drawable m_popUp;
 	TextField m_TaxPrice;
 	SDL_Rect okButton;
 };

@@ -10,8 +10,9 @@ PopUpTax::~PopUpTax()
 {
 }
 
-void PopUpTax::init(string name, int argTaxPrice)
+void PopUpTax::init(int argTaxPrice)
 {
+
 
 	string tmp, img;
 	taxPrice = argTaxPrice;
@@ -25,26 +26,21 @@ void PopUpTax::init(string name, int argTaxPrice)
 
 
 	m_popUp.texture = loadTexture(img);
-	m_TaxName.init("TaxName.txt");
-	m_TaxPrice.init("TaxPrice.txt");
-	m_TaxName.setText(name);
-	m_TaxPrice.setText(to_string(argTaxPrice));
 
-	this->name = name;
-	taxPrice = argTaxPrice;
+	m_TaxPrice.init("TaxPrice.txt");
+
+	m_TaxPrice.setText(to_string(taxPrice));
 
 	okPressed = false;
 
-	cout << "Rect" << m_popUp.rect.w << endl;
+	//cout << "text" <<  << endl;
 }
 
 void PopUpTax::draw()
 {
 	drawObject(m_popUp);
-	m_TaxName.draw();
-	m_TaxPrice.draw();
-	m_TaxName.update();
 	m_TaxPrice.update();
+	m_TaxPrice.draw();
 }
 
 void PopUpTax::Ok()
@@ -58,7 +54,6 @@ void PopUpTax::Ok()
 void PopUpTax::destroy()
 {
 	SDL_DestroyTexture(m_popUp.texture);
-	m_TaxName.destroy();
 	m_TaxPrice.destroy();
 }
 

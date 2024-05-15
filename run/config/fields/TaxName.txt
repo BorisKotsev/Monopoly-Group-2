@@ -1,5 +1,0 @@
-textRect: 30 13 239 43
-fontSize: 20
-rect: 30 13 239 43
-color: 1
-backImage:
