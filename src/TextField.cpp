@@ -13,6 +13,7 @@ void TextField::init(string configFile)
 {
 	configFile = CONFIG_FOLDER + FIELD_FOLDER + configFile;
 
+
 	string tmp, background;
 
 	fstream stream;

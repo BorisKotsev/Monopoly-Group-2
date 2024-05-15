@@ -29,6 +29,7 @@
     <ClInclude Include="..\include\InputManager.h" />
     <ClInclude Include="..\include\Menu.h" />
     <ClInclude Include="..\include\Player.h" />
+    <ClInclude Include="..\include\PopUpTax.h" />
     <ClInclude Include="..\include\Presenter.h" />
     <ClInclude Include="..\include\Question.h" />
     <ClInclude Include="..\include\SoundManager.h" />
@@ -40,7 +41,6 @@
     <ClInclude Include="..\include\WinScreen.h" />
     <ClInclude Include="..\include\World.h" />
     <ClInclude Include="..\include\Writer.h" />
-    <ClInclude Include="PopUpTax.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Board.cpp" />
@@ -53,6 +53,7 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Menu.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\PopUpTax.cpp" />
     <ClCompile Include="..\src\Presenter.cpp" />
     <ClCompile Include="..\src\Question.cpp" />
     <ClCompile Include="..\src\SoundManager.cpp" />
@@ -64,7 +65,6 @@
     <ClCompile Include="..\src\WinScreen.cpp" />
     <ClCompile Include="..\src\World.cpp" />
     <ClCompile Include="..\src\Writer.cpp" />
-    <ClCompile Include="PopUpTax.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

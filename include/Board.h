@@ -68,6 +68,6 @@ private:
 	Station m_tmpStation;
 	
 	TextField m_playerTurn;
-	int playerTurn = 0;
+
 	int previousTurn;
 };
