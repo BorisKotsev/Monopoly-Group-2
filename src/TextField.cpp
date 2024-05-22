@@ -13,6 +13,7 @@ void TextField::init(string configFile)
 {
 	configFile = CONFIG_FOLDER + FIELD_FOLDER + configFile;
 
+
 	string tmp, background;
 
 	fstream stream;
@@ -47,6 +48,8 @@ void TextField::update()
 		m_text.rect.w = value.first.x;
 		m_text.rect.h = value.first.y;
 	}
+
+	cout << m_value << endl;
 }
 
 void TextField::draw()

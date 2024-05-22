@@ -222,12 +222,12 @@ void Player::movePlayer(int2 argRolledDice)
 
         case 2: //Up
             m_player.rect.y = CENTERYT;
-            m_player.rect.x = 440 + currentmove * 80;
+            m_player.rect.x = 520 + currentmove * 80;
             break;
 
         case 3: //Right
             m_player.rect.x = CENTERXR;
-            m_player.rect.y = 20 + currentmove * 80;
+            m_player.rect.y = 100 + currentmove * 80;
             break;
         default: break;
 

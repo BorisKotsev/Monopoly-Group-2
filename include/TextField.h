@@ -16,11 +16,11 @@ public:
 	void setRect(int2 cord);
 	void setText(string text);
 
+
 	bool m_needToDraw;
 	bool m_needToDrawAll;
 private:
 	string m_value;
-
 	Drawable m_text;
 	Drawable m_background;
 

@@ -29,6 +29,7 @@
     <ClInclude Include="..\include\InputManager.h" />
     <ClInclude Include="..\include\Menu.h" />
     <ClInclude Include="..\include\Player.h" />
+    <ClInclude Include="..\include\PopUpTax.h" />
     <ClInclude Include="..\include\Presenter.h" />
     <ClInclude Include="..\include\Question.h" />
     <ClInclude Include="..\include\SoundManager.h" />
@@ -52,6 +53,7 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Menu.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\PopUpTax.cpp" />
     <ClCompile Include="..\src\Presenter.cpp" />
     <ClCompile Include="..\src\Question.cpp" />
     <ClCompile Include="..\src\SoundManager.cpp" />

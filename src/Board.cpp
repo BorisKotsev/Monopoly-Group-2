@@ -63,6 +63,12 @@ void Board::update()
 			m_BuyStation = nullptr;
 
 		}
+		if (m_PayYourTaxes != nullptr)
+		{
+			m_PayYourTaxes->destroy();
+			delete m_PayYourTaxes;
+			m_PayYourTaxes = nullptr;
+		}
 
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
@@ -180,8 +186,21 @@ void Board::update()
 				m_BuyStation = nullptr;
 			}
 		}
-
 	}
+	if (m_PayYourTaxes != nullptr)
+	{
+		m_PayYourTaxes->draw();
+		m_PayYourTaxes->Ok();
+		if (m_PayYourTaxes->okPressed)
+		{
+			m_players[playerPrev].removeMoney(m_PayYourTaxes->getPrice());
+
+			m_PayYourTaxes->destroy();
+			delete m_PayYourTaxes;
+			m_PayYourTaxes = nullptr;
+		}
+	}
+
 }
 
 void Board::draw()
@@ -303,7 +322,6 @@ void Board::playerPosition(Player& playerOnTurn)
 
 	switch (playerOnTurn.m_player_location)
 	{
-
 		case 'd': //district
 			m_tmpDistrict = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
 			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice())
@@ -322,13 +340,44 @@ void Board::playerPosition(Player& playerOnTurn)
 				m_BuyStation = new BuyPopUp();
 				m_BuyStation->init(m_tmpStation.getName(), m_tmpStation.getPrice());
 
-
-
 			}
 
 			break;
 
 		case 't': //tax
+
+			switch (playerOnTurn.sideOfBoard)
+			{
+			case 0:
+				
+				taxToPay = playerOnTurn.calculateProfitTax();
+				break;
+
+			case 1:
+
+				taxToPay = playerOnTurn.caluclatePollutionTax();
+				break;
+
+			case 2:
+
+				taxToPay = playerOnTurn.caluclateParadiseTax();
+				break;
+
+			case 3:
+
+				taxToPay = playerOnTurn.calculateElectricityTax();
+				break;
+
+			default:
+				break;
+			}
+
+			if (playerOnTurn.checkMoney() >= taxToPay){
+				m_PayYourTaxes = new PopUpTax;
+				m_PayYourTaxes->init(taxToPay);
+				//cout<< "Rect " << m_PayYourTaxes->m_popUp.rect.y << endl;
+			}
+
 			break;
 
 		case 'q': //question
@@ -346,7 +395,7 @@ void Board::playerPosition(Player& playerOnTurn)
 			break;
 	}
 
-	cout << "Player location: " << playerOnTurn.m_player_location << endl;
+	cout << "Player location: " << playerOnTurn.m_player_location << "Player on turn:" << playerOnTurn.player_number << endl;
 }
 
 int2 Board::roll()

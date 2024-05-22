@@ -43,7 +43,7 @@ public:
 	char m_player_location;
 	bool jail;
 	int jailTime;
-
+	int player_number;
 	int allColors[8]= { 3,4,5,6,7,8,9,10 };
 private:
 	Drawable m_player;
@@ -54,7 +54,7 @@ private:
 	vector <Station> m_stations;
 	vector<TextField> m_ownedDistricts;
 
-	int player_number;
+	
 	int nextLine = 0; // related to addDistrict
 
 };

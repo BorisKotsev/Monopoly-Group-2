@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "TextField.h"
 #include "BuyPopUp.h"
+#include "PopUpTax.h"
 
 //bool buy = false;
 class Board
@@ -60,6 +61,7 @@ private:
 	Drawable m_TurnUi;
 	BuyPopUp* m_BuyDistrict;
 	BuyPopUp* m_BuyStation;
+	PopUpTax* m_PayYourTaxes;
 
 	SDL_Texture* m_dice[6];
 	int diceDoubles;
@@ -67,6 +69,9 @@ private:
 	int playerTurn = 0;
 	District m_tmpDistrict;
 	Station m_tmpStation;
+	int taxToPay = 0;
 	
 	TextField m_playerTurn;
+
+	int previousTurn;
 };
