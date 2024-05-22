@@ -31,6 +31,7 @@
     <ClInclude Include="..\include\Player.h" />
     <ClInclude Include="..\include\PopUpTax.h" />
     <ClInclude Include="..\include\Presenter.h" />
+    <ClInclude Include="..\include\PropertyBreach.h" />
     <ClInclude Include="..\include\Question.h" />
     <ClInclude Include="..\include\SoundManager.h" />
     <ClInclude Include="..\include\State.h" />
@@ -55,6 +56,7 @@
     <ClCompile Include="..\src\Player.cpp" />
     <ClCompile Include="..\src\PopUpTax.cpp" />
     <ClCompile Include="..\src\Presenter.cpp" />
+    <ClCompile Include="..\src\PropertyBreach.cpp" />
     <ClCompile Include="..\src\Question.cpp" />
     <ClCompile Include="..\src\SoundManager.cpp" />
     <ClCompile Include="..\src\State.cpp" />

@@ -9,6 +9,7 @@
 #include "TextField.h"
 #include "BuyPopUp.h"
 #include "PopUpTax.h"
+#include "PropertyBreach.h"
 
 //bool buy = false;
 class Board
@@ -42,6 +43,7 @@ public:
 
 	void playerPosition(Player& playerOnTurn);
 	char boardLayout[10] = { 'e', 'd', 't', 'd', 'd', 's', 'd', 'q', 'd', 'd' };
+	int districtOwner(string);
 
 private:
 	SDL_Texture* m_background;
@@ -62,6 +64,7 @@ private:
 	BuyPopUp* m_BuyDistrict;
 	BuyPopUp* m_BuyStation;
 	PopUpTax* m_PayYourTaxes;
+	PropertyBreach* m_BreachPopUp;
 
 	SDL_Texture* m_dice[6];
 	int diceDoubles;

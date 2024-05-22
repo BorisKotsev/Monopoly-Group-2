@@ -56,6 +56,11 @@ void Board::update()
 			delete m_PayYourTaxes;
 			m_PayYourTaxes = nullptr;
 		}
+		if (m_BreachPopUp != nullptr) {
+			m_BreachPopUp->destroy();
+			delete m_BreachPopUp;
+			m_BreachPopUp = nullptr;
+		}
 
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
@@ -171,6 +176,18 @@ void Board::update()
 		}
 	}
 
+	if (m_BreachPopUp != nullptr) 
+	{
+		m_BreachPopUp->draw();
+		m_BreachPopUp->Ok();
+		if (m_BreachPopUp->okPressed)
+		{
+			m_BreachPopUp->destroy();
+			delete m_BreachPopUp;
+			m_BreachPopUp = nullptr;
+		}
+	}
+
 }
 
 void Board::draw()
@@ -262,6 +279,7 @@ void Board::playerPosition(Player& playerOnTurn)
 
 
 	int not_district = 0;
+	int ownerOfDistrict;
 
 	for (int i = 0; i < playerOnTurn.currentmove; i++) { //tape
 		if (boardLayout[i] != 'd') {
@@ -274,12 +292,16 @@ void Board::playerPosition(Player& playerOnTurn)
 	{
 		case 'd': //district
 			m_tmpDistrict = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
-			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice())
+			ownerOfDistrict = districtOwner(m_tmpDistrict.getName());
+			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice() && ownerOfDistrict == 0)
 			{
 				m_BuyDistrict = new BuyPopUp();
 				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice());
 					
-
+			}
+			else if (ownerOfDistrict != 0 && ownerOfDistrict != playerOnTurn.player_number) {
+				m_BreachPopUp = new PropertyBreach();
+				m_BreachPopUp->init(playerOnTurn.player_number, ownerOfDistrict);
 			}
 			break;
 
@@ -346,6 +368,20 @@ void Board::playerPosition(Player& playerOnTurn)
 	}
 
 	cout << "Player location: " << playerOnTurn.m_player_location << "Player on turn:" << playerOnTurn.player_number << endl;
+}
+
+int Board::districtOwner(string districtName)
+{
+	int owner = 0;
+	for (int i = 0; i < playersAmount; i++) {
+		for (int j = 0; j < m_players[i].m_districts.size(); j++) {
+			if (m_players[i].m_districts[j].getName() == districtName) {
+				owner = i;
+				break;
+			}
+		}
+	}
+	return owner;
 }
 
 int2 Board::roll()

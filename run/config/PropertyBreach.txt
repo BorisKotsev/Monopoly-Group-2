@@ -1,0 +1,3 @@
+Img: PropertyBreach.bmp
+Rect: 810 450 300 180
+Ok_Button: 120 125 59 43
