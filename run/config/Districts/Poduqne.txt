@@ -1,5 +1,5 @@
 Name: Poduqne
-Color: Purple
+Color: 10
 District_Rect: 1320 580 160 80
 Price: 340
 Electicity: 0

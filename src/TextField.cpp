@@ -30,13 +30,12 @@ void TextField::init(string configFile)
 	m_background.texture = loadTexture(FIELD_FOLDER + background);
 
 	m_needToDraw = false;
-
-	cout << "COnfig: " << configFile << " " << m_background.rect.w << endl;
+	m_needToDrawAll = true;
 }
 
 void TextField::update()
 {
-	if (m_value.length() > 0)
+	if (m_value.length() > 0 && m_needToDrawAll)
 	{
 		auto value = Presenter::m_writer->getText(m_value, (COLOR)m_color, m_fontSize);
 
@@ -55,14 +54,18 @@ void TextField::update()
 
 void TextField::draw()
 {
-	if (m_needToDraw)
+	if (m_needToDrawAll)
 	{
-		drawObject(m_background);
-	}
 
-	if (m_value.length() > 0)
-	{
-		drawObject(m_text);
+		if (m_needToDraw)
+		{
+			drawObject(m_background);
+		}
+
+		if (m_value.length() > 0)
+		{
+			drawObject(m_text);
+		}
 	}
 }
 
@@ -72,6 +75,15 @@ void TextField::destroy()
 	SDL_DestroyTexture(m_text.texture);
 	m_value.clear();
 }
+
+void TextField::setRect(int2 cord)
+{
+	m_text.rect.x = cord.x;
+	m_text.rect.y = cord.y;
+	m_background.rect.x = cord.x;
+	m_background.rect.y = cord.y;
+}
+
 
 void TextField::setText(string text)
 {

@@ -29,6 +29,7 @@ void StateManager::initNewState()
 	switch (m_gameState)
 	{
 	case GAME_STATE::NONE:
+		m_game->m_board.destroy();
 		world.destroy();
 		break;
 	case GAME_STATE::GAME:

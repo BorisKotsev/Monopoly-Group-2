@@ -1,5 +1,5 @@
 Name: Gorna_Banq
-Color: yellow
+Color: 7
 District_Rect: 840 20 80 160
 Price: 240
 Electicity: 0

@@ -1,5 +1,5 @@
 Name: Simeonovo
-Color: Light_Green
+Color: 8
 District_Rect: 1240 20 80 160
 Price: 280
 Electicity: 0

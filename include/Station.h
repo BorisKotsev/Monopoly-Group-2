@@ -14,6 +14,7 @@ public:
 	int getElectricity();
 	int getProfit();
 	int getPollution();
+	void Bought(string name);
 
 	string getName();
 

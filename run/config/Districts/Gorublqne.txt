@@ -1,5 +1,5 @@
 Name: Gorublqne
-Color: pink
+Color: 6
 District_Rect: 440 260 160 80
 Price: 180
 Electicity: 0

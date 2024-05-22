@@ -1,5 +1,5 @@
 Name: Malinova_Dolina
-Color: yellow
+Color: 7
 District_Rect: 600 20 80 160
 Price: 220
 Electicity: 0

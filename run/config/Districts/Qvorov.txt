@@ -1,5 +1,5 @@
 Name: Qvorov
-Color: Purple
+Color: 10
 District_Rect: 1320 820 160 80
 Price: 360
 Electicity: 0

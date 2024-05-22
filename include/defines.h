@@ -201,5 +201,13 @@ enum COLOR
 	NONE = 0,
 	DARK = 1,
 	LIGHT = 2,
-	RED = 3
+	BLUE = 3,
+	RED = 4,
+	ORANGE = 5,
+	PINK = 6,
+	YELLOW = 7,
+	LIGHT_GREEN = 8,
+	DARK_CYAN = 9,
+	PURPLE = 10
+	
 };

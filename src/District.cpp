@@ -48,3 +48,13 @@ string District::getName()
 {
     return m_name;
 }
+int District::getColor()
+{
+    return m_color;
+}
+
+void District::Bought(string name)
+{
+    if (m_name == name)
+        m_canBeBought = false;
+}
