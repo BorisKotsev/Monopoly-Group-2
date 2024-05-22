@@ -1,5 +1,5 @@
 Name: Levski
-Color: Dark_Cyan
+Color: 9
 District_Rect: 1320 420 160 80
 Price: 320
 Electicity: 0

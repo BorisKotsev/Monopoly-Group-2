@@ -2,6 +2,9 @@
 #include "Presenter.h"
 #include "InputManager.h"
 #include "SoundManager.h"
+#include "World.h"
+
+extern World world;
 
 Board::Board()
 {
@@ -31,11 +34,21 @@ void Board::init()
 
 void Board::update()
 {
+	if (isKeyPressed(SDL_SCANCODE_A))
+	{
+		world.m_stateManager.changeGameState(GAME_STATE::NONE);
+		return;
+	}
 	m_playerTurn.update();
 	m_Roll.update();
 	m_playerTurn.setText(to_string(playerTurn+1));
+	m_players[playerTurn].OwnedDistricts(playerTurn);
+
 	if (m_Roll.isPressed())
 	{
+
+		m_players[playerTurn].destroyOwnedDistricts();
+
 		if (m_BuyDistrict != nullptr)
 		{
 			m_BuyDistrict->destroy();
@@ -72,7 +85,6 @@ void Board::update()
 		m_players[playerTurn].movePlayer(diceValue);
 		playerPosition(m_players[playerTurn]);
 		tmp = true;
-		//cout << m_players[playerTurn].jail<<endl;
 		}
 
 		if (diceValue.x != diceValue.y)
@@ -107,50 +119,69 @@ void Board::update()
 	}
 	if (m_BuyDistrict != nullptr && !m_players[playerPrev].jail)
 	{
-		m_BuyDistrict->draw();
-		m_BuyDistrict->Buy();
-		if (m_BuyDistrict->m_pressedYes)
+		if (m_tmpDistrict.m_canBeBought)
 		{
-			m_players[playerPrev].addDistrict(m_tmpDistrict);
-			m_players[playerPrev].removeMoney(m_tmpDistrict.getPrice());
+			m_BuyDistrict->draw();
+			m_BuyDistrict->Buy();
 
-			m_BuyDistrict->destroy();
-			delete m_BuyDistrict;
-			m_BuyDistrict = nullptr;
+			if (m_BuyDistrict->m_pressedYes)
+			{
+				m_players[playerPrev].addDistrict(m_tmpDistrict,playerPrev);
+				m_players[playerPrev].removeMoney(m_tmpDistrict.getPrice());
+
+				m_BuyDistrict->destroy();
+				delete m_BuyDistrict;
+				m_BuyDistrict = nullptr;
+				for (int i = 0; i < m_districts.size()-1; i++)
+				{
+					m_districts[i].Bought(m_tmpDistrict.getName());
+				}
+
+			}
+			if (m_BuyDistrict !=nullptr && m_BuyDistrict->m_pressedNo)
+			{
+				m_BuyDistrict->destroy();
+				delete m_BuyDistrict;
+				m_BuyDistrict = nullptr;
+			}
 
 		}
-		if (m_BuyDistrict !=nullptr && m_BuyDistrict->m_pressedNo)
+		else
 		{
-			m_BuyDistrict->destroy();
-			delete m_BuyDistrict;
-			m_BuyDistrict = nullptr;
+			//houses
+			
 		}
-
 
 	}
-	if (m_BuyStation != nullptr)
+	if (m_BuyStation != nullptr && !m_players[playerPrev].jail)
 	{
-		m_BuyStation->draw();
-		m_BuyStation->Buy();
-		if (m_BuyStation->m_pressedYes)
+		if (m_tmpStation.m_canBeBought)
 		{
-			m_players[playerPrev].addStation(m_tmpStation);
-			m_players[playerPrev].removeMoney(m_tmpStation.getPrice());
+			m_BuyStation->draw();
+			m_BuyStation->Buy();
+			if (m_BuyStation->m_pressedYes)
+			{
+				m_players[playerPrev].addStation(m_tmpStation);
+				m_players[playerPrev].removeMoney(m_tmpStation.getPrice());
 
-			m_BuyStation->destroy();
-			delete m_BuyStation;
-			m_BuyStation = nullptr;
+				m_BuyStation->destroy();
+				delete m_BuyStation;
+				m_BuyStation = nullptr;
+				for (int i = 0; i < m_stations.size() - 1; i++)
+				{
+					m_stations[i].Bought(m_tmpStation.getName());
+				}
 
-		}
-		if (m_BuyStation!=nullptr && m_BuyStation->m_pressedNo)
-		{
-			m_BuyStation->destroy();
-			delete m_BuyStation;
-			m_BuyStation = nullptr;
+			}
+			if (m_BuyStation != nullptr && m_BuyStation->m_pressedNo)
+			{
+				m_BuyStation->destroy();
+				delete m_BuyStation;
+				m_BuyStation = nullptr;
+			}
 		}
 
 	}
-
 }
 
 void Board::draw()
@@ -176,6 +207,26 @@ void Board::destroy()
 	SDL_DestroyTexture(m_TurnUi.texture);
 	m_Roll.destroy();
 	m_playerTurn.destroy();
+	string tmp;
+	for (int i = 0; i < playersAmount; i++)
+	{
+		if (!m_players[i].getDistrict().empty())
+		{
+			for (int j = 0; j < m_players[i].getDistrict().size(); j++)
+			{
+				tmp = CONFIG_FOLDER + FIELD_FOLDER + to_string(i) + "\\" + m_players[i].getDistrict()[j].getName() + ".txt";
+				int result = remove(tmp.c_str());
+				if (result != 0) {
+					// print error message
+					cerr << "File deletion failed";
+				}
+				else {
+					cout << "File deleted successfully";
+				}
+				tmp = "";
+			}
+		}
+	}
 }
 
 
@@ -386,6 +437,7 @@ void Board::loadPlayers()
 		m_players.push_back(_player);
 	}
 }
+
 
 void Board::drawQuestion(Player playerOnTurn)
 {

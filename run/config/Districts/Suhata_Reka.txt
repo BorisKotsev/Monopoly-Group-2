@@ -1,5 +1,5 @@
 Name: Suhata_Reka
-Color: Light_Green
+Color: 8
 District_Rect: 1160 20 80 160
 Price: 260
 Electicity: 0

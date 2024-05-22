@@ -43,6 +43,12 @@ int Station::getPollution()
     return m_pollution;
 }
 
+void Station::Bought(string name)
+{
+    if (m_name == name)
+        m_canBeBought = false;
+}
+
 string Station::getName()
 {
     return m_name;

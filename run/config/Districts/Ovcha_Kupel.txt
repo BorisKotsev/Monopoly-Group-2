@@ -1,5 +1,5 @@
 Name: Ovcha_Kupel
-Color: pink
+Color: 6
 District_Rect: 440 180 160 80
 Price: 200
 Electicity: 0

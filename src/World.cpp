@@ -29,7 +29,7 @@ void World::run()
 void World::destroy()
 {
 	m_soundManager.destroy();
-
+	
 	SDL_DestroyRenderer(m_presenter.m_mainRenderer);
 
 	SDL_DestroyWindow(m_presenter.m_mainWindow);

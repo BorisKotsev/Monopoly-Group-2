@@ -1,5 +1,5 @@
 Name: Bukston
-Color: Red
+Color: 4
 District_Rect: 600 90 80 160
 Price: 120
 Electicity: 0

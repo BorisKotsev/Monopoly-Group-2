@@ -1,5 +1,5 @@
 Name: Zapaden_Park
-Color: Dark_Cyan
+Color: 9
 District_Rect: 1320 340 160 80
 Price: 300
 Electicity: 0

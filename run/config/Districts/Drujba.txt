@@ -1,5 +1,5 @@
 Name: Drujba
-Color: orange
+Color: 5
 District_Rect: 440 820 160 80
 Price: 140
 Electicity: 0

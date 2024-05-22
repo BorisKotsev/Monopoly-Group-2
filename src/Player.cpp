@@ -158,14 +158,38 @@ int Player::checkMoney()
     return m_money;
 }
 
-void Player::addDistrict(District district)
+void Player::addDistrict(District district,int playerTurn)
 {
     m_districts.insert(m_districts.begin(), district);
+    int color = district.getColor();
+    ofstream file;
+
+    file.open(CONFIG_FOLDER + FIELD_FOLDER + to_string(playerTurn) + "\\" + district.getName() + ".txt");
+    file << "textrect: " << 1605 << " " << 185+nextLine*35<< " " << 35<<endl;
+    file << "fontSize: " << 30<<endl;
+    file << "textrect: " << 1605 << " " << 185 + nextLine * 35 << " " << 257 << " " << 35<<endl;
+    file << "color: " << color<<endl;
+    file << "backImg: ";
+    file.close();
+    
+    for (int i = 0; i < 8; i++)
+    {
+        if (color == allColors[i])
+        {
+            colorsOwned[i] ++;
+        }
+    }
+    for (int i = 0; i < 8; i++)
+    {
+        cout << allColors[i] << ": " << colorsOwned[i] << endl;
+    }
+    nextLine++;
 }
 
 void Player::addStation(Station station)
 {
     m_stations.insert(m_stations.begin(), station);
+    stationsOwned++;
 }
 
 void Player::movePlayer(int2 argRolledDice)
@@ -219,5 +243,34 @@ void Player::goToJail()
     sideOfBoard = 1;
     m_player.rect.x = 510;
     m_player.rect.y = 940;
+}
+
+void Player::OwnedDistricts(int playerTurn)
+{
+    TextField tmp;
+    for (int i = 0; i < m_districts.size(); i++)
+    {
+        tmp.init(to_string(playerTurn) +"\\" + m_districts[i].getName() + ".txt");
+        tmp.setText(m_districts[i].getName());
+        m_ownedDistricts.push_back(tmp);
+    }
+    for (int i = 0; i < m_ownedDistricts.size(); i++)
+    {
+        m_ownedDistricts[i].draw();
+        m_ownedDistricts[i].update();
+    }
+}
+
+void Player::destroyOwnedDistricts()
+{
+    for (int i = 0; i < m_ownedDistricts.size(); i++)
+    {
+        m_ownedDistricts[i].destroy();
+    }
+}
+
+vector<District> Player::getDistrict()
+{
+    return m_districts;
 }
 

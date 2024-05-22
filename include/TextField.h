@@ -13,11 +13,11 @@ public:
 	void update();
 	void draw();
 	void destroy();
-
+	void setRect(int2 cord);
 	void setText(string text);
 
 	bool m_needToDraw;
-
+	bool m_needToDrawAll;
 private:
 	string m_value;
 

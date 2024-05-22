@@ -1,5 +1,5 @@
 Name: Lozenets
-Color: BLue
+Color: 3
 District_Rect: 1240 900 80 160
 Price: 60
 Electicity: 0

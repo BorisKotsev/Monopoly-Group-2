@@ -1,5 +1,5 @@
 Name: Mladost
-Color: orange
+Color: 5
 District_Rect: 440 580 160 80
 Price: 160
 Electicity: 0
