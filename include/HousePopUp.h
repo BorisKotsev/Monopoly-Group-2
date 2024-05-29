@@ -8,7 +8,7 @@ public:
 	BuyPopUp();
 	~BuyPopUp();
 
-	void init(string name, int price,bool buyHouse);
+	void init(string name, int price);
 	void draw();
 	void Buy();
 	void destroy();

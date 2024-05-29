@@ -26,7 +26,7 @@ public:
 	int checkMoney();
 
 	void addDistrict(District district,int playerTurn);
-	void addStation(Station station);
+	void addStation(Station station, int playerTurn);
 
 	void movePlayer(int2);
 	void goToJail();
@@ -45,14 +45,16 @@ public:
 	int jailTime;
 	int player_number;
 	int allColors[8]= { 3,4,5,6,7,8,9,10 };
+
+	vector <District> m_districts;
+	vector <Station> m_stations;
 private:
 	Drawable m_player;
 
 	int m_money;
 
-	vector <District> m_districts;
-	vector <Station> m_stations;
 	vector<TextField> m_ownedDistricts;
+	vector<TextField> m_ownedStations;
 
 	
 	int nextLine = 0; // related to addDistrict

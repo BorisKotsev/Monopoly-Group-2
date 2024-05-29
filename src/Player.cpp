@@ -172,23 +172,29 @@ void Player::addDistrict(District district,int playerTurn)
     file << "backImg: ";
     file.close();
     
-    for (int i = 0; i < 8; i++)
+    /*for (int i = 0; i < 8; i++)
     {
         if (color == allColors[i])
         {
             colorsOwned[i] ++;
         }
-    }
-    for (int i = 0; i < 8; i++)
-    {
-        cout << allColors[i] << ": " << colorsOwned[i] << endl;
-    }
+    }*/
     nextLine++;
 }
 
-void Player::addStation(Station station)
+void Player::addStation(Station station, int playerTurn)
 {
     m_stations.insert(m_stations.begin(), station);
+    ofstream file;
+
+    file.open(CONFIG_FOLDER + FIELD_FOLDER + to_string(playerTurn) + "\\" + station.getName() + ".txt");
+    file << "textrect: " << 1605 << " " << 963 -  stationsOwned* 35 << " " << 35 << endl;
+    file << "fontSize: " << 30 << endl;
+    file << "textrect: " << 1605 << " " << 963 - stationsOwned * 35 << " " << 257 << " " << 35 << endl;
+    file << "color: " << 1 << endl;
+    file << "backImg: ";
+    file.close();
+
     stationsOwned++;
 }
 
@@ -254,10 +260,21 @@ void Player::OwnedDistricts(int playerTurn)
         tmp.setText(m_districts[i].getName());
         m_ownedDistricts.push_back(tmp);
     }
+    for (int i = 0; i < m_stations.size(); i++)
+    {
+        tmp.init(to_string(playerTurn) +"\\" + m_stations[i].getName() + ".txt");
+        tmp.setText(m_stations[i].getName());
+        m_ownedStations.push_back(tmp);
+    }
     for (int i = 0; i < m_ownedDistricts.size(); i++)
     {
         m_ownedDistricts[i].draw();
         m_ownedDistricts[i].update();
+    }
+    for (int i = 0; i < m_ownedStations.size(); i++)
+    {
+        m_ownedStations[i].draw();
+        m_ownedStations[i].update();
     }
 }
 
@@ -266,6 +283,10 @@ void Player::destroyOwnedDistricts()
     for (int i = 0; i < m_ownedDistricts.size(); i++)
     {
         m_ownedDistricts[i].destroy();
+    }
+    for (int i = 0; i < m_ownedStations.size(); i++)
+    {
+        m_ownedStations[i].destroy();
     }
 }
 
