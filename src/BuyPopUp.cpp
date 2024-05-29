@@ -9,7 +9,7 @@ BuyPopUp::~BuyPopUp()
 {
 }
 
-void BuyPopUp::init(string name, int price)
+void BuyPopUp::init(string name, int price,bool buyHouse)
 {
 	fstream stream;
 	string tmp,Img;
@@ -20,6 +20,8 @@ void BuyPopUp::init(string name, int price)
 	stream >> tmp >> buttons[1].x >> buttons[1].y >> buttons[1].w >> buttons[1].h;
 	stream.close();
 
+	if (buyHouse)
+		Img = "buyHouse.bmp";
 	m_popUp.texture = loadTexture(Img);
 	m_name.init("DistrictName.txt");
 	m_price.init("Price.txt");

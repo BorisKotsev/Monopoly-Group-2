@@ -64,7 +64,8 @@
     <ClCompile Include="..\src\BuyPopUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PopUpTax.cpp">
+    <ClCompile Include="..\src\PopUpTax.cpp" />
+    <ClCompile Include="..\src\HousePopUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -129,10 +130,11 @@
     <ClInclude Include="..\include\TextField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PopUpTax.h">
+    <ClInclude Include="..\include\BuyPopUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\BuyPopUp.h">
+    <ClInclude Include="..\include\PopUpTax.h" />
+    <ClInclude Include="..\include\HousePopUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

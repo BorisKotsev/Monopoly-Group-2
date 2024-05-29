@@ -26,6 +26,7 @@
     <ClInclude Include="..\include\District.h" />
     <ClInclude Include="..\include\Engine.h" />
     <ClInclude Include="..\include\Game.h" />
+    <ClInclude Include="..\include\HousePopUp.h" />
     <ClInclude Include="..\include\InputManager.h" />
     <ClInclude Include="..\include\Menu.h" />
     <ClInclude Include="..\include\Player.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="..\src\District.cpp" />
     <ClCompile Include="..\src\Engine.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
+    <ClCompile Include="..\src\HousePopUp.cpp" />
     <ClCompile Include="..\src\InputManager.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Menu.cpp" />

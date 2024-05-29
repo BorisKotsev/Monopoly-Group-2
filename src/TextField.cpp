@@ -49,7 +49,7 @@ void TextField::update()
 		m_text.rect.h = value.first.y;
 	}
 
-	cout << m_value << endl;
+	//cout << m_value << endl;
 }
 
 void TextField::draw()

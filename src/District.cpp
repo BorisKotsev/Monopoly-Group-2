@@ -58,3 +58,11 @@ void District::Bought(string name)
     if (m_name == name)
         m_canBeBought = false;
 }
+
+void District::addHouses()
+{
+    if (houses < 3)
+        houses++;
+    else
+        hotel = true;
+}

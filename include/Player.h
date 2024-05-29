@@ -26,7 +26,7 @@ public:
 	int checkMoney();
 
 	void addDistrict(District district,int playerTurn);
-	void addStation(Station station);
+	void addStation(Station station, int playerTurn);
 
 	void movePlayer(int2);
 	void goToJail();
@@ -53,6 +53,7 @@ private:
 	vector <District> m_districts;
 	vector <Station> m_stations;
 	vector<TextField> m_ownedDistricts;
+	vector<TextField> m_ownedStations;
 
 	
 	int nextLine = 0; // related to addDistrict

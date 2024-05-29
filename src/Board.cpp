@@ -26,6 +26,7 @@ void Board::init()
 	
 	m_background = loadTexture("background.bmp");
 	m_Roll.init("RollButton.txt","");
+	m_Exit.init("ExitButton.txt","");
 
 	loadDices();
 	loadTurnUI();
@@ -34,16 +35,18 @@ void Board::init()
 
 void Board::update()
 {
-	if (isKeyPressed(SDL_SCANCODE_A))
+	if (m_Exit.isPressed())
 	{
 		world.m_stateManager.changeGameState(GAME_STATE::NONE);
 		return;
 	}
 	m_playerTurn.update();
 	m_Roll.update();
+	m_Exit.update();
 	m_playerTurn.setText(to_string(playerTurn+1));
 	m_players[playerTurn].OwnedDistricts(playerTurn);
-
+	//m_players[playerTurn].addDistrict(m_districts[0], playerTurn);
+	m_players[playerTurn].colorsOwned[0] = 3;
 	if (m_Roll.isPressed())
 	{
 
@@ -54,6 +57,13 @@ void Board::update()
 			m_BuyDistrict->destroy();
 			delete m_BuyDistrict;
 			m_BuyDistrict = nullptr;
+
+		}
+		if (m_BuyHouses != nullptr)
+		{
+			m_BuyHouses->destroy();
+			delete m_BuyHouses;
+			m_BuyHouses = nullptr;
 
 		}
 		if (m_BuyStation != nullptr)
@@ -154,7 +164,38 @@ void Board::update()
 		}
 		else
 		{
-			//houses
+			
+			if (m_players[playerPrev].colorsOwned[m_tmpDistrict.getColor()] == 3)
+			{
+				m_BuyHouses->draw();
+				m_BuyHouses->Buy();
+
+				if (m_BuyHouses->m_pressedYes)
+				{
+					for (int i = 0; i < m_players[playerPrev].getDistrict().size(); i++)
+					{
+						if (m_players[playerPrev].getDistrict()[i].getName() == m_tmpDistrict.getName())
+							m_players[playerPrev].getDistrict()[i].addHouses();
+					}
+					m_players[playerPrev].removeMoney((m_tmpDistrict.getPrice()*50)/100);
+
+					m_BuyHouses->destroy();
+					delete m_BuyHouses;
+					m_BuyHouses = nullptr;
+					for (int i = 0; i < m_districts.size() - 1; i++)
+					{
+						m_districts[i].Bought(m_tmpDistrict.getName());
+					}
+
+				}
+				if (m_BuyHouses != nullptr && m_BuyHouses->m_pressedNo)
+				{
+					m_BuyHouses->destroy();
+					delete m_BuyHouses;
+					m_BuyHouses = nullptr;
+				}
+
+			}
 			
 		}
 
@@ -167,7 +208,7 @@ void Board::update()
 			m_BuyStation->Buy();
 			if (m_BuyStation->m_pressedYes)
 			{
-				m_players[playerPrev].addStation(m_tmpStation);
+				m_players[playerPrev].addStation(m_tmpStation,playerPrev);
 				m_players[playerPrev].removeMoney(m_tmpStation.getPrice());
 
 				m_BuyStation->destroy();
@@ -208,6 +249,7 @@ void Board::draw()
 	drawObject(m_background);
   
 	m_Roll.draw();
+	m_Exit.draw();
 	drawObject(m_Dice1);
 	drawObject(m_Dice2);
 	drawObject(m_TurnUi);
@@ -225,6 +267,7 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
 	m_Roll.destroy();
+	m_Exit.destroy();
 	m_playerTurn.destroy();
 	string tmp;
 	for (int i = 0; i < playersAmount; i++)
@@ -327,9 +370,12 @@ void Board::playerPosition(Player& playerOnTurn)
 			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice())
 			{
 				m_BuyDistrict = new BuyPopUp();
-				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice());
-					
-
+				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice(),false);
+			}
+			if (playerOnTurn.colorsOwned[m_tmpDistrict.getColor()] == 3)
+			{
+				m_BuyHouses = new BuyPopUp();
+				m_BuyHouses->init(m_tmpDistrict.getName(), (m_tmpDistrict.getPrice()*50)/100, true);
 			}
 			break;
 
@@ -338,7 +384,7 @@ void Board::playerPosition(Player& playerOnTurn)
 			if (playerOnTurn.checkMoney() >= m_tmpStation.getPrice())
 			{
 				m_BuyStation = new BuyPopUp();
-				m_BuyStation->init(m_tmpStation.getName(), m_tmpStation.getPrice());
+				m_BuyStation->init(m_tmpStation.getName(), m_tmpStation.getPrice(),false);
 
 			}
 

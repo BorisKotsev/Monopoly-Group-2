@@ -17,6 +17,7 @@ public:
 	int getColor();
 	string getName();
 	void Bought(string name);
+	void addHouses();
 
 	bool m_canBeBought = true;
 
@@ -30,4 +31,6 @@ private:
 	int m_electricity;
 	int m_profit;
 	int m_pollution;
+	int houses;
+	bool hotel;
 };

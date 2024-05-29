@@ -56,11 +56,13 @@ private:
 	int2 diceValue;
 
 	Button m_Roll;
+	Button m_Exit;
 	Drawable m_Dice1;
 	Drawable m_Dice2;
 	Drawable m_TurnUi;
 	BuyPopUp* m_BuyDistrict;
 	BuyPopUp* m_BuyStation;
+	BuyPopUp* m_BuyHouses;
 	PopUpTax* m_PayYourTaxes;
 
 	SDL_Texture* m_dice[6];
