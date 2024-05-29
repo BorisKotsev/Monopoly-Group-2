@@ -1,5 +1,5 @@
-textRect: 890 469 67 
+textRect: 889 470 30
 fontSize: 17
-rect: 890 469 67 27
+rect: 889 470 57 30
 color: 1
 backImage:

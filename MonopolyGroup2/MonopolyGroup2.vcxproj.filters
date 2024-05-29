@@ -64,8 +64,10 @@
     <ClCompile Include="..\src\BuyPopUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\PopUpTax.cpp" />
     <ClCompile Include="..\src\PropertyBreach.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\PopUpTax.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -133,8 +135,10 @@
     <ClInclude Include="..\include\BuyPopUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\PopUpTax.h" />
     <ClInclude Include="..\include\PropertyBreach.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PopUpTax.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

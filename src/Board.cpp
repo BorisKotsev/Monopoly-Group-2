@@ -212,6 +212,8 @@ void Board::update()
 		m_BreachPopUp->Ok();
 		if (m_BreachPopUp->okPressed)
 		{
+			m_players[playerPrev].removeMoney(m_BreachPopUp->getPrice());
+
 			m_BreachPopUp->destroy();
 			delete m_BreachPopUp;
 			m_BreachPopUp = nullptr;
@@ -329,7 +331,7 @@ void Board::playerPosition(Player& playerOnTurn)
 
 
 	int not_district = 0;
-	int ownerOfDistrict;
+	int ownerOfDistrict = 0;
 
 	for (int i = 0; i < playerOnTurn.currentmove; i++) { //tape
 		if (boardLayout[i] != 'd') {
@@ -343,15 +345,16 @@ void Board::playerPosition(Player& playerOnTurn)
 		case 'd': //district
 			m_tmpDistrict = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
 			ownerOfDistrict = districtOwner(m_tmpDistrict.getName());
-			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice() && ownerOfDistrict == 0)
+			cout << "Owner of " << m_tmpDistrict.getName() << " " << ownerOfDistrict << endl;
+			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice() && m_tmpDistrict.m_canBeBought)
 			{
 				m_BuyDistrict = new BuyPopUp();
 				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice());
 					
 			}
-			else if (ownerOfDistrict != 0 && ownerOfDistrict != playerOnTurn.player_number) {
+			else if (!m_tmpDistrict.m_canBeBought && ownerOfDistrict != playerOnTurn.player_number) {
 				m_BreachPopUp = new PropertyBreach();
-				m_BreachPopUp->init(playerOnTurn.player_number, ownerOfDistrict);
+				m_BreachPopUp->init(playerOnTurn.player_number, ownerOfDistrict, m_tmpDistrict.getProfit());
 			}
 			break;
 
@@ -417,16 +420,16 @@ void Board::playerPosition(Player& playerOnTurn)
 			break;
 	}
 
-	cout << "Player location: " << playerOnTurn.m_player_location << "Player on turn:" << playerOnTurn.player_number << endl;
+	//cout << "Player location: " << playerOnTurn.m_player_location << "Player on turn:" << playerOnTurn.player_number << endl;
 }
 
 int Board::districtOwner(string districtName)
 {
 	int owner = 0;
 	for (int i = 0; i < playersAmount; i++) {
-		for (int j = 0; j < m_players[i].m_districts.size(); j++) {
-			if (m_players[i].m_districts[j].getName() == districtName) {
-				owner = i;
+		for (int j = 0; j < m_players[i].getDistrict().size(); j++) {
+			if (m_players[i].getDistrict()[j].getName() == districtName) {
+				owner = i + 1;
 				break;
 			}
 		}
