@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdio>
+
 #include "Engine.h"
 #include "District.h"
 #include "Station.h"

@@ -269,51 +269,63 @@ void Board::destroy()
 	m_Roll.destroy();
 	m_Exit.destroy();
 	m_playerTurn.destroy();
+
 	string tmp;
+
 	for (int i = 0; i < playersAmount; i++)
 	{
-		if (!m_players[i].getDistrict().empty())
+		auto& districts = m_players[i].m_districts;
+		if (!districts.empty())
 		{
-			for (int j = 0; j < m_players[i].getDistrict().size(); j++)
+			for (int j = 0; j < districts.size();)
 			{
-				tmp = CONFIG_FOLDER + FIELD_FOLDER + to_string(i) + "\\" + m_players[i].getDistrict()[j].getName() + ".txt";
+				tmp = CONFIG_FOLDER + FIELD_FOLDER + to_string(i) + "\\" + districts[j].getName() + ".txt";
+
 				int result = remove(tmp.c_str());
-				if (result != 0) {
-					// print error message
-					cerr << "File deletion failed";
+
+				if (result != 0)
+				{
+					perror("File deletion failed");
+					++j;
 				}
-				else {
-					cout << "File deleted successfully";
+				else
+				{
+					districts.erase(districts.begin() + j); 
 				}
-				tmp = "";
+				
+				tmp.clear();
+			}
+		}
+
+		auto& stations = m_players[i].m_stations;
+		if (!stations.empty())
+		{
+			for (int j = 0; j < stations.size();)
+			{
+				tmp = CONFIG_FOLDER + FIELD_FOLDER + to_string(i) + "\\" + stations[j].getName() + ".txt";
+
+				int result = remove(tmp.c_str());
+
+				if (result != 0)
+				{
+					perror("File deletion failed");
+					++j;
+				}
+				else
+				{
+					stations.erase(stations.begin() + j);
+				}
+
+				tmp.clear();
 			}
 		}
 	}
 }
 
-
 void Board::drawDice(int2 diceValue)
 {
-    /*int diceNum = 0;
-	for (int i = 0; i < 10; i++)
-	{
-	
-	m_Dice1.texture = m_dice[diceNum];
-	m_Dice2.texture = m_dice[diceNum];
-	drawObject(m_Dice1);
-	drawObject(m_Dice2);
-
-	diceNum++;
-	if (diceNum >= 6)
-		diceNum = 0;
-
-	SDL_Delay(150);
-
-	}*/
-	    m_Dice1.texture = m_dice[diceValue.x-1];
-		m_Dice2.texture = m_dice[diceValue.y-1];
-
-
+	m_Dice1.texture = m_dice[diceValue.x-1];
+	m_Dice2.texture = m_dice[diceValue.y-1];
 }
 
 void Board::loadDices()

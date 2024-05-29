@@ -50,7 +50,6 @@
     <ClCompile Include="..\src\District.cpp" />
     <ClCompile Include="..\src\Engine.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
-    <ClCompile Include="..\src\HousePopUp.cpp" />
     <ClCompile Include="..\src\InputManager.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Menu.cpp" />
