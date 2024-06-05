@@ -254,14 +254,12 @@ void Board::draw()
 
 	for (int i = 0; i < m_players.size(); i++) {
 		m_players[i].draw();
-	}
-	for (int i = 0; i < m_players.size(); i++) {
-
 		for (int j = 0; j < m_players[i].getDistrict().size(); j++)
 		{
 				m_players[i].getDistrict()[j].drawHouse();
 		}
 	}
+	
 }
 
 void Board::destroy()
