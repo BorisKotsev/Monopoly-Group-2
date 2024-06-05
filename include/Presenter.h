@@ -21,7 +21,7 @@ public:
 	static void drawObject(Drawable& drawable);
 	static void drawObject(DrawableSrcRect& drawableSrcRect);
 	static void drawObject(DrawableWithOpacity& drawableWithOpacity);
-
+	static void drawObject(DrawableWithRotation& drawableWithRotation);
 private:
 	void improveRenderer();
 };

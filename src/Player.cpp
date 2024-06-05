@@ -179,6 +179,10 @@ void Player::addDistrict(District district,int playerTurn)
             colorsOwned[i] ++;
         }
     }
+    for (int i = 0; i < 8; i++)
+    {
+        cout << i << ":" << colorsOwned[i]<<endl;
+    }
     nextLine++;
 }
 

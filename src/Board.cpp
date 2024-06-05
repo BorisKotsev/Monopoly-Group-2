@@ -45,8 +45,6 @@ void Board::update()
 	m_Exit.update();
 	m_playerTurn.setText(to_string(playerTurn+1));
 	m_players[playerTurn].OwnedDistricts(playerTurn);
-	//m_players[playerTurn].addDistrict(m_districts[0], playerTurn);
-	m_players[playerTurn].colorsOwned[0] = 3;
 	if (m_Roll.isPressed())
 	{
 
@@ -162,41 +160,40 @@ void Board::update()
 			}
 
 		}
-		else
-		{
+
 			
-			if (m_players[playerPrev].colorsOwned[m_tmpDistrict.getColor()] == 3)
+			
+	}
+	if (m_BuyHouses != nullptr && !m_players[playerPrev].jail)
+	{
+		if (m_players[playerPrev].colorsOwned[m_tmpDistrict.getColor() - 3] == 3)
+		{
+			m_BuyHouses->draw();
+			m_BuyHouses->Buy();
+
+			if (m_BuyHouses->m_pressedYes)
 			{
-				m_BuyHouses->draw();
-				m_BuyHouses->Buy();
-
-				if (m_BuyHouses->m_pressedYes)
+				cout << "yes" << endl;
+				for (int i = 0; i < m_players[playerPrev].getDistrict().size(); i++)
 				{
-					for (int i = 0; i < m_players[playerPrev].getDistrict().size(); i++)
-					{
-						if (m_players[playerPrev].getDistrict()[i].getName() == m_tmpDistrict.getName())
-							m_players[playerPrev].getDistrict()[i].addHouses();
-					}
-					m_players[playerPrev].removeMoney((m_tmpDistrict.getPrice()*50)/100);
-
-					m_BuyHouses->destroy();
-					delete m_BuyHouses;
-					m_BuyHouses = nullptr;
-					for (int i = 0; i < m_districts.size() - 1; i++)
-					{
-						m_districts[i].Bought(m_tmpDistrict.getName());
-					}
-
+					if (m_players[playerPrev].getDistrict()[i].getName() == m_tmpDistrict.getName())
+						m_players[playerPrev].getDistrict()[i].addHouses(m_players[playerPrev].sideOfBoard);
 				}
-				if (m_BuyHouses != nullptr && m_BuyHouses->m_pressedNo)
-				{
-					m_BuyHouses->destroy();
-					delete m_BuyHouses;
-					m_BuyHouses = nullptr;
-				}
+				m_players[playerPrev].removeMoney((m_tmpDistrict.getPrice()*50)/100);
+
+				m_BuyHouses->destroy();
+				delete m_BuyHouses;
+				m_BuyHouses = nullptr;
 
 			}
-			
+			if (m_BuyHouses != nullptr && m_BuyHouses->m_pressedNo)
+			{
+				cout << "no" << endl;
+				m_BuyHouses->destroy();
+				delete m_BuyHouses;
+				m_BuyHouses = nullptr;
+			}
+
 		}
 
 	}
@@ -257,6 +254,13 @@ void Board::draw()
 
 	for (int i = 0; i < m_players.size(); i++) {
 		m_players[i].draw();
+	}
+	for (int i = 0; i < m_players.size(); i++) {
+
+		for (int j = 0; j < m_players[i].getDistrict().size(); j++)
+		{
+				m_players[i].getDistrict()[j].drawHouse();
+		}
 	}
 }
 
@@ -372,7 +376,7 @@ void Board::playerPosition(Player& playerOnTurn)
 				m_BuyDistrict = new BuyPopUp();
 				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice(),false);
 			}
-			if (playerOnTurn.colorsOwned[m_tmpDistrict.getColor()] == 3)
+			if (playerOnTurn.colorsOwned[m_tmpDistrict.getColor()-3] == 3)
 			{
 				m_BuyHouses = new BuyPopUp();
 				m_BuyHouses->init(m_tmpDistrict.getName(), (m_tmpDistrict.getPrice()*50)/100, true);
@@ -433,7 +437,7 @@ void Board::playerPosition(Player& playerOnTurn)
 		case 'e': //edge
 			if (playerOnTurn.currentmove == 0 && playerOnTurn.sideOfBoard == 3)
 			{
-				playerOnTurn.goToJail();
+				//playerOnTurn.goToJail();
 			}
 			break;
 
@@ -441,7 +445,7 @@ void Board::playerPosition(Player& playerOnTurn)
 			break;
 	}
 
-	cout << "Player location: " << playerOnTurn.m_player_location << "Player on turn:" << playerOnTurn.player_number << endl;
+	//cout << "Player location: " << playerOnTurn.m_player_location << "Player on turn:" << playerOnTurn.player_number << endl;
 }
 
 int2 Board::roll()
@@ -450,6 +454,7 @@ int2 Board::roll()
 
 	dice.x = rand() % 6 + 1;
 	dice.y = rand() % 6 + 1;
+	dice = { 1,0 };
 	return dice;
 }
 
