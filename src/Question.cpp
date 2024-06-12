@@ -55,6 +55,7 @@ void Question::run()
 
 	if (m_mainQuestion.texture == m_postQuestion)
 	{
+		//cout << "post question" << endl;
 		if (isMouseInRect(InputManager::m_mouseCoor, m_yesBtn) && InputManager::isMousePressed())
 		{
 			m_answer = 1;

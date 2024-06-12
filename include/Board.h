@@ -68,6 +68,7 @@ private:
 	BuyPopUp* m_BuyStation;
 	BuyPopUp* m_BuyHouses;
 	PopUpTax* m_PayYourTaxes;
+	Question* m_tmpQuestion;
 	PropertyBreach* m_BreachPopUp;
 
 	SDL_Texture* m_dice[6];

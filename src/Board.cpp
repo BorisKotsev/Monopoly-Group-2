@@ -80,9 +80,18 @@ void Board::update()
 			m_PayYourTaxes = nullptr;
 		}
 		if (m_BreachPopUp != nullptr) {
+
 			m_BreachPopUp->destroy();
 			delete m_BreachPopUp;
 			m_BreachPopUp = nullptr;
+
+		}
+		if (m_tmpQuestion != nullptr) {
+
+			m_tmpQuestion->destroy();
+			delete m_tmpQuestion;
+			m_tmpQuestion = nullptr;
+
 		}
 
 		diceValue.x = roll().x;
@@ -259,6 +268,38 @@ void Board::update()
 			delete m_BreachPopUp;
 			m_BreachPopUp = nullptr;
 		}
+	}
+
+	if (m_tmpQuestion != nullptr) {
+
+		m_tmpQuestion->run();
+
+
+		if (m_tmpQuestion->m_answer == 1)
+		{
+			m_players[playerPrev].addMoney(m_tmpQuestion->getMoney());
+			m_questions.pop();
+			m_questions.push(*m_tmpQuestion);
+
+			m_tmpQuestion->destroy();
+			delete m_tmpQuestion;
+			m_tmpQuestion = nullptr;
+		}
+
+		else if (m_tmpQuestion->m_answer == 0)
+		{
+			m_players[playerPrev].removeMoney(m_tmpQuestion->loseMoney());
+			m_questions.pop();
+			m_questions.push(*m_tmpQuestion);
+
+			m_tmpQuestion->destroy();
+			delete m_tmpQuestion;
+			m_tmpQuestion = nullptr;
+		}
+
+
+
+		//cout << m_tmpQuestion->m_answer << endl;
 	}
 
 }
@@ -465,7 +506,14 @@ void Board::playerPosition(Player& playerOnTurn)
 			break;
 
 		case 'q': //question
-			drawQuestion(playerOnTurn);
+
+			if (!m_questions.empty()) {
+				m_tmpQuestion = &m_questions.front();
+			}
+			else {
+				cout << "No questions left" << endl;
+			}
+
 			break;
 
 		case 'e': //edge
@@ -502,6 +550,8 @@ int2 Board::roll()
 
 	dice.x = rand() % 6 + 1;
 	dice.y = rand() % 6 + 1;
+	dice.x = 4;
+	dice.y = 3;
 	return dice;
 }
 
@@ -590,27 +640,26 @@ void Board::drawQuestion(Player playerOnTurn)
 {
 	if (!m_questions.empty())
 	{
-		m_questions.front().run();
+		m_tmpQuestion = &m_questions.front();
+		cout << m_tmpQuestion->getMoney() << endl;
+		m_tmpQuestion->run();
 
-		if (m_questions.front().m_answer == 1)
+		if (m_tmpQuestion->m_answer == 1)
 		{
-			playerOnTurn.addMoney(m_questions.front().getMoney());
-
-			Question tmp = m_questions.front();
+			playerOnTurn.addMoney(m_tmpQuestion->getMoney());
 			m_questions.pop();
-			m_questions.push(tmp);
+			m_questions.push(*m_tmpQuestion);
 		}
 		else if (m_questions.front().m_answer == 0)
 		{
-			playerOnTurn.removeMoney(m_questions.front().loseMoney());
-
-			Question tmp = m_questions.front();
+			playerOnTurn.removeMoney(m_tmpQuestion->loseMoney());
 			m_questions.pop();
-			m_questions.push(tmp);
+			m_questions.push(*m_tmpQuestion);
 		}
 	}
 	else
 	{
 		cout << "No questions left" << endl;
 	}
+
 }
