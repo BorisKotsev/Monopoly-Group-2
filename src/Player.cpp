@@ -295,3 +295,8 @@ vector<District> Player::getDistrict()
     return m_districts;
 }
 
+vector<Station> Player::getStations()
+{
+    return m_stations;
+}
+

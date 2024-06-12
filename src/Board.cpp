@@ -149,6 +149,7 @@ void Board::update()
 	}
 	if (m_BuyDistrict != nullptr && !m_players[playerPrev].jail)
 	{
+		//cout << "A" << endl;
 		if (m_tmpDistrict.m_canBeBought)
 		{
 			m_BuyDistrict->draw();
@@ -302,6 +303,12 @@ void Board::update()
 		//cout << m_tmpQuestion->m_answer << endl;
 	}
 
+	winnerCheck();
+	if (playersAmount == 1) {
+		m_winner = m_players[0].player_number;
+		world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
+		return;
+	}
 }
 
 void Board::draw()
@@ -428,6 +435,7 @@ void Board::playerPosition(Player& playerOnTurn)
 
 	int not_district = 0;
 	int ownerOfDistrict = 0;
+	int ownerOfStation = 0;
 
 	for (int i = 0; i < playerOnTurn.currentmove; i++) { //tape
 		if (boardLayout[i] != 'd') {
@@ -460,11 +468,17 @@ void Board::playerPosition(Player& playerOnTurn)
 
 		case 's': //station
 			m_tmpStation = m_stations[playerOnTurn.sideOfBoard]; //station stepped on
-			if (playerOnTurn.checkMoney() >= m_tmpStation.getPrice())
+			ownerOfStation = stationOwner(m_tmpStation.getName());
+
+			if (playerOnTurn.checkMoney() >= m_tmpStation.getPrice() && !ownerOfStation)
 			{
 				m_BuyStation = new BuyPopUp();
 				m_BuyStation->init(m_tmpStation.getName(), m_tmpStation.getPrice(),false);
 
+			}
+			else if (ownerOfStation && ownerOfStation != playerOnTurn.player_number) {
+				m_BreachPopUp = new PropertyBreach();
+				m_BreachPopUp->init(playerOnTurn.player_number, ownerOfStation, m_tmpStation.getProfit());
 			}
 
 			break;
@@ -544,14 +558,28 @@ int Board::districtOwner(string districtName)
 	return owner;
 }
 
+int Board::stationOwner(string stationName)
+{
+	int owner = 0;
+	for (int i = 0; i < playersAmount; i++) {
+		for (int j = 0; j < m_players[i].getStations().size(); j++) {
+			if (m_players[i].getStations()[j].getName() == stationName) {
+				owner = i + 1;
+				break;
+			}
+		}
+	}
+	return owner;
+}
+
 int2 Board::roll()
 {
 	int2 dice;
 
 	dice.x = rand() % 6 + 1;
 	dice.y = rand() % 6 + 1;
-	dice.x = 4;
-	dice.y = 3;
+	dice = { 2, 3 };
+
 	return dice;
 }
 
@@ -662,4 +690,14 @@ void Board::drawQuestion(Player playerOnTurn)
 		cout << "No questions left" << endl;
 	}
 
+}
+
+void Board::winnerCheck()
+{
+	for (int i = 0; i < playersAmount; i++) {
+		if (m_players[i].checkMoney() <= 0) {
+			m_players.erase(m_players.begin() + i);
+			playersAmount--;
+		}
+	}
 }
