@@ -80,9 +80,18 @@ void Board::update()
 			m_PayYourTaxes = nullptr;
 		}
 		if (m_BreachPopUp != nullptr) {
+
 			m_BreachPopUp->destroy();
 			delete m_BreachPopUp;
 			m_BreachPopUp = nullptr;
+
+		}
+		if (m_tmpQuestion != nullptr) {
+
+			m_tmpQuestion->destroy();
+			delete m_tmpQuestion;
+			m_tmpQuestion = nullptr;
+
 		}
 
 		diceValue.x = roll().x;
@@ -91,7 +100,7 @@ void Board::update()
 		if (m_players[playerTurn].jail == true && m_players[playerTurn].jailTime<3)
 		{
 			m_players[playerTurn].jailTime++;
-		//	playerTurn++;
+			playerTurn++;
 		}
 		else if (m_players[playerTurn].jailTime >= 3)
 		{
@@ -260,6 +269,44 @@ void Board::update()
 		}
 	}
 
+	if (m_tmpQuestion != nullptr) {
+
+		m_tmpQuestion->run();
+
+
+		if (m_tmpQuestion->m_answer == 1)
+		{
+			m_players[playerPrev].addMoney(m_tmpQuestion->getMoney());
+			m_questions.pop();
+			m_questions.push(*m_tmpQuestion);
+
+			m_tmpQuestion->destroy();
+			delete m_tmpQuestion;
+			m_tmpQuestion = nullptr;
+		}
+
+		else if (m_tmpQuestion->m_answer == 0)
+		{
+			m_players[playerPrev].removeMoney(m_tmpQuestion->loseMoney());
+			m_questions.pop();
+			m_questions.push(*m_tmpQuestion);
+
+			m_tmpQuestion->destroy();
+			delete m_tmpQuestion;
+			m_tmpQuestion = nullptr;
+		}
+
+
+
+		//cout << m_tmpQuestion->m_answer << endl;
+	}
+
+	winnerCheck();
+	if (playersAmount == 1) {
+		m_winner = m_players[0].player_number;
+		world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
+		return;
+	}
 }
 
 void Board::draw()
@@ -392,6 +439,7 @@ void Board::playerPosition(Player& playerOnTurn)
 
 	int not_district = 0;
 	int ownerOfDistrict = 0;
+	int ownerOfStation = 0;
 
 	for (int i = 0; i < playerOnTurn.currentmove; i++) { //tape
 		if (boardLayout[i] != 'd') {
@@ -424,11 +472,17 @@ void Board::playerPosition(Player& playerOnTurn)
 
 		case 's': //station
 			m_tmpStation = m_stations[playerOnTurn.sideOfBoard]; //station stepped on
-			if (playerOnTurn.checkMoney() >= m_tmpStation.getPrice())
+			ownerOfStation = stationOwner(m_tmpStation.getName());
+
+			if (playerOnTurn.checkMoney() >= m_tmpStation.getPrice() && !ownerOfStation)
 			{
 				m_BuyStation = new BuyPopUp();
 				m_BuyStation->init(m_tmpStation.getName(), m_tmpStation.getPrice(),false);
 
+			}
+			else if (ownerOfStation && ownerOfStation != playerOnTurn.player_number) {
+				m_BreachPopUp = new PropertyBreach();
+				m_BreachPopUp->init(playerOnTurn.player_number, ownerOfStation, m_tmpStation.getProfit());
 			}
 
 			break;
@@ -470,13 +524,20 @@ void Board::playerPosition(Player& playerOnTurn)
 			break;
 
 		case 'q': //question
-			drawQuestion(playerOnTurn);
+
+			if (!m_questions.empty()) {
+				m_tmpQuestion = &m_questions.front();
+			}
+			else {
+				cout << "No questions left" << endl;
+			}
+
 			break;
 
 		case 'e': //edge
 			if (playerOnTurn.currentmove == 0 && playerOnTurn.sideOfBoard == 3)
 			{
-				//playerOnTurn.goToJail();
+				playerOnTurn.goToJail();
 			}
 			break;
 
@@ -493,6 +554,20 @@ int Board::districtOwner(string districtName)
 	for (int i = 0; i < playersAmount; i++) {
 		for (int j = 0; j < m_players[i].m_districts.size(); j++) {
 			if (m_players[i].m_districts[j].getName() == districtName) {
+				owner = i + 1;
+				break;
+			}
+		}
+	}
+	return owner;
+}
+
+int Board::stationOwner(string stationName)
+{
+	int owner = 0;
+	for (int i = 0; i < playersAmount; i++) {
+		for (int j = 0; j < m_players[i].m_stations.size(); j++) {
+			if (m_players[i].m_stations[j].getName() == stationName) {
 				owner = i + 1;
 				break;
 			}
@@ -596,27 +671,36 @@ void Board::drawQuestion(Player playerOnTurn)
 {
 	if (!m_questions.empty())
 	{
-		m_questions.front().run();
+		m_tmpQuestion = &m_questions.front();
+		cout << m_tmpQuestion->getMoney() << endl;
+		m_tmpQuestion->run();
 
-		if (m_questions.front().m_answer == 1)
+		if (m_tmpQuestion->m_answer == 1)
 		{
-			playerOnTurn.addMoney(m_questions.front().getMoney());
-
-			Question tmp = m_questions.front();
+			playerOnTurn.addMoney(m_tmpQuestion->getMoney());
 			m_questions.pop();
-			m_questions.push(tmp);
+			m_questions.push(*m_tmpQuestion);
 		}
 		else if (m_questions.front().m_answer == 0)
 		{
-			playerOnTurn.removeMoney(m_questions.front().loseMoney());
-
-			Question tmp = m_questions.front();
+			playerOnTurn.removeMoney(m_tmpQuestion->loseMoney());
 			m_questions.pop();
-			m_questions.push(tmp);
+			m_questions.push(*m_tmpQuestion);
 		}
 	}
 	else
 	{
 		cout << "No questions left" << endl;
+	}
+
+}
+
+void Board::winnerCheck()
+{
+	for (int i = 0; i < playersAmount; i++) {
+		if (m_players[i].checkMoney() <= 0) {
+			m_players.erase(m_players.begin() + i);
+			playersAmount--;
+		}
 	}
 }

@@ -46,6 +46,7 @@ public:
 	void playerPosition(Player& playerOnTurn);
 	char boardLayout[10] = { 'e', 'd', 't', 'd', 'd', 's', 'd', 'q', 'd', 'd' };
 	int districtOwner(string);
+	int stationOwner(string);
 
 private:
 	SDL_Texture* m_background;
@@ -56,6 +57,8 @@ private:
 	void loadPlayers();
 
 	void drawQuestion(Player playerOnTurn);
+
+	void winnerCheck();
 
 	int2 diceValue;
 
@@ -69,6 +72,7 @@ private:
 	BuyPopUp* m_BuyStation;
 	BuyPopUp* m_BuyHouses;
 	PopUpTax* m_PayYourTaxes;
+	Question* m_tmpQuestion;
 	PropertyBreach* m_BreachPopUp;
 
 	SDL_Texture* m_dice[6];
