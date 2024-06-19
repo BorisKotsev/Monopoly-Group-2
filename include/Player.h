@@ -34,9 +34,6 @@ public:
 	void OwnedDistricts(int playerTurn);
 	void destroyOwnedDistricts();
 
-	vector<District> getDistrict();
-	vector<Station> getStations();
-
 	int currentmove = 0;
 	int sideOfBoard = 0;
 	int colorsOwned[8];

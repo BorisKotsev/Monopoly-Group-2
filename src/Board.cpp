@@ -27,6 +27,8 @@ void Board::init()
 	m_background = loadTexture("background.bmp");
 	m_Roll.init("RollButton.txt","");
 	m_Exit.init("ExitButton.txt","");
+	m_info.rect = {1491,111,362,956};
+	m_info.texture = loadTexture("Info.bmp");
 
 	loadDices();
 	loadTurnUI();
@@ -160,7 +162,6 @@ void Board::update()
 
 	if (m_BuyDistrict != nullptr && !m_players[playerPrev].jail)
 	{
-		//cout << "A" << endl;
 		if (m_tmpDistrict.m_canBeBought)
 		{
 			m_BuyDistrict->draw();
@@ -191,30 +192,30 @@ void Board::update()
 			}
 
 		}
-		else
-		{
+
 			
-			if (m_players[playerPrev].colorsOwned[m_tmpDistrict.getColor()] == 3)
+			
+	}
+	if (m_BuyHouses != nullptr && !m_players[playerPrev].jail)
+	{
+		if (m_players[playerPrev].colorsOwned[m_tmpDistrict.getColor() - 3] == 3)
+		{
+			m_BuyHouses->draw();
+			m_BuyHouses->Buy();
+
+			if (m_BuyHouses->m_pressedYes)
 			{
-				m_BuyHouses->draw();
-				m_BuyHouses->Buy();
-
-				if (m_BuyHouses->m_pressedYes)
+				cout << "yes" << endl;
+				for (int i = 0; i < m_players[playerPrev].m_districts.size(); i++)
 				{
-					for (int i = 0; i < m_players[playerPrev].getDistrict().size(); i++)
-					{
-						if (m_players[playerPrev].getDistrict()[i].getName() == m_tmpDistrict.getName())
-							m_players[playerPrev].getDistrict()[i].addHouses();
-					}
-					m_players[playerPrev].removeMoney((m_tmpDistrict.getPrice()*50)/100);
+					if (m_players[playerPrev].m_districts[i].getName() == m_tmpDistrict.getName())
+						m_players[playerPrev].m_districts[i].addHouses(m_players[playerPrev].sideOfBoard);
+				}
+				m_players[playerPrev].removeMoney((m_tmpDistrict.getPrice()*50)/100);
 
-					m_BuyHouses->destroy();
-					delete m_BuyHouses;
-					m_BuyHouses = nullptr;
-					for (int i = 0; i < m_districts.size() - 1; i++)
-					{
-						m_districts[i].Bought(m_tmpDistrict.getName());
-					}
+				m_BuyHouses->destroy();
+				delete m_BuyHouses;
+				m_BuyHouses = nullptr;
 
 					canPressRoll = true;
 				}
@@ -227,8 +228,6 @@ void Board::update()
 					canPressRoll = true;
 				}
 
-			}
-			
 		}
 
 	}
@@ -341,7 +340,7 @@ void Board::update()
 void Board::draw()
 {
 	drawObject(m_background);
-  
+	//drawObject(m_info);
 	m_Roll.draw();
 	m_Exit.draw();
 	drawObject(m_Dice1);
@@ -351,7 +350,12 @@ void Board::draw()
 
 	for (int i = 0; i < m_players.size(); i++) {
 		m_players[i].draw();
+		for (int j = 0; j < m_players[i].m_districts.size(); j++)
+		{
+				m_players[i].m_districts[j].drawHouse();
+		}
 	}
+	
 }
 
 void Board::destroy()
@@ -360,6 +364,7 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice1.texture);
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
+	SDL_DestroyTexture(m_info.texture);
 	m_Roll.destroy();
 	m_Exit.destroy();
 	m_playerTurn.destroy();
@@ -476,7 +481,7 @@ void Board::playerPosition(Player& playerOnTurn)
 		case 'd': //district
 			m_tmpDistrict = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
 			ownerOfDistrict = districtOwner(m_tmpDistrict.getName());
-			cout << "Owner of " << m_tmpDistrict.getName() << " " << ownerOfDistrict << endl;
+			//cout << "Owner of " << m_tmpDistrict.getName() << " " << ownerOfDistrict << endl;
 			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice() && m_tmpDistrict.m_canBeBought)
 			{
 				m_BuyDistrict = new BuyPopUp();
@@ -484,7 +489,7 @@ void Board::playerPosition(Player& playerOnTurn)
 
 				canPressRoll = false;
 			}
-			if (playerOnTurn.colorsOwned[m_tmpDistrict.getColor()] == 3)
+			if (playerOnTurn.colorsOwned[m_tmpDistrict.getColor()-3] == 3)
 			{
 				m_BuyHouses = new BuyPopUp();
 				m_BuyHouses->init(m_tmpDistrict.getName(), (m_tmpDistrict.getPrice()*50)/100, true);
@@ -588,8 +593,8 @@ int Board::districtOwner(string districtName)
 {
 	int owner = 0;
 	for (int i = 0; i < playersAmount; i++) {
-		for (int j = 0; j < m_players[i].getDistrict().size(); j++) {
-			if (m_players[i].getDistrict()[j].getName() == districtName) {
+		for (int j = 0; j < m_players[i].m_districts.size(); j++) {
+			if (m_players[i].m_districts[j].getName() == districtName) {
 				owner = i + 1;
 				break;
 			}
@@ -602,8 +607,8 @@ int Board::stationOwner(string stationName)
 {
 	int owner = 0;
 	for (int i = 0; i < playersAmount; i++) {
-		for (int j = 0; j < m_players[i].getStations().size(); j++) {
-			if (m_players[i].getStations()[j].getName() == stationName) {
+		for (int j = 0; j < m_players[i].m_stations.size(); j++) {
+			if (m_players[i].m_stations[j].getName() == stationName) {
 				owner = i + 1;
 				break;
 			}

@@ -67,6 +67,7 @@ private:
 	Drawable m_Dice1;
 	Drawable m_Dice2;
 	Drawable m_TurnUi;
+	Drawable m_info;
 	BuyPopUp* m_BuyDistrict;
 	BuyPopUp* m_BuyStation;
 	BuyPopUp* m_BuyHouses;
@@ -83,6 +84,8 @@ private:
 	int taxToPay = 0;
 	
 	TextField m_playerTurn;
+	TextField m_playermoney;
+	
 
 	int previousTurn;
 

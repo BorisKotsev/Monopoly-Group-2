@@ -190,6 +190,12 @@ struct DrawableWithOpacity : Drawable
 	int opacity = 0;
 	int changePerFrame = 0;
 };
+struct DrawableWithRotation : Drawable
+{
+	double angle = 0;
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
+};
+
 
 enum SOUND 
 {

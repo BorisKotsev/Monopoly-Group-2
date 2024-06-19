@@ -14,7 +14,7 @@ public:
 	bool isPressed();
 
 private:
-	int counter; //related to increase() - counts until equal to maxIncrease
+	int counter; 
 	bool m_isClicked;
 	int maxIncrease;
 	int increasePerFrame;

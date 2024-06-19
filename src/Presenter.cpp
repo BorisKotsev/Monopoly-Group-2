@@ -56,6 +56,10 @@ void Presenter::drawObject(DrawableWithOpacity& drawableWithOpacity)
 	SDL_SetTextureAlphaMod(drawableWithOpacity.texture, drawableWithOpacity.opacity);
 	SDL_RenderCopy(m_mainRenderer, drawableWithOpacity.texture, NULL, &drawableWithOpacity.rect);
 }
+void Presenter::drawObject(DrawableWithRotation& drawableWithRotation)
+{
+	SDL_RenderCopyEx(m_mainRenderer, drawableWithRotation.texture, NULL, &drawableWithRotation.rect, drawableWithRotation.angle, NULL, drawableWithRotation.flip);
+}
 
 void Presenter::improveRenderer()
 {

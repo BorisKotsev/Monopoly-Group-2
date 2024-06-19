@@ -26,7 +26,6 @@
     <ClInclude Include="..\include\District.h" />
     <ClInclude Include="..\include\Engine.h" />
     <ClInclude Include="..\include\Game.h" />
-    <ClInclude Include="..\include\HousePopUp.h" />
     <ClInclude Include="..\include\InputManager.h" />
     <ClInclude Include="..\include\Menu.h" />
     <ClInclude Include="..\include\Player.h" />

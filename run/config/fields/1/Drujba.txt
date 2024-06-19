@@ -1,5 +1,0 @@
-textrect: 1605 395 35
-fontSize: 30
-textrect: 1605 395 257 35
-color: 5
-backImg: 
