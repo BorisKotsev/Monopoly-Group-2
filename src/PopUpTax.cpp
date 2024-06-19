@@ -21,7 +21,7 @@ void PopUpTax::init(int argTaxPrice)
 	stream.open(CONFIG_FOLDER + "PopUpTax.txt");
 	stream >> tmp >> img;
 	stream >> tmp >> m_popUp.rect.x >> m_popUp.rect.y >> m_popUp.rect.w >> m_popUp.rect.h;
-	stream >> tmp >> okButton.x >> okButton.y >> okButton.w >> okButton.y;
+	stream >> tmp >> okButton.x >> okButton.y >> okButton.w >> okButton.h;
 	stream.close();
 
 
@@ -49,6 +49,7 @@ void PopUpTax::Ok()
 	{
 		okPressed = true;
 	}
+	//cout << okButton.x << " " << okButton.y << endl;
 }
 
 void PopUpTax::destroy()

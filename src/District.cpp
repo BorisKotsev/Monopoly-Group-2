@@ -21,6 +21,7 @@ void District::init(string configFile)
 
     numOfHouses = 5;
     houses = 0;
+    hotel = false;
 
     m_profit = m_price / 10;
     m_electricity = m_price / 20;
@@ -28,7 +29,7 @@ void District::init(string configFile)
     for (int i = 0; i < numOfHouses; i++)
     {
         m_houses[i].texture = loadTexture("House.bmp");
-        m_houses[i].rect ={-20,-20,20,20};
+        m_houses[i].rect ={-20,-20,18,18};
     }
 }
 
@@ -69,56 +70,101 @@ void District::Bought(string name)
 
 void District::addHouses(int sideOfBoard)
 {
-    if (houses < numOfHouses)
+    if (houses < numOfHouses-1)
     {
         houses++;
-        cout << houses << endl;
     }
     else
         hotel = true;
-    cout << "houses on district" << houses << endl;
 
-    switch (sideOfBoard)
-    {
-    case 0: //Down
-        m_houses[houses].rect.x = (m_district.x + 5)*houses;
-        m_houses[houses].rect.y = m_district.y + 5;
-        //cout << "x = " << m_houses[houses].rect.x << " y = " << m_houses[houses].rect.y << endl;
-        //cout << "w = " << m_houses[houses].rect.w << " h = " << m_houses[houses].rect.h << endl;
-        break;
+    if(!hotel)
+    { 
+        switch (sideOfBoard)
+        {
+        case 0: //Down
+            m_houses[houses].rect.x = (m_district.x + 2) + m_houses[houses].rect.w * (houses - 1);
+            m_houses[houses].rect.y = m_district.y + 10;
+            //cout << "x = " << m_houses[houses].rect.x << " y = " << m_houses[houses].rect.y << endl;
+            //cout << "w = " << m_houses[houses].rect.w << " h = " << m_houses[houses].rect.h << endl;
+            break;
 
-    case 1: //Left
-        m_houses[houses].angle = 90;
-        m_houses[houses].rect.x = m_district.x + 80 + 5;
-        m_houses[houses].rect.y = (m_district.y + 5)*houses;
-        break;
+        case 1: //Left
+            m_houses[houses].angle = 90;
+            m_houses[houses].rect.x = m_district.x + 120 + 10;
+            m_houses[houses].rect.y = (m_district.y + 2) + m_houses[houses].rect.h * (houses - 1);
+            break;
 
-    case 2: //Up
-        m_houses[houses].angle = 180;
-        m_houses[houses].rect.x = (m_district.x + 5) * houses;
-        m_houses[houses].rect.y = m_district.y + 80 + 5;
-        break;
+        case 2: //Up
+            m_houses[houses].angle = 180;
+            m_houses[houses].rect.x = (m_district.x + 2) + m_houses[houses].rect.w * (houses - 1);
+            m_houses[houses].rect.y = m_district.y + 120 + 10;
+            break;
 
-    case 3: //Right
-        m_houses[houses].angle = 270;
-        m_houses[houses].rect.x = m_district.x + 5;
-        m_houses[houses].rect.y = (m_district.y + 5) * houses;
-        break;
+        case 3: //Right
+            m_houses[houses].angle = 270;
+            m_houses[houses].rect.x = m_district.x + 10;
+            m_houses[houses].rect.y = (m_district.y + 2) + m_houses[houses].rect.h * (houses - 1);
+            break;
+
+        }
 
     }
+    else
+    {
+        m_houses[4].rect.w = 40;
+        m_houses[4].rect.h = 40;
+        switch (sideOfBoard)
+        {
+        case 0: //Down
+            m_houses[4].rect.x = m_district.x + 20;
+            m_houses[4].rect.y = m_district.y;
+            break;
 
-    m_profit += houses*5;
+        case 1: //Left
+            m_houses[4].angle = 90;
+            m_houses[4].rect.x = m_district.x + 120;
+            m_houses[4].rect.y = m_district.y + 20;
+            break;
+
+        case 2: //Up
+            m_houses[4].angle = 180;
+            m_houses[4].rect.x = m_district.x + 20;
+            m_houses[4].rect.y = m_district.y + 120;
+            break;
+
+        case 3: //Right
+            m_houses[4].angle = 270;
+            m_houses[4].rect.x = m_district.x;
+            m_houses[4].rect.y = m_district.y + 20;
+            break;
+
+        }
+    }
+
+    if (!hotel)
+        m_profit += houses * 5;
+    else
+        m_profit += houses * 8;
 }
 
 void District::drawHouse()
 {
-    for (int i = 0; i < numOfHouses; i++)
+    if (!hotel)
     {
-        cout << "x = " << m_houses[i].rect.x << " y = " << m_houses[i].rect.y;
-        cout << " w = " << m_houses[i].rect.w << " h = " << m_houses[i].rect.h << endl;
-        if (m_houses[i].rect.x != -20 || m_houses[i].rect.y != -20)
+        for (int i = 0; i < numOfHouses; i++)
         {
-            drawObject(m_houses[i]);
+            if (m_houses[i].rect.x != -20 || m_houses[i].rect.y != -20)
+            {
+                drawObject(m_houses[i]);
+            }
         }
+    }
+    else
+    {
+        for (int i = 0; i < numOfHouses-1; i++)
+        {
+                SDL_DestroyTexture(m_houses[i].texture);
+        }
+        drawObject(m_houses[4]);
     }
 }

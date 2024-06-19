@@ -31,6 +31,7 @@ void StateManager::initNewState()
 	case GAME_STATE::NONE:
 		m_game->m_board.destroy();
 		world.destroy();
+		SDL_Quit();
 		break;
 	case GAME_STATE::GAME:
 		m_currState = m_game;

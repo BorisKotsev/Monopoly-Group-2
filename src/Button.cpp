@@ -20,7 +20,8 @@ void Button::init(string config,string folder)
 	stream.close();
 	counter = 0;
 	m_isClicked = false;
-	m_button.texture = loadTexture(folder+Img);
+	m_button.texture = loadTexture(folder + Img);
+	
 }
 
 void Button::draw()
@@ -30,6 +31,7 @@ void Button::draw()
 
 void Button::update()
 {
+	draw();
 	m_isClicked = false;
 	if (isMouseInRect(InputManager::m_mouseCoor, m_button.rect))
 	{

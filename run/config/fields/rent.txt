@@ -1,0 +1,5 @@
+textRect: 962 596 30
+fontSize: 17
+rect: 962 569 57 30
+color: 1
+backImage:

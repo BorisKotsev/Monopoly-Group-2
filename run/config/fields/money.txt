@@ -1,0 +1,5 @@
+textRect: 1655 195 45
+fontSize: 50
+rect: 1655 195 171 45
+color: 2
+backImage:

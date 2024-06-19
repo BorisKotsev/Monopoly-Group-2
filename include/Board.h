@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdio>
+
 #include "Engine.h"
 #include "District.h"
 #include "Station.h"
@@ -9,6 +11,7 @@
 #include "TextField.h"
 #include "BuyPopUp.h"
 #include "PopUpTax.h"
+#include "PropertyBreach.h"
 
 //bool buy = false;
 class Board
@@ -42,6 +45,7 @@ public:
 
 	void playerPosition(Player& playerOnTurn);
 	char boardLayout[10] = { 'e', 'd', 't', 'd', 'd', 's', 'd', 'q', 'd', 'd' };
+	int districtOwner(string);
 
 private:
 	SDL_Texture* m_background;
@@ -60,10 +64,12 @@ private:
 	Drawable m_Dice1;
 	Drawable m_Dice2;
 	Drawable m_TurnUi;
+	Drawable m_info;
 	BuyPopUp* m_BuyDistrict;
 	BuyPopUp* m_BuyStation;
 	BuyPopUp* m_BuyHouses;
 	PopUpTax* m_PayYourTaxes;
+	PropertyBreach* m_BreachPopUp;
 
 	SDL_Texture* m_dice[6];
 	int diceDoubles;
@@ -74,6 +80,8 @@ private:
 	int taxToPay = 0;
 	
 	TextField m_playerTurn;
+	TextField m_playermoney;
+	
 
 	int previousTurn;
 };

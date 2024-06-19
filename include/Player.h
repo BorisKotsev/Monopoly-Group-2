@@ -34,7 +34,6 @@ public:
 	void OwnedDistricts(int playerTurn);
 	void destroyOwnedDistricts();
 
-	vector<District> getDistrict();
 	int currentmove = 0;
 	int sideOfBoard = 0;
 	int colorsOwned[8];
@@ -45,13 +44,14 @@ public:
 	int jailTime;
 	int player_number;
 	int allColors[8]= { 3,4,5,6,7,8,9,10 };
+
+	vector <District> m_districts;
+	vector <Station> m_stations;
 private:
 	Drawable m_player;
 
 	int m_money;
 
-	vector <District> m_districts;
-	vector <Station> m_stations;
 	vector<TextField> m_ownedDistricts;
 	vector<TextField> m_ownedStations;
 

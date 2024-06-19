@@ -27,6 +27,8 @@ void Board::init()
 	m_background = loadTexture("background.bmp");
 	m_Roll.init("RollButton.txt","");
 	m_Exit.init("ExitButton.txt","");
+	m_info.rect = {1491,111,362,956};
+	m_info.texture = loadTexture("Info.bmp");
 
 	loadDices();
 	loadTurnUI();
@@ -76,6 +78,11 @@ void Board::update()
 			m_PayYourTaxes->destroy();
 			delete m_PayYourTaxes;
 			m_PayYourTaxes = nullptr;
+		}
+		if (m_BreachPopUp != nullptr) {
+			m_BreachPopUp->destroy();
+			delete m_BreachPopUp;
+			m_BreachPopUp = nullptr;
 		}
 
 		diceValue.x = roll().x;
@@ -174,10 +181,10 @@ void Board::update()
 			if (m_BuyHouses->m_pressedYes)
 			{
 				cout << "yes" << endl;
-				for (int i = 0; i < m_players[playerPrev].getDistrict().size(); i++)
+				for (int i = 0; i < m_players[playerPrev].m_districts.size(); i++)
 				{
-					if (m_players[playerPrev].getDistrict()[i].getName() == m_tmpDistrict.getName())
-						m_players[playerPrev].getDistrict()[i].addHouses(m_players[playerPrev].sideOfBoard);
+					if (m_players[playerPrev].m_districts[i].getName() == m_tmpDistrict.getName())
+						m_players[playerPrev].m_districts[i].addHouses(m_players[playerPrev].sideOfBoard);
 				}
 				m_players[playerPrev].removeMoney((m_tmpDistrict.getPrice()*50)/100);
 
@@ -239,12 +246,26 @@ void Board::update()
 		}
 	}
 
+	if (m_BreachPopUp != nullptr) 
+	{
+		m_BreachPopUp->draw();
+		m_BreachPopUp->Ok();
+		if (m_BreachPopUp->okPressed)
+		{
+			m_players[playerPrev].removeMoney(m_BreachPopUp->getPrice());
+
+			m_BreachPopUp->destroy();
+			delete m_BreachPopUp;
+			m_BreachPopUp = nullptr;
+		}
+	}
+
 }
 
 void Board::draw()
 {
 	drawObject(m_background);
-  
+	//drawObject(m_info);
 	m_Roll.draw();
 	m_Exit.draw();
 	drawObject(m_Dice1);
@@ -254,9 +275,9 @@ void Board::draw()
 
 	for (int i = 0; i < m_players.size(); i++) {
 		m_players[i].draw();
-		for (int j = 0; j < m_players[i].getDistrict().size(); j++)
+		for (int j = 0; j < m_players[i].m_districts.size(); j++)
 		{
-				m_players[i].getDistrict()[j].drawHouse();
+				m_players[i].m_districts[j].drawHouse();
 		}
 	}
 	
@@ -268,54 +289,67 @@ void Board::destroy()
 	SDL_DestroyTexture(m_Dice1.texture);
 	SDL_DestroyTexture(m_Dice2.texture);
 	SDL_DestroyTexture(m_TurnUi.texture);
+	SDL_DestroyTexture(m_info.texture);
 	m_Roll.destroy();
 	m_Exit.destroy();
 	m_playerTurn.destroy();
+
 	string tmp;
+
 	for (int i = 0; i < playersAmount; i++)
 	{
-		if (!m_players[i].getDistrict().empty())
+		auto& districts = m_players[i].m_districts;
+		if (!districts.empty())
 		{
-			for (int j = 0; j < m_players[i].getDistrict().size(); j++)
+			for (int j = 0; j < districts.size();)
 			{
-				tmp = CONFIG_FOLDER + FIELD_FOLDER + to_string(i) + "\\" + m_players[i].getDistrict()[j].getName() + ".txt";
+				tmp = CONFIG_FOLDER + FIELD_FOLDER + to_string(i) + "\\" + districts[j].getName() + ".txt";
+
 				int result = remove(tmp.c_str());
-				if (result != 0) {
-					// print error message
-					cerr << "File deletion failed";
+
+				if (result != 0)
+				{
+					perror("File deletion failed");
+					++j;
 				}
-				else {
-					cout << "File deleted successfully";
+				else
+				{
+					districts.erase(districts.begin() + j); 
 				}
-				tmp = "";
+				
+				tmp.clear();
+			}
+		}
+
+		auto& stations = m_players[i].m_stations;
+		if (!stations.empty())
+		{
+			for (int j = 0; j < stations.size();)
+			{
+				tmp = CONFIG_FOLDER + FIELD_FOLDER + to_string(i) + "\\" + stations[j].getName() + ".txt";
+
+				int result = remove(tmp.c_str());
+
+				if (result != 0)
+				{
+					perror("File deletion failed");
+					++j;
+				}
+				else
+				{
+					stations.erase(stations.begin() + j);
+				}
+
+				tmp.clear();
 			}
 		}
 	}
 }
 
-
 void Board::drawDice(int2 diceValue)
 {
-    /*int diceNum = 0;
-	for (int i = 0; i < 10; i++)
-	{
-	
-	m_Dice1.texture = m_dice[diceNum];
-	m_Dice2.texture = m_dice[diceNum];
-	drawObject(m_Dice1);
-	drawObject(m_Dice2);
-
-	diceNum++;
-	if (diceNum >= 6)
-		diceNum = 0;
-
-	SDL_Delay(150);
-
-	}*/
-	    m_Dice1.texture = m_dice[diceValue.x-1];
-		m_Dice2.texture = m_dice[diceValue.y-1];
-
-
+	m_Dice1.texture = m_dice[diceValue.x-1];
+	m_Dice2.texture = m_dice[diceValue.y-1];
 }
 
 void Board::loadDices()
@@ -357,6 +391,7 @@ void Board::playerPosition(Player& playerOnTurn)
 
 
 	int not_district = 0;
+	int ownerOfDistrict = 0;
 
 	for (int i = 0; i < playerOnTurn.currentmove; i++) { //tape
 		if (boardLayout[i] != 'd') {
@@ -369,7 +404,9 @@ void Board::playerPosition(Player& playerOnTurn)
 	{
 		case 'd': //district
 			m_tmpDistrict = m_districts[(playerOnTurn.sideOfBoard * 6) + playerOnTurn.currentmove - not_district];
-			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice())
+			ownerOfDistrict = districtOwner(m_tmpDistrict.getName());
+			//cout << "Owner of " << m_tmpDistrict.getName() << " " << ownerOfDistrict << endl;
+			if (playerOnTurn.checkMoney() >= m_tmpDistrict.getPrice() && m_tmpDistrict.m_canBeBought)
 			{
 				m_BuyDistrict = new BuyPopUp();
 				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice(),false);
@@ -378,6 +415,10 @@ void Board::playerPosition(Player& playerOnTurn)
 			{
 				m_BuyHouses = new BuyPopUp();
 				m_BuyHouses->init(m_tmpDistrict.getName(), (m_tmpDistrict.getPrice()*50)/100, true);
+			}
+			else if (!m_tmpDistrict.m_canBeBought && ownerOfDistrict != playerOnTurn.player_number) {
+				m_BreachPopUp = new PropertyBreach();
+				m_BreachPopUp->init(playerOnTurn.player_number, ownerOfDistrict, m_tmpDistrict.getProfit());
 			}
 			break;
 
@@ -444,6 +485,20 @@ void Board::playerPosition(Player& playerOnTurn)
 	}
 
 	//cout << "Player location: " << playerOnTurn.m_player_location << "Player on turn:" << playerOnTurn.player_number << endl;
+}
+
+int Board::districtOwner(string districtName)
+{
+	int owner = 0;
+	for (int i = 0; i < playersAmount; i++) {
+		for (int j = 0; j < m_players[i].m_districts.size(); j++) {
+			if (m_players[i].m_districts[j].getName() == districtName) {
+				owner = i + 1;
+				break;
+			}
+		}
+	}
+	return owner;
 }
 
 int2 Board::roll()

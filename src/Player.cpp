@@ -179,10 +179,6 @@ void Player::addDistrict(District district,int playerTurn)
             colorsOwned[i] ++;
         }
     }
-    for (int i = 0; i < 8; i++)
-    {
-        cout << i << ":" << colorsOwned[i]<<endl;
-    }
     nextLine++;
 }
 
@@ -294,8 +290,4 @@ void Player::destroyOwnedDistricts()
     }
 }
 
-vector<District> Player::getDistrict()
-{
-    return m_districts;
-}
 
