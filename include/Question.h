@@ -15,7 +15,7 @@ public:
 	int getMoney();
 	int loseMoney();
 
-	int m_answer; //1 for yes, 0 for no
+	int m_answer = 0; //1 for yes, 0 for no
 
 private:
 	Drawable m_mainQuestion;

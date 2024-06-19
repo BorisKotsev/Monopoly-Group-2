@@ -85,4 +85,6 @@ private:
 	TextField m_playerTurn;
 
 	int previousTurn;
+
+	bool canPressRoll = true;
 };

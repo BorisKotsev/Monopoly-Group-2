@@ -43,10 +43,11 @@ void Board::update()
 	m_playerTurn.update();
 	m_Roll.update();
 	m_Exit.update();
-	m_playerTurn.setText(to_string(playerTurn+1));
+	m_playerTurn.setText(to_string(m_players[playerTurn].player_number));
 	m_players[playerTurn].OwnedDistricts(playerTurn);
 	//m_players[playerTurn].addDistrict(m_districts[0], playerTurn);
 	m_players[playerTurn].colorsOwned[0] = 3;
+	if(canPressRoll){
 	if (m_Roll.isPressed())
 	{
 
@@ -58,6 +59,7 @@ void Board::update()
 			delete m_BuyDistrict;
 			m_BuyDistrict = nullptr;
 
+			canPressRoll = true;
 		}
 		if (m_BuyHouses != nullptr)
 		{
@@ -65,6 +67,7 @@ void Board::update()
 			delete m_BuyHouses;
 			m_BuyHouses = nullptr;
 
+			canPressRoll = true;
 		}
 		if (m_BuyStation != nullptr)
 		{
@@ -72,12 +75,15 @@ void Board::update()
 			delete m_BuyStation;
 			m_BuyStation = nullptr;
 
+			canPressRoll = true;
 		}
 		if (m_PayYourTaxes != nullptr)
 		{
 			m_PayYourTaxes->destroy();
 			delete m_PayYourTaxes;
 			m_PayYourTaxes = nullptr;
+
+			canPressRoll = true;
 		}
 		if (m_BreachPopUp != nullptr) {
 
@@ -85,6 +91,7 @@ void Board::update()
 			delete m_BreachPopUp;
 			m_BreachPopUp = nullptr;
 
+			canPressRoll = true;
 		}
 		if (m_tmpQuestion != nullptr) {
 
@@ -92,15 +99,17 @@ void Board::update()
 			delete m_tmpQuestion;
 			m_tmpQuestion = nullptr;
 
+			canPressRoll = true;
+
 		}
 
 		diceValue.x = roll().x;
 		diceValue.y = roll().y;
 		drawDice(diceValue);
-		if (m_players[playerTurn].jail == true && m_players[playerTurn].jailTime<3)
+		if (m_players[playerTurn].jail == true && m_players[playerTurn].jailTime < 3)
 		{
 			m_players[playerTurn].jailTime++;
-		//	playerTurn++;
+			//	playerTurn++;
 		}
 		else if (m_players[playerTurn].jailTime >= 3)
 		{
@@ -111,10 +120,10 @@ void Board::update()
 		if (m_players[playerTurn].jail == false)
 		{
 
-		playerPrev = playerTurn;
-		m_players[playerTurn].movePlayer(diceValue);
-		playerPosition(m_players[playerTurn]);
-		tmp = true;
+			playerPrev = playerTurn;
+			m_players[playerTurn].movePlayer(diceValue);
+			playerPosition(m_players[playerTurn]);
+			tmp = true;
 		}
 
 		if (diceValue.x != diceValue.y)
@@ -131,22 +140,24 @@ void Board::update()
 				m_players[playerTurn].movePlayer(diceValue);
 				playerPosition(m_players[playerTurn]);
 			}
-			
+
 			if (diceDoubles >= 3)
 			{
 				m_players[playerTurn].goToJail();
 				playerTurn++;
 				diceDoubles = 0;
 			}
-			
+
 		}
-		
+
 
 		if (playerTurn > playersAmount - 1)
 			playerTurn = 0;
 
-	//cout << m_players[0].currentmove<<" " << m_players[0].sideOfBoard << endl;
+		//cout << m_players[0].currentmove<<" " << m_players[0].sideOfBoard << endl;
 	}
+	}
+
 	if (m_BuyDistrict != nullptr && !m_players[playerPrev].jail)
 	{
 		//cout << "A" << endl;
@@ -168,12 +179,15 @@ void Board::update()
 					m_districts[i].Bought(m_tmpDistrict.getName());
 				}
 
+				canPressRoll = true;
 			}
 			if (m_BuyDistrict !=nullptr && m_BuyDistrict->m_pressedNo)
 			{
 				m_BuyDistrict->destroy();
 				delete m_BuyDistrict;
 				m_BuyDistrict = nullptr;
+
+				canPressRoll = true;
 			}
 
 		}
@@ -202,12 +216,15 @@ void Board::update()
 						m_districts[i].Bought(m_tmpDistrict.getName());
 					}
 
+					canPressRoll = true;
 				}
 				if (m_BuyHouses != nullptr && m_BuyHouses->m_pressedNo)
 				{
 					m_BuyHouses->destroy();
 					delete m_BuyHouses;
 					m_BuyHouses = nullptr;
+
+					canPressRoll = true;
 				}
 
 			}
@@ -234,12 +251,16 @@ void Board::update()
 					m_stations[i].Bought(m_tmpStation.getName());
 				}
 
+				canPressRoll = true;
+
 			}
 			if (m_BuyStation != nullptr && m_BuyStation->m_pressedNo)
 			{
 				m_BuyStation->destroy();
 				delete m_BuyStation;
 				m_BuyStation = nullptr;
+
+				canPressRoll = true;
 			}
 		}
 	}
@@ -254,6 +275,8 @@ void Board::update()
 			m_PayYourTaxes->destroy();
 			delete m_PayYourTaxes;
 			m_PayYourTaxes = nullptr;
+
+			canPressRoll = true;
 		}
 	}
 
@@ -268,6 +291,8 @@ void Board::update()
 			m_BreachPopUp->destroy();
 			delete m_BreachPopUp;
 			m_BreachPopUp = nullptr;
+
+			canPressRoll = true;
 		}
 	}
 
@@ -285,6 +310,8 @@ void Board::update()
 			m_tmpQuestion->destroy();
 			delete m_tmpQuestion;
 			m_tmpQuestion = nullptr;
+
+			canPressRoll = true;
 		}
 
 		else if (m_tmpQuestion->m_answer == 0)
@@ -296,10 +323,9 @@ void Board::update()
 			m_tmpQuestion->destroy();
 			delete m_tmpQuestion;
 			m_tmpQuestion = nullptr;
+
+			canPressRoll = true;
 		}
-
-
-
 		//cout << m_tmpQuestion->m_answer << endl;
 	}
 
@@ -310,6 +336,7 @@ void Board::update()
 		return;
 	}
 }
+
 
 void Board::draw()
 {
@@ -454,15 +481,21 @@ void Board::playerPosition(Player& playerOnTurn)
 			{
 				m_BuyDistrict = new BuyPopUp();
 				m_BuyDistrict->init(m_tmpDistrict.getName(), m_tmpDistrict.getPrice(),false);
+
+				canPressRoll = false;
 			}
 			if (playerOnTurn.colorsOwned[m_tmpDistrict.getColor()] == 3)
 			{
 				m_BuyHouses = new BuyPopUp();
 				m_BuyHouses->init(m_tmpDistrict.getName(), (m_tmpDistrict.getPrice()*50)/100, true);
+
+				canPressRoll = false;
 			}
 			else if (!m_tmpDistrict.m_canBeBought && ownerOfDistrict != playerOnTurn.player_number) {
 				m_BreachPopUp = new PropertyBreach();
 				m_BreachPopUp->init(playerOnTurn.player_number, ownerOfDistrict, m_tmpDistrict.getProfit());
+
+				canPressRoll = false;
 			}
 			break;
 
@@ -475,10 +508,14 @@ void Board::playerPosition(Player& playerOnTurn)
 				m_BuyStation = new BuyPopUp();
 				m_BuyStation->init(m_tmpStation.getName(), m_tmpStation.getPrice(),false);
 
+				canPressRoll = false;
+
 			}
 			else if (ownerOfStation && ownerOfStation != playerOnTurn.player_number) {
 				m_BreachPopUp = new PropertyBreach();
 				m_BreachPopUp->init(playerOnTurn.player_number, ownerOfStation, m_tmpStation.getProfit());
+
+				canPressRoll = false;
 			}
 
 			break;
@@ -515,6 +552,8 @@ void Board::playerPosition(Player& playerOnTurn)
 				m_PayYourTaxes = new PopUpTax;
 				m_PayYourTaxes->init(taxToPay);
 				//cout<< "Rect " << m_PayYourTaxes->m_popUp.rect.y << endl;
+
+				canPressRoll = false;
 			}
 
 			break;
@@ -523,6 +562,7 @@ void Board::playerPosition(Player& playerOnTurn)
 
 			if (!m_questions.empty()) {
 				m_tmpQuestion = &m_questions.front();
+				canPressRoll = false;
 			}
 			else {
 				cout << "No questions left" << endl;
@@ -578,7 +618,7 @@ int2 Board::roll()
 
 	dice.x = rand() % 6 + 1;
 	dice.y = rand() % 6 + 1;
-	dice = { 2, 3 };
+	//dice = { 6, 1 };
 
 	return dice;
 }
@@ -699,5 +739,9 @@ void Board::winnerCheck()
 			m_players.erase(m_players.begin() + i);
 			playersAmount--;
 		}
+	}
+	if (playersAmount == 1) {
+		world.m_stateManager.changeGameState(GAME_STATE::WIN_SCREEN);
+		return;
 	}
 }
